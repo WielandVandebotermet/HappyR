@@ -1,12 +1,11 @@
-﻿
+﻿import { Outlet, Routes, Route, BrowserRouter, Link } from 'react-router-dom';
+import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 
 function Header() {
   return (
     <div>
-      <h1>Simple Single Page Application</h1>
-        <ul className="header">
-          
-        </ul>
+      <NavBar />
     </div>
   );
 }
@@ -19,11 +18,15 @@ function Main() {
   );
 }
 
+
 function App() {
   return (
     <div>
-      <Header />
-      <Main />
+      <BrowserRouter>
+        <Header />
+        <Main />
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 }
