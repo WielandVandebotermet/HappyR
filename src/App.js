@@ -1,6 +1,7 @@
-﻿import { Outlet, Routes, Route, BrowserRouter, Link } from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import Home from './components/Users/Home';
 
 function Header() {
   return (
@@ -13,7 +14,7 @@ function Header() {
 function Main() {
   return (
     <div className="content">
-
+        <Home />
     </div>
   );
 }
