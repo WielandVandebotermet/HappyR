@@ -6,6 +6,7 @@ import Profile from './components/Pages/Profile';
 import Groups from './components/Pages/Groups';
 import Surveys from './components/Pages/Surveys';
 import CreateSurveys from './components/Pages/CreateSurveys';
+import Results from './components/Pages/Results';
 
 function Main() {
   return (
@@ -16,8 +17,8 @@ function Main() {
         <Route path={'/Groups'} element={<Groups/>}/>
         <Route path={'/Surveys'} element={<Surveys/>}/>
         <Route path={'/CreateSurveys'} element={<CreateSurveys/>}/>
+        <Route path={'/Results'} element={<Results/>}/>
       </Routes>
-      <Home />
     </div>
   );
 }
@@ -27,7 +28,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-      <NavBar />
+        <NavBar />
         <Main />
         <Footer />
       </BrowserRouter>

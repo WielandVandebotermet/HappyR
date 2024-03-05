@@ -14,7 +14,6 @@ const NavBar = () => {
             <NavLink to="/" class="text-xl block py-2 px-3 rounded hover:text-[#AB1AAB] md:border-0 md:p-2" activeClassName="underline">Home</NavLink>
             <NavLink to="/Groups" class="text-xl block py-2 px-3 rounded hover:text-[#AB1AAB] md:border-0 md:p-2" activeClassName="underline">Groups</NavLink>
             <NavLink to="/Surveys" class="text-xl block py-2 px-3 rounded hover:text-[#AB1AAB] md:border-0 md:p-2" activeClassName="underline">Surveys</NavLink>
-            <NavLink to="/Surveys" class="text-xl block py-2 px-3 rounded hover:text-[#AB1AAB] md:border-0 md:p-2" activeClassName="underline">Create Survey</NavLink>
             <NavLink to="/Profile" class="text-xl block py-2 px-3 rounded hover:text-[#AB1AAB] md:border-0 md:p-2" activeClassName="underline">Profile</NavLink>
           </ul>
         </div>
