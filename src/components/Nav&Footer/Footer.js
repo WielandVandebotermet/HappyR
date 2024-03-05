@@ -1,7 +1,7 @@
 
 function Footer() {
     return (
-        <div>
+        <div class='bg-[#170699]'>
           <div class='text-center p-4 text-white bg-[#170699]'>
             HappyR - Wieland Vandebotermet - © 2024
           </div>

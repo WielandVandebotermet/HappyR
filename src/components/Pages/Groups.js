@@ -1,8 +1,8 @@
-function Home() {
+function Groups() {
     return (
         <div class="h-screen">
-          <p>Home</p>
+          <p>Groups</p>
         </div>
     );
   }
-  export default Home;
+  export default Groups;
