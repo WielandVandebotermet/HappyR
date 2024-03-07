@@ -1,13 +1,32 @@
-import { NavLink, Navigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import { TEInput } from 'tw-elements-react';
+import { useState, useEffect } from "react";
+import GroupApi from "../../../API/GroupAPi";
 
 function AddToGroup() {
-  
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [group, setGroup] = useState([]);
+
+  const getGroup = async () => {
+    try {
+      const groupApi = new GroupApi();
+      const result = groupApi.getGroupById(id);
+      setGroup(result);
+    } catch (error) {
+      console.error('Error fetching groups:', error);
+    }
+  }
+
+  useEffect(() => {
+    getGroup()
+  }, []);
+
     return (
       <div class="min-h-screen">
 
         <div class="flex flex-col p-3 justify-center">
-          <h1 class="p-2 text-center text-4xl">Group: GroupName</h1>
+          <h1 class="p-2 text-center text-4xl">{group.GroupName}</h1>
           <div class="flex flex-col p-3 justify-center">
             <h1 class="p-2 text-center text-2xl">Users</h1>
             <div class="flex justify-center">
@@ -42,13 +61,16 @@ function AddToGroup() {
 
         <div class="flex flex-col">
             <div class="flex justify-center">
-              <button  type="button" class="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Add User/Manager</button>
+              <button  type="button" class="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center">Add GroupMember(s)</button>
             </div>
-          <NavLink to={Navigate(-1)}>
             <div class="flex justify-center">
-              <button type="button" class="py-3.5 my-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
+              <button  type="button" class="py-3.5 mt-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center">Add Manager(s)</button>
             </div>
-          </NavLink>
+            <Link onClick={() => navigate(-1)}>
+            <div class="flex justify-center">
+              <button type="button" class="py-3.5 my-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600  rounded-lg text-center">Back</button>
+            </div>
+          </Link>
         </div>
 
       </div>

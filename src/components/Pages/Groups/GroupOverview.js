@@ -1,5 +1,5 @@
-import { NavLink} from "react-router-dom";
-import { useState } from "react";
+import { Link, useParams, useNavigate} from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
   TERipple,
   TEModal,
@@ -9,15 +9,35 @@ import {
   TEModalBody,
   TEModalFooter,
 } from "tw-elements-react";
+import GroupApi from "../../../API/GroupAPi";
+
 function GroupOverview() {
+  const { id } = useParams();
   const [showModalForm, setShowModalForm] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
+  const [group, setGroup] = useState([]);
+  const navigate = useNavigate();
+
+  const getGroup = async () => {
+    try {
+      const groupApi = new GroupApi();
+      const result = groupApi.getGroupById(id);
+      setGroup(result);
+    } catch (error) {
+      console.error('Error fetching groups:', error);
+    }
+  }
+
+  useEffect(() => {
+    getGroup()
+  }, []);
+
     return (
       <div>
         <div class="min-h-screen">
 
           <div class="flex flex-col p-3 justify-center">
-            <h1 class="p-2 text-center text-4xl">GroupName</h1>
+          <h1 class="p-2 text-center text-4xl">{group.GroupName}</h1>
             <button onClick={() => setShowModalForm(true)} type="button">Edit</button>
             <div class="flex flex-col p-3 justify-center">
               <h1 class="p-2 text-center text-2xl">Manager</h1>
@@ -45,7 +65,7 @@ function GroupOverview() {
                   </li>
                 </ul>
               </div>
-              <h1 class="p-2 text-center text-2xl">GroupMembers</h1>
+              <h1 class="p-2 text-center text-2xl">Group Members</h1>
               <div class="flex justify-center">
                 <ul class="divide-y divide-gray-400 w-1/3">
                   <li class="flex gap-x-6 justify-center py-5 ">
@@ -72,16 +92,16 @@ function GroupOverview() {
           </div>
 
           <div class="flex flex-col">
-            <NavLink to="/AddToGroup">
+            <Link to={"/AddToGroup/" + group.id}>
               <div class="flex justify-center">
                 <button type="button" class="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Add User</button>
               </div>
-            </NavLink>
-            <NavLink to="/Groups">
+            </Link>
+            <Link onClick={() => navigate(-1)}>
               <div class="flex justify-center">
                 <button type="button" class="py-3.5 my-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
               </div>
-            </NavLink>
+            </Link>
           </div>
 
         </div>
