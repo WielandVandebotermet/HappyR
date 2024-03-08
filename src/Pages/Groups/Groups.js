@@ -9,7 +9,7 @@ import {
   TEModalBody,
   TEModalFooter,
 } from "tw-elements-react";
-import GroupApi from "../../../API/GroupAPi";
+import GroupApi from "../../API/GroupAPi";
 
 function Groups() {
   const [showModal, setShowModal] = useState(false);
@@ -66,11 +66,11 @@ function Groups() {
               <div class="flex justify-center">
                 <button onClick={() => setShowModal(true)} type="button" class="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Create Group</button>
               </div>
-            <Link onClick={() => navigate(-1)}>
-              <div class="flex justify-center">
-                <button type="button" class="py-3.5 my-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
-              </div>
+          <div class="flex justify-center">
+            <Link onClick={() => navigate(-1)} class="w-1/2">
+              <button type="button" class="py-3.5 my-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-60 rounded-lg text-center">Back</button>
             </Link>
+          </div>
           </div>
         </div>
 

@@ -1,20 +1,20 @@
 import { Outlet, Routes, Route, BrowserRouter, Link } from 'react-router-dom';
 import NavBar from './components/Nav&Footer/NavBar';
 import Footer from './components/Nav&Footer/Footer';
-import Home from './components/Pages/Home';
+import Home from './Pages/Home';
 
-import Profile from './components/Pages/Profile';
+import Profile from './Pages/Profile';
 
-import Results from './components/Pages/Results';
+import Results from './Pages/Results';
 
-import Groups from './components/Pages/Groups/Groups';
-import GroupOverview from './components/Pages/Groups/GroupOverview';
-import AddToGroup from './components/Pages/Groups/AddToGroup';
+import Groups from './Pages/Groups/Groups';
+import GroupOverview from './Pages/Groups/GroupOverview';
+import AddToGroup from './Pages/Groups/AddToGroup';
 
-import Surveys from './components/Pages/Surveys/Surveys';
-import NewSurveys from './components/Pages/Surveys/NewSurveys';
-import CreateSurveys from './components/Pages/Surveys/CreateSurveys';
-import CreateSurveysGroups from './components/Pages/Surveys/CreateSurveysGroups';
+import Surveys from './Pages/Surveys/Surveys';
+import NewSurveys from './Pages/Surveys/NewSurveys';
+import CreateSurveys from './Pages/Surveys/CreateSurveys';
+import CreateSurveysGroups from './Pages/Surveys/CreateSurveysGroups';
 
 function Main() {
   return (
@@ -33,7 +33,6 @@ function Main() {
         <Route path={'/CreateSurveysGroups'} element={<CreateSurveysGroups/>}/>
 
         <Route path={'/Results'} element={<Results/>}/>
-
       </Routes>
     </div>
   );
