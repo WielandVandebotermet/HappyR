@@ -65,7 +65,7 @@ function Groups() {
 
           <div class="flex flex-col">
               <div class="flex justify-center">
-                <button onClick={() => setShowModal(true)} type="button" class="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Create Group</button>
+                <button onClick={() => setShowModal(true)} type="button" class="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium  text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Create Group</button>
               </div>
               <Back />
           </div>

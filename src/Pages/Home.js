@@ -38,7 +38,7 @@ function Home() {
             </div>
             <NavLink to="/Surveys#Unanswered">
               <div class="flex justify-center">
-                <button type="button" class="p-5 m-5 sm:w-fit  md:w-full font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699] hover:text-white rounded-lg text-center">Fill in survey</button>
+                <button type="button" class="p-5 m-5 sm:w-fit  md:w-full font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Fill in survey</button>
               </div>
             </NavLink>
           </div>

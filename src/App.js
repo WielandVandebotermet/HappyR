@@ -37,10 +37,10 @@ function Main() {
         <Route path={'/CreateSurvey/:id'} element={<CreateSurvey/>}/>
 
         <Route path={'/SelectTemplate/:id'} element={<SelectTemplate/>}/>
-        <Route path={'/TemplateOptions/:Sid/Pid'} element={<TemplateOptions/>}/>
+        <Route path={'/TemplateOptions/:Sid/:Tid'} element={<TemplateOptions/>}/>
         <Route path={'/ExternalPeople/:id'} element={<ExternalPeople/>}/>
-        <Route path={'/TemplatePage/:Sid/Pid'} element={<TemplatePage/>}/>
-        <Route path={'/TemplateShowcase/:Sid/Pid'} element={<TemplateShowcase/>}/>
+        <Route path={'/TemplatePage/:Sid/Tid'} element={<TemplatePage/>}/>
+        <Route path={'/TemplateShowcase/:Sid/Tid'} element={<TemplateShowcase/>}/>
 
         <Route path={'/Results'} element={<Results/>}/>
       </Routes>
@@ -55,7 +55,7 @@ function App() {
       <BrowserRouter >
         <NavBar />
         <Main/>
-        <div className="pt-10">
+        <div className="pt-24">
           <Footer />
         </div>
       </BrowserRouter>

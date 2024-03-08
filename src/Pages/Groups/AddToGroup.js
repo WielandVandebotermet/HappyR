@@ -62,10 +62,10 @@ function AddToGroup() {
 
         <div class="flex flex-col">
             <div class="flex justify-center">
-              <button  type="button" class="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center">Add GroupMember(s)</button>
+              <button  type="button" class="py-2 mx-3 w-full max-w-screen-sm text-base font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Add GroupMember(s)</button>
             </div>
             <div class="flex justify-center">
-              <button  type="button" class="py-3.5 mt-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center">Add Manager(s)</button>
+              <button  type="button" class="py-2 mt-7 mx-3 w-full max-w-screen-sm text-base font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Add Manager(s)</button>
             </div>
             <Back />
         </div>
