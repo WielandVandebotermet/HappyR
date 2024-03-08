@@ -2,6 +2,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import { TEInput } from 'tw-elements-react';
 import { useState, useEffect } from "react";
 import GroupApi from "../../API/GroupAPi";
+import Back from "../../components/Back"
 
 function AddToGroup() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ function AddToGroup() {
   }, []);
 
     return (
-      <div class="min-h-screen">
+      <div class="">
 
         <div class="flex flex-col p-3 justify-center">
           <h1 class="p-2 text-center text-4xl">{group.GroupName}</h1>
@@ -66,11 +67,7 @@ function AddToGroup() {
             <div class="flex justify-center">
               <button  type="button" class="py-3.5 mt-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center">Add Manager(s)</button>
             </div>
-            <div class="flex justify-center">
-            <Link onClick={() => navigate(-1)} class="w-1/2">
-              <button type="button" class="py-3.5 my-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-60 rounded-lg text-center">Back</button>
-            </Link>
-          </div>
+            <Back />
         </div>
 
       </div>

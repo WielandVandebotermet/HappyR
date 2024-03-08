@@ -1,4 +1,4 @@
-import { Outlet, Routes, Route, BrowserRouter, Link } from 'react-router-dom';
+import {Routes, Route, BrowserRouter} from 'react-router-dom';
 import NavBar from './components/Nav&Footer/NavBar';
 import Footer from './components/Nav&Footer/Footer';
 import Home from './Pages/Home';
@@ -11,10 +11,15 @@ import Groups from './Pages/Groups/Groups';
 import GroupOverview from './Pages/Groups/GroupOverview';
 import AddToGroup from './Pages/Groups/AddToGroup';
 
+import SelectTemplate from './Pages/Templates/SelectTemplate';
+import TemplateOptions from './Pages/Templates/TemplateOptions';
+import ExternalPeople from './Pages/Templates/ExternalPeople';
+import TemplatePage from './Pages/Templates/TemplatePage';
+import TemplateShowcase from './Pages/Templates/TemplateShowcase';
+
 import Surveys from './Pages/Surveys/Surveys';
 import NewSurveys from './Pages/Surveys/NewSurveys';
-import CreateSurveys from './Pages/Surveys/CreateSurveys';
-import CreateSurveysGroups from './Pages/Surveys/CreateSurveysGroups';
+import CreateSurvey from './Pages/Surveys/CreateSurvey';
 
 function Main() {
   return (
@@ -29,8 +34,13 @@ function Main() {
         
         <Route path={'/Surveys'} element={<Surveys/>}/>
         <Route path={'/NewSurveys'} element={<NewSurveys/>}/>
-        <Route path={'/CreateSurveys'} element={<CreateSurveys/>}/>
-        <Route path={'/CreateSurveysGroups'} element={<CreateSurveysGroups/>}/>
+        <Route path={'/CreateSurvey/:id'} element={<CreateSurvey/>}/>
+
+        <Route path={'/SelectTemplate/:id'} element={<SelectTemplate/>}/>
+        <Route path={'/TemplateOptions/:Sid/Pid'} element={<TemplateOptions/>}/>
+        <Route path={'/ExternalPeople/:id'} element={<ExternalPeople/>}/>
+        <Route path={'/TemplatePage/:Sid/Pid'} element={<TemplatePage/>}/>
+        <Route path={'/TemplateShowcase/:Sid/Pid'} element={<TemplateShowcase/>}/>
 
         <Route path={'/Results'} element={<Results/>}/>
       </Routes>
@@ -41,11 +51,13 @@ function Main() {
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
+    <div className='relative min-h-screen'>
+      <BrowserRouter >
         <NavBar />
-        <Main />
-        <Footer />
+        <Main/>
+        <div className="pt-10">
+          <Footer />
+        </div>
       </BrowserRouter>
     </div>
   );

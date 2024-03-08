@@ -1,10 +1,9 @@
-import { Link, useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useState, useEffect } from "react";
 import SurveysApi from "../../API/SurveyAPI";
-
+import Back from "../../components/Back"
 
 function Surveys() {
-  const navigate = useNavigate();
   const [surveys, setSurveys] = useState([]);
   const surveysApi = new SurveysApi();
 
@@ -23,7 +22,7 @@ function Surveys() {
   }, []);
 
     return (
-      <div class=" min-h-screen">
+      <div class="">
         <div class="flex flex-col p-3">
             <h1 class="p-2 text-center text-4xl">Surveys</h1>
             <div class="flex flex-col p-3 justify-center">
@@ -50,11 +49,7 @@ function Surveys() {
             <button type="button" class="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center">Create Survey</button>
           </div>
         </Link>
-        <div class="flex justify-center">
-            <Link onClick={() => navigate(-1)} class="w-1/2">
-              <button type="button" class="py-3.5 my-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-60 rounded-lg text-center">Back</button>
-            </Link>
-          </div>
+        <Back />
       </div>
     </div>
     );

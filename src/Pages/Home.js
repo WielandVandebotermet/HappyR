@@ -2,7 +2,7 @@ import { NavLink} from "react-router-dom";
 
 function Home() {
     return (
-        <div class="flex flex-col min-h-screen">
+        <div class="flex flex-col h-auto">
           <div class="p-3 m-auto">
             <div class="flex flex-row p-3 justify-center">
                 <div class="block max-w-sm m-4 p-6  border rounded-lg border-gray-900  hover:border-blue-600">
@@ -38,7 +38,7 @@ function Home() {
             </div>
             <NavLink to="/Surveys#Unanswered">
               <div class="flex justify-center">
-                <button type="button" class="p-5 m-5 sm:w-fit  md:w-full font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center">Fill in survey</button>
+                <button type="button" class="p-5 m-5 sm:w-fit  md:w-full font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699] hover:text-white rounded-lg text-center">Fill in survey</button>
               </div>
             </NavLink>
           </div>

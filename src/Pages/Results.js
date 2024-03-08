@@ -1,9 +1,9 @@
-import { Link, useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useState, useEffect } from "react";
 import ResultsApi from "../API/ResultsAPi";
+import Back from "../components/Back"
 
 function Results() {
-  const navigate = useNavigate();
   const [results, setResults] = useState([]);
   const resultsApi = new ResultsApi();
 
@@ -22,7 +22,7 @@ function Results() {
   }, []);
 
     return (
-      <div class=" min-h-screen">
+      <div class="min-h-screen">
         <div class="flex flex-col p-3">
             <h1 class="p-2 text-center text-4xl">Results</h1>
             <div class="flex flex-col p-3 justify-center">
@@ -42,14 +42,7 @@ function Results() {
                   )
                 })}
           </div>
-        </div>
-
-        <div class="flex flex-col justify-center">
-        <div class="flex justify-center">
-            <Link onClick={() => navigate(-1)} class="w-1/2">
-              <button type="button" class="py-3.5 my-7 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-60 rounded-lg text-center">Back</button>
-            </Link>
-          </div>
+          <Back />
         </div>
   </div>
     );
