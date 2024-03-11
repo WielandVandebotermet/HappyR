@@ -22,19 +22,19 @@ function Results() {
   }, []);
 
     return (
-      <div class="min-h-screen">
-        <div class="flex flex-col p-3">
-            <h1 class="p-2 text-center text-4xl">Results</h1>
-            <div class="flex flex-col p-3 justify-center">
+      <div className="min-h-screen">
+        <div className="flex flex-col p-3">
+            <h1 className="p-2 text-center text-4xl">Results</h1>
+            <div className="flex flex-col p-3 justify-center">
                 {results.map((result) => {
                   return (
-                    <div class="flex justify-center ">
+                    <div className="flex justify-center ">
                       <Link to={"/GroupOverview/" + result.id}>
-                        <div class="m-4 p-6 rounded-lg border-gray-900  hover:border-blue-600 border">
-                          <h5 class="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{result.Date} | {result.ResultName}</h5>
-                          <div class="flow-root">
-                            <p class="float-right text-sm">{result.answered}</p>
-                            <p class="float-left text-sm">{result.GroupName}</p>
+                        <div className="m-4 p-6 rounded-lg border-gray-900  hover:border-blue-600 border">
+                          <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{result.Date} | {result.ResultName}</h5>
+                          <div className="flow-root">
+                            <p className="float-right text-sm">{result.answered}</p>
+                            <p className="float-left text-sm">{result.GroupName}</p>
                           </div>
                         </div>
                       </Link>

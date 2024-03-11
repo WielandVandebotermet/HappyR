@@ -1,6 +1,6 @@
 function Profile() {
     return (
-        <div class="h-screen">
+        <div className="h-screen">
           <p>Profile</p>
         </div>
     );
