@@ -1,11 +1,10 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { TEInput } from 'tw-elements-react';
 import { useState, useEffect } from "react";
 import GroupApi from "../../API/GroupAPi";
 import Back from "../../components/Back"
 
 function AddToGroup() {
-  const navigate = useNavigate();
   const { id } = useParams();
   const [group, setGroup] = useState([]);
 

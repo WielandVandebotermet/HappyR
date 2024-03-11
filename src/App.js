@@ -38,7 +38,7 @@ function Main() {
 
         <Route path={'/SelectTemplate/:id'} element={<SelectTemplate/>}/>
         <Route path={'/TemplateOptions/:Sid/:Tid'} element={<TemplateOptions/>}/>
-        <Route path={'/ExternalPeople/:id'} element={<ExternalPeople/>}/>
+        <Route path={'/ExternalPeople/:Sid/:Tid'} element={<ExternalPeople/>}/>
         <Route path={'/TemplatePage/:Sid/Tid'} element={<TemplatePage/>}/>
         <Route path={'/TemplateShowcase/:Sid/Tid'} element={<TemplateShowcase/>}/>
 
