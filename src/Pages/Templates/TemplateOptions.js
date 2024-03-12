@@ -3,14 +3,14 @@ import { useState, useEffect } from "react";
 import TemplatesAPi from "../../API/TemplatesAPi";
 
 function GroupOverview() {
-    const { Sid, Tid } = useParams();
+    const { Sid, Qid } = useParams();
     const [template, setTemplate] = useState({});
     const navigate = useNavigate();
 
     const getTemplate = async () => {
       try {
         const templatesAPi = new TemplatesAPi();
-        const result = templatesAPi.getGroupById(Tid);
+        const result = templatesAPi.getGroupById();
         setTemplate(result);
       } catch (error) {
         console.error('Error fetching groups:', error);
@@ -51,7 +51,7 @@ function GroupOverview() {
                       </button>
                     ))}
                     {Object.keys(template.Buttons || {}).map((key) => (
-                        <Link key={key} to={"/" + key+ "/"+ Sid + "/" + Tid}>
+                        <Link key={key} to={"/" + key+ "/"+ Sid + "/" + Qid}>
                           <h5 className="m-4 p-6 sm:w-fit  md:w-full font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">{key}</h5>
                       </Link>
                     ))}

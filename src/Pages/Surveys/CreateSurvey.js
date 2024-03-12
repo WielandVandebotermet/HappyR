@@ -127,10 +127,10 @@ function CreateSurveys() {
             </div>
             <div className="flex flex-col">
               <div className="flex justify-center">
-                <Link to={"/SelectTemplate/" + id } className={"w-1/2 flex justify-center" + (id != "0" ? 'hidden': 'block')}>
+                <Link to={"/SelectTemplate/" + id } className={"w-1/2 flex justify-center " + (id != "0" ? 'hidden': 'block')}>
                   <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Create Survey</button>
                 </Link>
-                <Link to={"/SelectTemplate/" + id } className={"w-1/2 flex justify-center" + (id == "0" ? 'hidden': 'Block')}>
+                <Link to={"/SelectTemplate/" + id } className={"w-1/2 flex justify-center " + (id == "0" ? 'hidden': 'Block')}>
                   <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Questions</button>
                 </Link>
               </div>

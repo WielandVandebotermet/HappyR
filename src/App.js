@@ -17,6 +17,9 @@ import ExternalPeople from './Pages/Templates/ExternalPeople';
 import TemplatePage from './Pages/Templates/TemplatePage';
 import TemplateShowcase from './Pages/Templates/TemplateShowcase';
 
+import SelectCategorie from './Pages/Categorie/SelectCategorie';
+import CreateCategorie from './Pages/Categorie/CreateCategorie';
+
 import Surveys from './Pages/Surveys/Surveys';
 import NewSurveys from './Pages/Surveys/NewSurveys';
 import CreateSurvey from './Pages/Surveys/CreateSurvey';
@@ -36,11 +39,14 @@ function Main() {
         <Route path={'/NewSurveys'} element={<NewSurveys/>}/>
         <Route path={'/CreateSurvey/:id'} element={<CreateSurvey/>}/>
 
-        <Route path={'/SelectTemplate/:id'} element={<SelectTemplate/>}/>
-        <Route path={'/TemplateOptions/:Sid/:Tid'} element={<TemplateOptions/>}/>
-        <Route path={'/ExternalPeople/:Sid/:Tid'} element={<ExternalPeople/>}/>
-        <Route path={'/TemplatePage/:Sid/Tid'} element={<TemplatePage/>}/>
-        <Route path={'/TemplateShowcase/:Sid/Tid'} element={<TemplateShowcase/>}/>
+        <Route path={'/SelectTemplate/:Sid'} element={<SelectTemplate/>}/>
+        <Route path={'/TemplateOptions/:Sid/:Qid'} element={<TemplateOptions/>}/>
+        <Route path={'/ExternalPeople/:Sid/:Qid'} element={<ExternalPeople/>}/>
+        <Route path={'/TemplatePage/:Sid/:Qid'} element={<TemplatePage/>}/>
+        <Route path={'/TemplateShowcase/:Sid/:Qid'} element={<TemplateShowcase/>}/>
+
+        <Route path={'/SelectCategorie/:Sid/:Qid/'} element={<SelectCategorie/>}/>
+        <Route path={'/CreateCategorie/:Sid/:Qid/:Cid'} element={<CreateCategorie/>}/>
 
         <Route path={'/Results'} element={<Results/>}/>
       </Routes>
