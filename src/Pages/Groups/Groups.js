@@ -9,67 +9,68 @@ import {
   TEModalBody,
   TEModalFooter,
 } from "tw-elements-react";
-import GroupApi from "../../API/GroupAPi";
+import GroupApi from "../../API/GroupApi";
 import Back from "../../components/Back"
 
 function Groups() {
   const [showModal, setShowModal] = useState(false);
   const [groups, setGroups] = useState([]);
+
+  const [userId, setuserId] = useState(0);
   const [groupName, setGroupName] = useState("");
   const navigate = useNavigate();
-  const groupApi = new GroupApi();
-
-  const getGroups = async () => {
-    try {
-      const result = await groupApi.all();
-      setGroups(result);
-    } catch (error) {
-      console.error('Error fetching groups:', error);
-    }
-  }
 
   useEffect(() => {
-    getGroups()
+    const fetchGroups = async () => {
+      try {
+        const response = await GroupApi.getAllTeams();
+        setGroups(response.data); // Assuming response is an object with a 'data' property
+      } catch (error) {
+        console.error('Error fetching groups:', error.message);
+      }
+    };
+  
+    fetchGroups();
   }, []);
 
-  const handleAddGroup = () => {
-    groupApi.add(groupName);
-    setShowModal(false);
-    setGroupName("");
-    getGroups(); // Refresh groups after adding a new one
-    console.log("groupName:", groupName);
-  }
+  const handleAddGroup = async () => {
+    try {
+      await GroupApi.createTeam({ name: groupName });
+      setGroupName(""); // Clear input field after adding group
+      // You might want to refetch the groups here to update the list
+    } catch (error) {
+      console.error('Error adding group:', error.message);
+    }
+  };
 
-    return (
+  return (
+    <div>
       <div>
-        <div className="">
-
-          <div className="flex flex-col p-3">
-            <h1 className="p-2 text-center text-4xl">Groups</h1>
-            <div className="flex flex-col p-3 justify-center">
-                {groups.map((group) => {
-                  return (
-                    <div className="flex justify-center ">
-                      <Link to={"/GroupOverview/" + group.id}>
-                        <div className="m-4 p-6 rounded-lg border-gray-900  hover:border-blue-600 border">
-                          <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{group.GroupName}</h5>
-                          <p className="text-right text-sm">XX GroupMembers</p>
-                        </div>
-                      </Link>
-                    </div>
-                  )
-                })}
-
-            </div>
-          </div>
-
-          <div className="flex flex-col">
-              <div className="flex justify-center">
-                <button onClick={() => setShowModal(true)} type="button" className="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium  text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Create Group</button>
+      <div className="">
+        <div className="flex flex-col p-3">
+          <h1 className="p-2 text-center text-4xl">Groups</h1>
+          <div className="flex flex-col p-3 justify-center">
+            {groups.map((group) => (
+              <div key={group.id} className="flex justify-center">
+                <Link to={"/GroupOverview/" + group.id}>
+                  <div className="m-4 p-6 rounded-lg border-gray-900 hover:border-blue-600 border">
+                    <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{group.groupName}</h5>
+                    <p className="text-right text-sm">XX GroupMembers</p>
+                  </div>
+                </Link>
               </div>
-              <Back />
+            ))}
           </div>
         </div>
+
+        <div className="flex flex-col">
+          <div className="flex justify-center">
+            <button onClick={() => setShowModal(true)} type="button" className="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Create Group</button>
+          </div>
+          <Back />
+        </div>
+      </div>
+    </div>
 
         <TEModal show={showModal} setShow={setShowModal}>
           <TEModalDialog centered>

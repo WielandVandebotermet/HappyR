@@ -1,13 +1,13 @@
 import { Link, useParams} from "react-router-dom";
 import { useState, useEffect } from "react";
 import NewSurveysApi from "../../API/NewSurveysApi";
-import GroupApi from "../../API/GroupAPi";
+import GroupApi from "../../API/GroupApi";
 import { TESelect } from "tw-elements-react";
 import Back from "../../components/Back"
 
 function CreateSurveys() {
   const { id } = useParams();
-  const groupApi = new GroupApi();
+  const GroupApi = new GroupApi();
   const surveysApi = new NewSurveysApi();
 
   const [Check, setCheck] = useState(false);
@@ -33,7 +33,7 @@ function CreateSurveys() {
 
   const getGroups = async () => {
     try {
-      const result = groupApi.all();
+      const result = GroupApi.all();
       setGroups(result);
     } catch (error) {
       console.error('Error fetching groups:', error);

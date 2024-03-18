@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import { TEInput } from 'tw-elements-react';
 import { useState, useEffect } from "react";
-import GroupApi from "../../API/GroupAPi";
+import GroupApi from "../../API/GroupApi";
 import Back from "../../components/Back"
 
 function AddToGroup() {
@@ -10,8 +10,8 @@ function AddToGroup() {
 
   const getGroup = async () => {
     try {
-      const groupApi = new GroupApi();
-      const result = groupApi.getGroupById(id);
+      const GroupApi = new GroupApi();
+      const result = GroupApi.getGroupById(id);
       setGroup(result);
     } catch (error) {
       console.error('Error fetching groups:', error);
