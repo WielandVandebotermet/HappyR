@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-const API_URL = process.env.PUBLIC_URL;
-const UserApi_url = process.env.UserApi_url;
+const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_USERAPI;
 
   const UserApi = {
 
     getAllUsers: async () => {
       try {
-        const response = await axios.get(`${API_URL}${UserApi_url}all`);
+        const response = await axios.get(`${API_URL}all`);
         return response.data;
       } catch (error) {
         throw new Error(`Error fetching users: ${error.message}`);
@@ -16,7 +15,7 @@ const UserApi_url = process.env.UserApi_url;
 
     getUserById: async (id) => {
       try {
-        const response = await axios.get(`${API_URL}${UserApi_url}${id}`);
+        const response = await axios.get(`${API_URL}${id}`);
         return response.data;
       } catch (error) {
         throw new Error(`Error fetching team: ${error.message}`);
@@ -25,7 +24,7 @@ const UserApi_url = process.env.UserApi_url;
   
     deleteUser: async (id) => {
       try {
-        await axios.delete(`${API_URL}${UserApi_url}Delete/${id}`);
+        await axios.delete(`${API_URL}Delete/${id}`);
       } catch (error) {
         throw new Error(`Error deleting user: ${error.message}`);
       }
@@ -33,7 +32,7 @@ const UserApi_url = process.env.UserApi_url;
   
     editUser: async (id, updatedUser) => {
       try {
-        await axios.put(`${API_URL}${UserApi_url}Edit/${id}`, updatedUser);
+        await axios.put(`${API_URL}Edit/${id}`, updatedUser);
       } catch (error) {
         throw new Error(`Error editing user: ${error.message}`);
       }
@@ -41,7 +40,7 @@ const UserApi_url = process.env.UserApi_url;
   
     createUser: async (newUser) => {
       try {
-        await axios.post(`${API_URL}${UserApi_url}`, newUser);
+        await axios.post(`${API_URL}`, newUser);
       } catch (error) {
         throw new Error(`Error creating user: ${error.message}`);
       }

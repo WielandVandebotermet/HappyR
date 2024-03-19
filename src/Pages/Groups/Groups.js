@@ -20,28 +20,33 @@ function Groups() {
   const [groupName, setGroupName] = useState("");
   const navigate = useNavigate();
 
+  const fetchGroups = async () => {
+    try {
+      const response = await GroupApi.getAllTeams();
+      setGroups(response);
+      console.log(response);
+    } catch (error) {
+      console.error('Error fetching groups:', error.message);
+    }
+  };
+
   useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const response = await GroupApi.getAllTeams();
-        setGroups(response.data); // Assuming response is an object with a 'data' property
-      } catch (error) {
-        console.error('Error fetching groups:', error.message);
-      }
-    };
-  
     fetchGroups();
   }, []);
 
   const handleAddGroup = async () => {
     try {
-      await GroupApi.createTeam({ name: groupName });
-      setGroupName(""); // Clear input field after adding group
-      // You might want to refetch the groups here to update the list
+      await GroupApi.createTeam({ GroupName: groupName });
+      setGroupName("");
+      fetchGroups();
     } catch (error) {
       console.error('Error adding group:', error.message);
     }
   };
+
+    if (!groups) {
+      return <div>Loading...</div>;
+    }
 
   return (
     <div>
