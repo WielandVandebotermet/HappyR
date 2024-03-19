@@ -1,23 +1,19 @@
 import { Link, useNavigate} from "react-router-dom";
 import { useState, useEffect } from "react";
+import Cookies from 'js-cookie';
 import {
-  TERipple,
-  TEModal,
-  TEModalDialog,
-  TEModalContent,
-  TEModalHeader,
-  TEModalBody,
-  TEModalFooter,
-} from "tw-elements-react";
+  TERipple, TEModal, TEModalDialog, TEModalContent,
+  TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
 import GroupApi from "../../API/GroupApi";
+import MTUApi from "../../API/MTUApi";
 import Back from "../../components/Back"
 
 function Groups() {
   const [showModal, setShowModal] = useState(false);
   const [groups, setGroups] = useState([]);
-  const [groupSizes, setGroupSizes] = useState([]);
-
-  const [userId, setuserId] = useState(0);
+  const [GU, setGU] = useState([]);
+  const [M, setM] = useState([]);
+  const [UserId, setuserId] = useState(Cookies.get("UserId") || 0);
   const [groupName, setGroupName] = useState("");
   const navigate = useNavigate();
 
@@ -25,16 +21,19 @@ function Groups() {
     try {
       const response = await GroupApi.getAllTeams();
       setGroups(response);
-      console.log(response);
     } catch (error) {
       console.error('Error fetching groups:', error.message);
     }
   };
-  const fetchGroupSizes = async () => {
+  const fetchGroupMembers = async () => {
     try {
-      const response = await GroupApi.getAllTeams();
-      setGroups(response);
-      console.log(response);
+      const GU = await MTUApi.getAllGroupUsers();
+      const M = await MTUApi.getAllManagers();
+      setGU(GU);
+      setM(M);
+
+      console.log("TU: ", await MTUApi.getTeamUsersByTeamId(1));
+      console.log("M: ", await MTUApi.getManagersByTeamId(1));
     } catch (error) {
       console.error('Error fetching groups:', error.message);
     }
@@ -42,22 +41,29 @@ function Groups() {
 
   useEffect(() => {
     fetchGroups();
-    fetchGroupSizes();
+    fetchGroupMembers();
   }, []);
 
   const handleAddGroup = async () => {
     try {
-      await GroupApi.createTeam({ GroupName: groupName });
+      await GroupApi.createTeam(groupName, UserId);
       setGroupName("");
       fetchGroups();
+      fetchGroupMembers();
     } catch (error) {
       console.error('Error adding group:', error.message);
     }
   };
 
-    if (!groups) {
-      return <div>Loading...</div>;
-    }
+  const calculateGroupMembers = (groupId) => {
+    const groupGU = GU.filter(user => user.team.id === groupId);
+    const groupM = M.filter(manager => manager.team.id === groupId);
+    return groupGU.length + groupM.length;
+  };
+
+  if (!groups) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -71,7 +77,7 @@ function Groups() {
                 <Link to={"/GroupOverview/" + group.id}>
                   <div className="m-4 p-6 rounded-lg border-gray-900 hover:border-blue-600 border">
                     <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{group.groupName}</h5>
-                    <p className="text-right text-sm">XX GroupMembers</p>
+                    <p className="text-right text-sm">{calculateGroupMembers(group.id)} Group Members</p>
                   </div>
                 </Link>
               </div>

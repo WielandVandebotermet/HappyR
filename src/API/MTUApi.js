@@ -1,9 +1,12 @@
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_MTUAPI;
 const API_URL_GU = process.env.REACT_APP_API_URL + process.env.REACT_APP_MTUAPI + "TU/";
 const API_URL_M = process.env.REACT_APP_API_URL + process.env.REACT_APP_MTUAPI + "M/";
 
 const MTUApi = {
+
+    //Group Users
     getAllGroupUsers: async () => {
         try {
           const response = await axios.get(`${API_URL_GU}all`);
@@ -46,6 +49,8 @@ const MTUApi = {
         }
       },
 
+
+      //Managers
       getAllManagers: async () => {
         try {
           const response = await axios.get(`${API_URL_M}all`);
@@ -86,8 +91,27 @@ const MTUApi = {
         } catch (error) {
           throw new Error(`Error creating M: ${error.message}`);
         }
-      }
+      },
 
+
+      //Combined
+      getTeamUsersByTeamId: async (id) => {
+        try {
+          const response = await axios.get(`${API_URL_GU}Users/${id}`);
+          return response.data;
+        } catch (error) {
+          throw new Error(`Error fetching Total Users: ${error.message}`);
+        }
+      },
+
+      getManagersByTeamId: async (id) => {
+        try {
+          const response = await axios.get(`${API_URL_M}Users/${id}`);
+          return response.data;
+        } catch (error) {
+          throw new Error(`Error fetching Total Teams: ${error.message}`);
+        }
+      },
 
 };
 export default MTUApi;

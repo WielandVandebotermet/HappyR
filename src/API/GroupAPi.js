@@ -37,13 +37,14 @@ const GroupApi = {
       }
     },
   
-    createTeam: async (newTeam, userId) => {
+    createTeam: async (groupName, userId) => {
       try {
-        await axios.post(`${API_URL}`, newTeam, { params: { UserId: userId } });
+        await axios.post(`${API_URL}/Create/${userId}`, `${groupName}`);
       } catch (error) {
         throw new Error(`Error creating team: ${error.message}`);
       }
     }
+    
   };
 
 export default GroupApi;
