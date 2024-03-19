@@ -15,6 +15,7 @@ import Back from "../../components/Back"
 function Groups() {
   const [showModal, setShowModal] = useState(false);
   const [groups, setGroups] = useState([]);
+  const [groupSizes, setGroupSizes] = useState([]);
 
   const [userId, setuserId] = useState(0);
   const [groupName, setGroupName] = useState("");
@@ -29,9 +30,19 @@ function Groups() {
       console.error('Error fetching groups:', error.message);
     }
   };
+  const fetchGroupSizes = async () => {
+    try {
+      const response = await GroupApi.getAllTeams();
+      setGroups(response);
+      console.log(response);
+    } catch (error) {
+      console.error('Error fetching groups:', error.message);
+    }
+  };
 
   useEffect(() => {
     fetchGroups();
+    fetchGroupSizes();
   }, []);
 
   const handleAddGroup = async () => {
