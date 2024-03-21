@@ -41,9 +41,9 @@ const MTUApi = {
         }
       },
     
-      createGroupUser: async (NewGroupUser) => {
+      createGroupUser: async (userPayload) => {
         try {
-          await axios.post(`${API_URL_GU}`, NewGroupUser,);
+          await axios.post(`${API_URL_GU}`, {userPayload},);
         } catch (error) {
           throw new Error(`Error creating TU: ${error.message}`);
         }
@@ -85,9 +85,9 @@ const MTUApi = {
         }
       },
     
-      createManager: async (NewManager) => {
+      createManager: async (userPayload) => {
         try {
-          await axios.post(`${API_URL_M}`, NewManager,);
+          await axios.post(`${API_URL_M}`, {userPayload},);
         } catch (error) {
           throw new Error(`Error creating M: ${error.message}`);
         }

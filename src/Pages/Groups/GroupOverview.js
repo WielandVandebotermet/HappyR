@@ -65,11 +65,11 @@ function GroupOverview() {
   const DeleteUser = async () => {
     if(Key.Type == "M") 
     {
-      console.log("Man")
+      await MTUApi.deleteManager(Key.manager.id)
     }
     if(Key.Type == "GU") 
     {
-      console.log("GU")
+      await MTUApi.deleteGroupUser(Key.GroupUser.id)
     }
     fetchGroupMembers(); 
   };
