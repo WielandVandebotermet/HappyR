@@ -29,13 +29,15 @@ const GroupApi = {
       }
     },
   
-    editTeam: async (id, updatedTeam) => {
+    editTeam: async (groupName, id) => {
       try {
-        await axios.put(`${API_URL}Edit/${id}`, updatedTeam);
+        await axios.put(`${API_URL}Edit/${id}`, groupName, {
+          headers: { 'Content-Type': 'application/plain'}});
       } catch (error) {
         throw new Error(`Error editing team: ${error.message}`);
       }
     },
+    
   
     createTeam: async (groupName, userId) => {
       try {

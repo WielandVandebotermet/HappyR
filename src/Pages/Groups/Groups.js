@@ -31,9 +31,6 @@ function Groups() {
       const M = await MTUApi.getAllManagers();
       setGU(GU);
       setM(M);
-
-      console.log("TU: ", await MTUApi.getTeamUsersByTeamId(1));
-      console.log("M: ", await MTUApi.getManagersByTeamId(1));
     } catch (error) {
       console.error('Error fetching groups:', error.message);
     }
@@ -60,6 +57,7 @@ function Groups() {
     const groupM = M.filter(manager => manager.team.id === groupId);
     return groupGU.length + groupM.length;
   };
+  
 
   if (!groups) {
     return <div>Loading...</div>;
