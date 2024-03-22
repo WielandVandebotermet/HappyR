@@ -63,16 +63,17 @@ function GroupOverview() {
   };
 
   const DeleteUser = async () => {
-    if(Key.Type == "M") 
-    {
-      await MTUApi.deleteManager(Key.manager.id)
+    try {
+        if (Key.Type === "M") {
+            await MTUApi.deleteManager(Key.id);
+        } else if (Key.Type === "GU") {
+            await MTUApi.deleteGroupUser(Key.id);
+        }
+        fetchGroupMembers();
+    } catch (error) {
+        console.error('Error deleting user:', error.message);
     }
-    if(Key.Type == "GU") 
-    {
-      await MTUApi.deleteGroupUser(Key.GroupUser.id)
-    }
-    fetchGroupMembers(); 
-  };
+};
 
 
   useEffect(() => {

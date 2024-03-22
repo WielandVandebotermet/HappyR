@@ -1,4 +1,4 @@
-import { Link, useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import {
@@ -15,7 +15,6 @@ function Groups() {
   const [M, setM] = useState([]);
   const [UserId, setuserId] = useState(Cookies.get("UserId") || 0);
   const [groupName, setGroupName] = useState("");
-  const navigate = useNavigate();
 
   const fetchGroups = async () => {
     try {
@@ -25,16 +24,17 @@ function Groups() {
       console.error('Error fetching groups:', error.message);
     }
   };
-  const fetchGroupMembers = async () => {
-    try {
-      const GU = await MTUApi.getAllGroupUsers();
-      const M = await MTUApi.getAllManagers();
-      setGU(GU);
-      setM(M);
-    } catch (error) {
-      console.error('Error fetching groups:', error.message);
-    }
-  };
+
+const fetchGroupMembers = async () => {
+  try {
+    const GU = await MTUApi.getAllGroupUsers();
+    const M = await MTUApi.getAllManagers();
+    setGU(GU);
+    setM(M);
+  } catch (error) {
+    console.error('Error fetching groups:', error.message);
+  }
+};
 
   useEffect(() => {
     fetchGroups();
@@ -53,13 +53,14 @@ function Groups() {
   };
 
   const calculateGroupMembers = (groupId) => {
-    const groupGU = GU.filter(user => user.team.id === groupId);
-    const groupM = M.filter(manager => manager.team.id === groupId);
+    if(!GU || !M){return 0}
+    const groupGU = GU.filter(user => user.team && user.team.id === groupId);
+    const groupM = M.filter(manager => manager.team && manager.team.id === groupId);
     return groupGU.length + groupM.length;
   };
   
 
-  if (!groups) {
+  if (!groups || !GU || !M) {
     return <div>Loading...</div>;
   }
 

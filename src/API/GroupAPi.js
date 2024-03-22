@@ -23,7 +23,7 @@ const GroupApi = {
   
     deleteTeam: async (id) => {
       try {
-        await axios.delete(`${API_URL}Delete/${id}`);
+        await axios.delete(`${API_URL}delete/${id}`);
       } catch (error) {
         throw new Error(`Error deleting team: ${error.message}`);
       }
@@ -31,7 +31,7 @@ const GroupApi = {
   
     editTeam: async (groupName, id) => {
       try {
-        await axios.put(`${API_URL}Edit/${id}`, groupName, {
+        await axios.put(`${API_URL}edit/${id}`, groupName, {
           headers: { 'Content-Type': 'application/plain'}});
       } catch (error) {
         throw new Error(`Error editing team: ${error.message}`);
@@ -41,7 +41,7 @@ const GroupApi = {
   
     createTeam: async (groupName, userId) => {
       try {
-        await axios.post(`${API_URL}/Create/${userId}`, `${groupName}`);
+        await axios.post(`${API_URL}/create/${userId}`, `${groupName}`);
       } catch (error) {
         throw new Error(`Error creating team: ${error.message}`);
       }

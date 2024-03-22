@@ -1,44 +1,44 @@
-import { Link, useParams} from "react-router-dom";
+import { Link, useNavigate, useParams} from "react-router-dom";
 import { useState, useEffect } from "react";
-import NewSurveysApi from "../../API/NewSurveysApi";
+import SurveyApi from "../../API/SurveyApi";
 import GroupApi from "../../API/GroupApi";
 import { TESelect } from "tw-elements-react";
 import Back from "../../components/Back"
 
 function CreateSurveys() {
   const { id } = useParams();
-  const GroupApi = new GroupApi();
-  const surveysApi = new NewSurveysApi();
-
+  const navigate = useNavigate();
   const [Check, setCheck] = useState(false);
   const [GroupPage, setGroupPage] = useState(false);
 
   const [groups, setGroups] = useState([]);
+  const [survey, setSurvey] = useState([]);
 
   const [SurveyName, setSurveyName] = useState("");
   const [date, setDate] = useState(new Date());
   const [Reocurring, setReocurring] = useState({Time: 1, Multiplier: "days" });
   const [Selectedgroups, setSelectedgroups] = useState([]);
 
-  const getSurvey = async () => {
-    try {
-      const data = surveysApi.getGroupById(id);
-      setSurveyName(data.SurveyName);
-      setSelectedgroups(data.GroupList)
-      
-    } catch (error) {
-      console.error('Error fetching groups:', error);
+  const getSurveys = async () => {
+    if(id != 0){
+      try {
+        const response = await SurveyApi.getSurveyById(id);
+        setSurveyName(response.testName)
+        setSurvey(response);
+      } catch (error) {
+        console.error('Error fetching groups:', error.message);
+      }
     }
   }
 
-  const getGroups = async () => {
+  const fetchGroups = async () => {
     try {
-      const result = GroupApi.all();
-      setGroups(result);
+      const response = await GroupApi.getAllTeams();
+      setGroups(response);
     } catch (error) {
-      console.error('Error fetching groups:', error);
+      console.error('Error fetching groups:', error.message);
     }
-  }
+  };
 
   const handleToggleChange = (groupId) => {
     setSelectedgroups((prevSelectedGroups) => {
@@ -50,30 +50,40 @@ function CreateSurveys() {
     });
   };
 
- 
+  const createSurvey = async () => {
+    try {
+      await SurveyApi.createSurvey(SurveyName, date, Reocurring, null, Selectedgroups, false );
+      navigate(-1);
+    } catch (error) {
+      console.error('Error adding group:', error.message);
+    }
+  };
+
+console.log(Reocurring);
+
   const Number = [
     { text: "1", value: 1 },
     { text: "2", value: 2 },
     { text: "3", value: 3 },
-    { text: "4", value: 3 },
-    { text: "5", value: 3 },
-    { text: "6", value: 3 },
-    { text: "7", value: 3 },
+    { text: "4", value: 4 },
+    { text: "5", value: 5 },
+    { text: "6", value: 6 },
+    { text: "7", value: 7 },
+    { text: "8", value: 8 },
+    { text: "9", value: 9 },
+    { text: "10", value: 10 },
   ];
   
   const Time = [
-    { text: "Days", value: 1 },
-    { text: "Weeks", value: 2 },
-    { text: "Months", value: 3 },
-    { text: "Years", value: 4 },
+    { text: "Days", value: "D" },
+    { text: "Weeks", value: "W" },
+    { text: "Months", value: "M" },
   ];
 
   useEffect(() => {
-    getSurvey();
-    getGroups();
+    getSurveys();
+    fetchGroups();
   }, []);
-
-
 
     return (
       <div>
@@ -84,7 +94,7 @@ function CreateSurveys() {
               <div className="flex justify-center">
               <div className="w-full md:w-1/3 md:flex flex-col">
                 <div className="flex flex-col p-3">
-                  <input className="border border-gray-900 rounded p-1 m-1" type="text" name="Groupname" label="Enter group name here" value={SurveyName} onChange={(e) => setSurveyName(e.target.value)}></input>
+                  <input className="border border-gray-900 rounded p-1 m-1" type="text" name="groupName" label="Enter group name here" value={SurveyName} onChange={(e) => setSurveyName(e.target.value)}></input>
                   <p className="text-right text-md">Survey name</p>
                 </div>
                 <div className="flex flex-col p-3 ">
@@ -127,9 +137,9 @@ function CreateSurveys() {
             </div>
             <div className="flex flex-col">
               <div className="flex justify-center">
-                <Link to={"/SelectTemplate/" + id } className={"w-1/2 flex justify-center " + (id != "0" ? 'hidden': 'block')}>
-                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Create Survey</button>
-                </Link>
+                <div className={"w-1/2 flex justify-center " + (id != "0" ? 'hidden': 'block')}>
+                  <button onClick={() => createSurvey()} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Create Survey</button>
+                </div>
                 <Link to={"/SelectTemplate/" + id } className={"w-1/2 flex justify-center " + (id == "0" ? 'hidden': 'Block')}>
                   <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Questions</button>
                 </Link>
@@ -145,10 +155,10 @@ function CreateSurveys() {
               <div className="flex flex-col p-3 justify-center">
                 {groups.map((group) => {
                     return (
-                      <div className="flex justify-center">
+                      <div key={group.id} className="flex justify-center">
                         <button onClick={() => handleToggleChange(group.id)}>
                           <div className={"m-4 p-6 rounded-lg border-gray-900  hover:border-blue-600 border " + (Selectedgroups.includes(group.id) ? 'bg-blue-600' : 'bg-white')}>
-                            <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{group.GroupName}</h5>
+                            <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{group.groupName}</h5>
                           </div>
                         </button>
                       </div>

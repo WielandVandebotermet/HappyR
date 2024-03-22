@@ -1,47 +1,53 @@
 import { Link} from "react-router-dom";
 import { useState, useEffect } from "react";
-import NewSurveysApi from "../../API/NewSurveysApi";
+import SurveyApi from "../../API/SurveyApi";
+import GroupApi from "../../API/GroupApi";
 import Back from "../../components/Back"
+import SurveyMap from '../../components/renderMaps/SurveyMap.js';
 
 function CreateSurveys() {
   const [surveys, setSurveys] = useState([]);
-  const surveysApi = new NewSurveysApi();
+  const [groups, setGroups] = useState([]);
 
   const getSurveys = async () => {
     try {
-      const data = surveysApi.all();
-      setSurveys(data);
+      const response = await SurveyApi.getAllSurveys();
+      const activeSUrveys = response.filter(survey => survey.started === false);
+
+      setSurveys(activeSUrveys);
     } catch (error) {
-      console.error('Error fetching groups:', error);
+      console.error('Error fetching groups:', error.message);
     }
   }
 
+  const fetchGroups = async () => {
+    try {
+      const response = await GroupApi.getAllTeams();
+      setGroups(response);
+    } catch (error) {
+      console.error('Error fetching groups:', error.message);
+    }
+  };
+
   useEffect(() => {
-    getSurveys()
+    getSurveys();
+    fetchGroups();
   }, []);
+
+  if (!groups && !surveys) {
+    return <div>Loading...</div>;
+  }
 
     return (
       <div className="">
         <div className="flex flex-col p-3">
             <h1 className="p-2 text-center text-4xl">Inactive Surveys</h1>
             <div className="flex flex-col p-3 justify-center">
-                {surveys.map((survey) => {
-                  return (
-                    <div className="flex justify-center ">
-                      <Link to={"/CreateSurvey/" + survey.id}>
-                        <div className="block max-w-sm m-4 p-6 rounded-lg border-gray-900  hover:border-blue-600 border">
-                          <div className="">
-                            <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{survey.Date} | {survey.SurveyName}</h5>
-                          </div>
-                            <p className="text-right text-sm">{survey.GroupName}</p>
-                        </div>
-                      </Link>
-                    </div>
-                  )
-                })}
+            {surveys.map((survey, index) => (
+              <SurveyMap key={index} survey={survey} groups={groups} />
+            ))}
           </div>
         </div>
-
         <div className="flex flex-col">
           <Link to={"/CreateSurvey/0"}>
           <div className="flex justify-center">

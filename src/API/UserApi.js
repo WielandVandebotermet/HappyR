@@ -24,7 +24,7 @@ const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_USERAPI;
   
     deleteUser: async (id) => {
       try {
-        await axios.delete(`${API_URL}Delete/${id}`);
+        await axios.delete(`${API_URL}delete/${id}`);
       } catch (error) {
         throw new Error(`Error deleting user: ${error.message}`);
       }
@@ -32,7 +32,7 @@ const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_USERAPI;
   
     editUser: async (id, updatedUser) => {
       try {
-        await axios.put(`${API_URL}Edit/${id}`, updatedUser);
+        await axios.put(`${API_URL}edit/${id}`, updatedUser);
       } catch (error) {
         throw new Error(`Error editing user: ${error.message}`);
       }

@@ -27,7 +27,7 @@ const MTUApi = {
     
       deleteGroupUser: async (id) => {
         try {
-          await axios.delete(`${API_URL_GU}Delete/${id}`);
+          await axios.delete(`${API_URL_GU}delete/${id}`);
         } catch (error) {
           throw new Error(`Error deleting TU: ${error.message}`);
         }
@@ -35,19 +35,22 @@ const MTUApi = {
     
       editGroupUser: async (id, updatedGroupUser) => {
         try {
-          await axios.put(`${API_URL_GU}Edit/${id}`, updatedGroupUser);
+          await axios.put(`${API_URL_GU}edit/${id}`, updatedGroupUser);
         } catch (error) {
           throw new Error(`Error editing TU: ${error.message}`);
         }
       },
     
-      createGroupUser: async (userPayload) => {
+      createGroupUser: async (teamId, userId) => {
         try {
-          await axios.post(`${API_URL_GU}`, {userPayload},);
+            await axios.post(`${API_URL}/TU/`, {
+              "teamId": teamId,
+              "userId": userId
+            });
         } catch (error) {
-          throw new Error(`Error creating TU: ${error.message}`);
+            throw new Error(`Error creating TU: ${error.message}`);
         }
-      },
+    },
 
 
       //Managers
@@ -71,7 +74,7 @@ const MTUApi = {
     
       deleteManager: async (id) => {
         try {
-          await axios.delete(`${API_URL_M}Delete/${id}`);
+          await axios.delete(`${API_URL_M}delete/${id}`);
         } catch (error) {
           throw new Error(`Error deleting M: ${error.message}`);
         }
@@ -79,15 +82,18 @@ const MTUApi = {
     
       editManager: async (id, updatedManager) => {
         try {
-          await axios.put(`${API_URL_M}Edit/${id}`, updatedManager);
+          await axios.put(`${API_URL_M}edit/${id}`, updatedManager);
         } catch (error) {
           throw new Error(`Error editing M: ${error.message}`);
         }
       },
     
-      createManager: async (userPayload) => {
+      createManager: async (teamId, userId) => {
         try {
-          await axios.post(`${API_URL_M}`, {userPayload},);
+          await axios.post(`${API_URL_M}`, {
+            teamId: teamId,
+            userId: userId
+        });
         } catch (error) {
           throw new Error(`Error creating M: ${error.message}`);
         }
@@ -97,7 +103,7 @@ const MTUApi = {
       //Combined
       getTeamUsersByTeamId: async (id) => {
         try {
-          const response = await axios.get(`${API_URL_GU}Users/${id}`);
+          const response = await axios.get(`${API_URL_GU}users/${id}`);
           return response.data;
         } catch (error) {
           throw new Error(`Error fetching Total Users: ${error.message}`);
@@ -106,7 +112,7 @@ const MTUApi = {
 
       getManagersByTeamId: async (id) => {
         try {
-          const response = await axios.get(`${API_URL_M}Users/${id}`);
+          const response = await axios.get(`${API_URL_M}users/${id}`);
           return response.data;
         } catch (error) {
           throw new Error(`Error fetching Total Teams: ${error.message}`);

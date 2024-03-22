@@ -72,12 +72,13 @@ function AddToGroup() {
   const AddGroupMember = async (addedUsers) => {
     try {
       for (const user of addedUsers) {
-        const userPayload = {
-          teamId: group.id,
-          userId: user.id
-        };
-  
-    await MTUApi.createGroupUser(userPayload);
+        const teamId = group.id;
+        const userId = user.value;
+        console.log({
+          "teamId": teamId,
+          "userId": userId
+        })
+    await MTUApi.createGroupUser(teamId, userId);
   } 
     getUsers();
     setAddedUsers([]);
@@ -90,12 +91,13 @@ function AddToGroup() {
   const AddManager = async (addedUsers) => {
     try {
       for (const user of addedUsers) {
-        const userPayload = {
-          teamId: group.id,
-          userId: user.id
-        };
-  
-        await MTUApi.createManager(userPayload);
+          const teamId = group.id;
+          const userId = user.value;
+          console.log({
+            "teamId": teamId,
+            "userId": userId
+          })
+        await MTUApi.createManager(teamId, userId);
       }   
     getUsers();
     setAddedUsers([]);

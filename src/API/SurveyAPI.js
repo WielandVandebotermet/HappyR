@@ -1,33 +1,58 @@
-class SurveysApi  {
+import axios from 'axios';
 
-    constructor() {
-        this.surveys = [];
+const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_SURVEY;
 
-        if (localStorage.surveys) {
-            this.surveys = JSON.parse(localStorage.surveys);
-        } else {
-            this.surveys = [
-            { id: "1", SurveyName: "Weekly Satisfaction Survey", Date: "5/3", GroupName: "Development", },
-            { id: "2", SurveyName: "Weekly Satisfaction Survey", Date: "28/2", GroupName: "Development",},
-            { id: "3", SurveyName: "Workplace Satisfaction", Date: "26/2", GroupName: "Operations",}]
-            localStorage.surveys = JSON.stringify(this.surveys);
-        }
+const SurveyApi = {
+
+  getAllSurveys: async () => {
+    try {
+      const response = await axios.get(`${API_URL}all`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error fetching Surveys: ${error.message}`);
     }
+  }, 
 
-    count() {
-        return this.surveys.length;
+  getSurveyById: async (id) => {
+    try {
+      const response = await axios.get(`${API_URL}${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error fetching Survey: ${error.message}`);
     }
+  },
 
-    all() {
-        return this.surveys;
+  deleteSurvey: async (id) => {
+    try {
+      await axios.delete(`${API_URL}delete/${id}`);
+    } catch (error) {
+      throw new Error(`Error deleting Survey: ${error.message}`);
     }
+  },
 
-    getGroupById(id) {
-        return this.surveys.find((g) => g.id === id);
+  editSurvey: async (groupName, id) => {
+    try {
+      await axios.put(`${API_URL}edit/${id}`, groupName, {
+        headers: { 'Content-Type': 'application/plain'}
+      });
+    } catch (error) {
+      throw new Error(`Error editing Survey: ${error.message}`);
     }
+  },
 
-    add(SN) {
-        this.surveys.push({ id: this.count() + 1, SurveyName: SN, Date: "", GroupName: "" });
+  createSurvey: async (testName, startDate, reoccuring, questions, groupList, started) => {
+    try {
+      await axios.post(`${API_URL}`, {
+        testName: testName,
+        startDate: startDate,
+        reoccuring: reoccuring,
+        questions: questions,
+        groupList: groupList,
+        started: started
+      });
+    } catch (error) {
+      throw new Error(`Error creating M: ${error.message}`);
     }
-}
-export default SurveysApi;
+  }  
+};
+export default SurveyApi;
