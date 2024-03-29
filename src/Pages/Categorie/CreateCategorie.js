@@ -1,6 +1,6 @@
 import { Link, useParams} from "react-router-dom";
 import { useState, useEffect } from "react";
-import CategorieApi from "../../API/CategorieApi";
+import CategoryApi from "../../API/CategoryApi";
 import Back from "../../components/Back"
 
 function CreateCategorie() {
@@ -11,8 +11,7 @@ function CreateCategorie() {
 
     const getCategorie = async () => {
         try {
-            const categorieApi = new CategorieApi();
-            const result = await categorieApi.getGroupById(Cid);
+            const result = await CategoryApi.getCategoryById(Cid);
             if (result) {
                 setCategorie(result);
                 setcategorieName(result.CategorieName || '');

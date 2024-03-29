@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams} from "react-router-dom";
 import { useState, useEffect } from "react";
-import Categorie from "../../API/CategorieApi";
+import CategoryApi from "../../API/CategoryApi";
 import Back from "../../components/Back"
 
 function SelectCategorie() {
@@ -9,8 +9,7 @@ function SelectCategorie() {
 
     const getCategories = async () => {
         try {
-        const CategorieApi = new Categorie();
-        const result = await CategorieApi.all();
+        const result = await CategoryApi.getAllCategorys();
         setCategories(result);
         } catch (error) {
         console.error('Error fetching groups:', error);

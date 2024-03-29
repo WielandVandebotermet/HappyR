@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_SURVEY;
+const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_TEMPLATE;
 
-const SurveyApi = {
+const TemplateApi = {
 
-  getAllSurveys: async () => {
+  getAllTemplates: async () => {
     try {
       const response = await axios.get(`${API_URL}all`);
       return response.data;
@@ -13,33 +13,16 @@ const SurveyApi = {
     }
   }, 
 
-  getSurveyById: async (id) => {
+  getTemplateById: async (id) => {
     try {
       const response = await axios.get(`${API_URL}${id}`);
-      return response;
-    } catch (error) {
-      throw new Error(`Error fetching Survey: ${error.message}`);
-    }
-  },
-
-  getSurveysByUserId: async (id) => {
-    try {
-      const response = await axios.get(`${API_URL}FilterByUserId/${id}`);
-      return response.data;
-    } catch (error) {
-      throw new Error(`Error fetching Survey: ${error.message}`);
-    }
-  },
-  getSurveysByManagerId: async (id) => {
-    try {
-      const response = await axios.get(`${API_URL}FilterByManagerId/${id}`);
       return response.data;
     } catch (error) {
       throw new Error(`Error fetching Survey: ${error.message}`);
     }
   },
 
-  deleteSurvey: async (id) => {
+  deleteTemplate: async (id) => {
     try {
       await axios.delete(`${API_URL}delete/${id}`);
     } catch (error) {
@@ -47,7 +30,7 @@ const SurveyApi = {
     }
   },
 
-  editSurvey: async (groupName, id) => {
+  editTemplate: async (groupName, id) => {
     try {
       await axios.put(`${API_URL}edit/${id}`, groupName, {
         headers: { 'Content-Type': 'application/plain'}
@@ -57,19 +40,14 @@ const SurveyApi = {
     }
   },
 
-  createSurvey: async (testName, startDate, reoccuring, questions, groupList, started) => {
+  createTemplate: async (testName) => {
     try {
           await axios.post(`${API_URL}create`, {
             testName: testName,
-            startDate: startDate,
-            reoccuring: reoccuring,
-            questions: questions,
-            groupList: groupList,
-            started: started
           });
     } catch (error) {
       throw new Error(`Error creating M: ${error.message}`);
     }
   }  
 };
-export default SurveyApi;
+export default TemplateApi;

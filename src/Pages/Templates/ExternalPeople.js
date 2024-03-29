@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import { TEInput } from 'tw-elements-react';
 import { useState, useEffect } from "react";
-import TemplatesAPi from "../../API/TemplatesAPi";
+import TemplateApi from "../../API/TemplateApi";
 import Back from "../../components/Back"
 
 function ExternalPeople() {
@@ -10,8 +10,7 @@ function ExternalPeople() {
 
     const getTemplate = async () => {
         try {
-          const templatesAPi = new TemplatesAPi();
-          const result = templatesAPi.getGroupById(Tid);
+          const result = TemplateApi.getGroupById(Tid);
           setTemplate(result);
         } catch (error) {
           console.error('Error fetching groups:', error);

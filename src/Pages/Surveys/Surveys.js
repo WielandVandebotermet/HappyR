@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Cookies from 'js-cookie';
 import Back from "../../components/Back"
 import SurveyApi from "../../API/SurveyApi.js";
 import SurveyMap from '../../components/renderMaps/SurveyMap.js';
@@ -8,13 +9,14 @@ import GroupApi from "../../API/GroupApi";
 function Surveys() {
   const [surveys, setSurveys] = useState([]);
   const [groups, setGroups] = useState([]);
+  const [UserId, setuserId] = useState(Cookies.get("UserId") || 0);
+
 
   const getSurveys = async () => {
     try {
-      const response = await SurveyApi.getAllSurveys();
-      const activeSUrveys = response.filter(survey => survey.started === true);
-
-      setSurveys(activeSUrveys);
+      const response = await SurveyApi.getSurveysByUserId(UserId);
+      const activeSurveys = response.filter(survey => survey.started == true);
+      setSurveys(activeSurveys);
     } catch (error) {
       console.error('Error fetching groups:', error.message);
     }
@@ -30,11 +32,16 @@ function Surveys() {
   };
 
   useEffect(() => {
-    getSurveys();
     fetchGroups();
   }, []);
 
-  if (!groups && !surveys) {
+  useEffect(() => {
+    if (UserId != 0) {
+      getSurveys();
+    }
+  }, [UserId]);
+
+  if (!groups || !surveys) {
     return <div>Loading...</div>;
   }
 

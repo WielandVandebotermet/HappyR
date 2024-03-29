@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function SurveyMap({ survey, groups }) {
+function SurveyMap({ survey, groups, url }) {
     const startDate = new Date(survey.startDate);
   
     const month = startDate.toLocaleDateString('en-GB', { month: 'long' });
@@ -12,7 +12,7 @@ function SurveyMap({ survey, groups }) {
 
     return (
         <div className="flex justify-center ">
-            <Link to={"/GroupOverview/" + survey.id}>
+            <Link to={url}>
                 <div key={survey.id} className="block max-w-sm m-4 p-6 rounded-lg border-gray-900  hover:border-blue-600 border">
                     <div className="">
                         <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{formattedDate} | {survey.testName}</h5>

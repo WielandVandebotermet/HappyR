@@ -40,10 +40,10 @@ function Main() {
         <Route path={'/CreateSurvey/:id'} element={<CreateSurvey/>}/>
 
         <Route path={'/SelectTemplate/:Sid'} element={<SelectTemplate/>}/>
-        <Route path={'/TemplateOptions/:Sid/:Qid'} element={<TemplateOptions/>}/>
-        <Route path={'/ExternalPeople/:Sid/:Qid'} element={<ExternalPeople/>}/>
-        <Route path={'/TemplatePage/:Sid/:Qid'} element={<TemplatePage/>}/>
-        <Route path={'/TemplateShowcase/:Sid/:Qid'} element={<TemplateShowcase/>}/>
+        <Route path={'/TemplateOptions/:Sid/:Qid/:Tid?'} element={<TemplateOptions/>}/>
+        <Route path={'/ExternalPeople/:Sid/:Qid/:Tid?'} element={<ExternalPeople/>}/>
+        <Route path={'/TemplatePage/:Sid/:Qid/:Tid?'} element={<TemplatePage/>}/>
+        <Route path={'/TemplateShowcase/'} element={<TemplateShowcase/>}/>
 
         <Route path={'/SelectCategorie/:Sid/:Qid/'} element={<SelectCategorie/>}/>
         <Route path={'/CreateCategorie/:Sid/:Qid/:Cid'} element={<CreateCategorie/>}/>

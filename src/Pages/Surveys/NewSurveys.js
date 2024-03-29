@@ -1,5 +1,6 @@
 import { Link} from "react-router-dom";
 import { useState, useEffect } from "react";
+import Cookies from 'js-cookie';
 import SurveyApi from "../../API/SurveyApi";
 import GroupApi from "../../API/GroupApi";
 import Back from "../../components/Back"
@@ -8,13 +9,12 @@ import SurveyMap from '../../components/renderMaps/SurveyMap.js';
 function CreateSurveys() {
   const [surveys, setSurveys] = useState([]);
   const [groups, setGroups] = useState([]);
+  const [UserId, setuserId] = useState(Cookies.get("UserId") || 0);
 
   const getSurveys = async () => {
     try {
-      const response = await SurveyApi.getAllSurveys();
-      const activeSUrveys = response.filter(survey => survey.started === false);
-
-      setSurveys(activeSUrveys);
+      const response = await SurveyApi.getSurveysByManagerId(UserId);
+      setSurveys(response);
     } catch (error) {
       console.error('Error fetching groups:', error.message);
     }
@@ -44,7 +44,7 @@ function CreateSurveys() {
             <h1 className="p-2 text-center text-4xl">Inactive Surveys</h1>
             <div className="flex flex-col p-3 justify-center">
             {surveys.map((survey, index) => (
-              <SurveyMap key={index} survey={survey} groups={groups} />
+              <SurveyMap key={index} survey={survey} groups={groups} url={"/CreateSurvey/"+ survey.id}/>
             ))}
           </div>
         </div>

@@ -1,6 +1,6 @@
 import {  useParams, useNavigate} from "react-router-dom";
 import { useState, useEffect } from "react";
-import NewSurveysApi from "../../API/NewSurveysApi";
+import SurveyQuestionApi from "../../API/SurveyQuestionApi";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { TETextarea } from "tw-elements-react";
@@ -12,8 +12,7 @@ function TemplateShowcase() {
 
   const getQuestion = async () => {
     try {
-      const surveysApi = new NewSurveysApi();
-      const data = await surveysApi.getQuestionById(Sid, Qid);
+        const data = SurveyQuestionApi.getSurveyById(Qid);
       if (data) {
         setQuestion(data);
       }
