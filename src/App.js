@@ -14,11 +14,12 @@ import AddToGroup from './Pages/Groups/AddToGroup';
 import SelectTemplate from './Pages/Templates/SelectTemplate';
 import TemplateOptions from './Pages/Templates/TemplateOptions';
 import ExternalPeople from './Pages/Templates/ExternalPeople';
-import TemplatePage from './Pages/Templates/TemplatePage';
 import TemplateShowcase from './Pages/Templates/TemplateShowcase';
 
 import SelectCategorie from './Pages/Categorie/SelectCategorie';
 import CreateCategorie from './Pages/Categorie/CreateCategorie';
+
+import Test from './Pages/Test/Test';
 
 import Surveys from './Pages/Surveys/Surveys';
 import NewSurveys from './Pages/Surveys/NewSurveys';
@@ -42,8 +43,9 @@ function Main() {
         <Route path={'/SelectTemplate/:Sid'} element={<SelectTemplate/>}/>
         <Route path={'/TemplateOptions/:Sid/:Qid/:Tid?'} element={<TemplateOptions/>}/>
         <Route path={'/ExternalPeople/:Sid/:Qid/:Tid?'} element={<ExternalPeople/>}/>
-        <Route path={'/TemplatePage/:Sid/:Qid/:Tid?'} element={<TemplatePage/>}/>
         <Route path={'/TemplateShowcase/'} element={<TemplateShowcase/>}/>
+
+        <Route path={'/Test/:Sid'} element={<Test/>}/>
 
         <Route path={'/SelectCategorie/:Sid/:Qid/'} element={<SelectCategorie/>}/>
         <Route path={'/CreateCategorie/:Sid/:Qid/:Cid'} element={<CreateCategorie/>}/>

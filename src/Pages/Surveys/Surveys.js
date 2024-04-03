@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
-import Back from "../../components/Back"
+import Back from "../../components/Navigation/Back"
 import SurveyApi from "../../API/SurveyApi.js";
 import SurveyMap from '../../components/renderMaps/SurveyMap.js';
 import GroupApi from "../../API/GroupApi";
@@ -51,7 +51,7 @@ function Surveys() {
             <h1 className="p-2 text-center text-4xl">Surveys</h1>
             <div className="flex flex-col p-3 justify-center">
             {surveys.map((survey, index) => (
-              <SurveyMap key={index} survey={survey} groups={groups} />
+              <SurveyMap key={index} survey={survey} groups={groups} url={"/Test/"+ survey.id} />
             ))}
           </div>
         </div>

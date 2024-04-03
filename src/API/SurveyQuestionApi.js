@@ -20,21 +20,21 @@ const SurveyQuestionApi = {
         }
       },
     
-      editSurveyQuestion: async (groupName, id) => {
+      editSurveyQuestion: async (Qid, Tid, question) => {
         try {
-          await axios.put(`${API_URL}edit/${id}`, groupName, {
-            headers: { 'Content-Type': 'application/plain'}
+          await axios.put(`${API_URL}edit/${Qid}`,{
+            Tid: Tid,
           });
         } catch (error) {
           throw new Error(`Error editing Survey: ${error.message}`);
         }
       },
     
-      createSurveyQuestion: async (testName,) => {
+      createSurveyQuestion: async (Tid, Question) => {
         try {
 
               await axios.post(`${API_URL}create`, {
-                testName: testName,
+                Tid: Tid,
               });
         } catch (error) {
           throw new Error(`Error creating M: ${error.message}`);

@@ -1,7 +1,7 @@
 import { Link, useParams} from "react-router-dom";
 import { useState, useEffect } from "react";
 import CategoryApi from "../../API/CategoryApi";
-import Back from "../../components/Back"
+import Back from "../../components/Navigation/Back"
 
 function CreateCategorie() {
     const { Sid, Qid, Cid } = useParams();

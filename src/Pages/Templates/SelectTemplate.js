@@ -14,7 +14,6 @@ function Groups() {
     try {
       const result = await TemplateApi.getAllTemplates();
       setTemplates(result);
-      console.log("template: ", result);
     } catch (error) {
       console.error('Error fetching groups:', error);
     }
@@ -28,20 +27,6 @@ function Groups() {
       console.error('Error fetching groups:', error);
     }
   }
-
-  const handleToggleChange = (Option, questionIndex) => {
-    setSurvey(prevSurvey => {
-      const question = { ...prevSurvey.Questions[questionIndex] };
-      const updatedOptions = { ...question.Options };
-      updatedOptions[Option] = !updatedOptions[Option];
-  
-      question.Options = updatedOptions;
-      prevSurvey.Questions[questionIndex] = question;
-
-      console.log(Option + ": " + prevSurvey.Questions[questionIndex].Options[Option]);
-      return prevSurvey;
-    });
-  };
 
   const Back = () => {
     if(q === 0) {
@@ -65,18 +50,9 @@ function Groups() {
     getSurvey();
   }, []);
 
-  useEffect(() => {
-    console.log("q: ", q)
-  }, [q]);
-
   if (!survey || !survey.questions) {
-    console.log("Rendering loading message...");
     return (<p>Loading...</p>);
   }
-
-  console.log("survey:", survey);
-  console.log("survey.questions:", survey.questions);
-  console.log("survey.questions[q]:", survey.questions[q]);
 
       return (
         <div className="">
@@ -98,11 +74,9 @@ function Groups() {
               <div>
                 <div className="flex flex-col p-3 justify-center">
                 {survey.questions[q].options.map((option) => (
-                  <button key={option.id} onClick={() => handleToggleChange(option.id)}>
-                    <div className={"m-4 p-6 rounded-lg border-[#170699] border " + (option.settingValue === true ? 'bg-[#170699] border-white' : 'bg-white')}>
-                        <h5 className={"text-center mb-2 text-2xl font-bold tracking-tight " + (option.settingValue === true ? 'text-white' : 'text-[#170699]')}>{option.setting}: {option.settingValue.toString()}</h5>
-                      </div>
-                  </button>
+                  <div className={"m-4 p-6 rounded-lg border-[#170699] border " + (option.settingValue === true ? 'bg-[#170699] border-white' : 'bg-white')}>
+                    <h5 className={"text-center mb-2 text-2xl font-bold tracking-tight " + (option.settingValue === true ? 'text-white' : 'text-[#170699]')}>{option.setting}: {option.settingValue.toString()}</h5>
+                  </div>
                 ))}
                 <Link to={"/TemplatePage/" + Sid +"/"+ (q+1)} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Edit</Link>
                 </div>

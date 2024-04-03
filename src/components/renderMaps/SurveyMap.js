@@ -10,6 +10,10 @@ function SurveyMap({ survey, groups, url }) {
   
     const group = groups.find(group => group.id === survey.groupList[0]);
 
+    if(!group.groupName){
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className="flex justify-center ">
             <Link to={url}>

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import SurveyApi from "../../API/SurveyApi";
 import GroupApi from "../../API/GroupApi";
-import Back from "../../components/Back"
+import Back from "../../components/Navigation/Back"
 import SurveyMap from '../../components/renderMaps/SurveyMap.js';
 
 function CreateSurveys() {

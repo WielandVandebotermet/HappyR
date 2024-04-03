@@ -6,7 +6,7 @@ import {
   TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
 import GroupApi from "../../API/GroupApi";
 import MTUApi from "../../API/MTUApi";
-import Back from "../../components/Back"
+import Back from "../../components/Navigation/Back"
 
 function Groups() {
   const [showModal, setShowModal] = useState(false);

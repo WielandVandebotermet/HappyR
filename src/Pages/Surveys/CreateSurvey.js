@@ -3,19 +3,25 @@ import { useState, useEffect } from "react";
 import SurveyApi from "../../API/SurveyApi";
 import GroupApi from "../../API/GroupApi";
 import { TESelect } from "tw-elements-react";
-
-import Back from "../../components/Back"
+import Back from "../../components/Navigation/Back"
+import {
+  TEModal,
+  TEModalDialog,
+  TEModalContent,
+  TEModalHeader,
+  TEModalBody,
+  TEModalFooter,
+} from "tw-elements-react";
 
 function CreateSurveys() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [Check, setCheck] = useState(false);
-
-
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [GroupPage, setGroupPage] = useState(false);
-
   const [groups, setGroups] = useState([]);
-
+  const [Reocurring, setReocurring] = useState({Time: 1, Multiplier: "D" });
+  const [Selectedgroups, setSelectedgroups] = useState([]);
   const [SurveyName, setSurveyName] = useState("");
   const [date, setDate] = useState(() => {
     const currentDate = new Date();
@@ -24,8 +30,6 @@ function CreateSurveys() {
     const day = currentDate.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   });
-  const [Reocurring, setReocurring] = useState({Time: 1, Multiplier: "D" });
-  const [Selectedgroups, setSelectedgroups] = useState([]);
 
   const getSurveys = async () => {
     if(id !== "0"){
@@ -42,15 +46,17 @@ function CreateSurveys() {
         setDate(formattedDate);
         setSelectedgroups(response.groupList);
 
+        const surveyReoccuring = response.surveyReoccuring
+
         if(response.surveyReoccuring !== null){
           setCheck(true);
           setReocurring(prevReocurring => ({
             ...prevReocurring,
-            Time: response.surveyReoccuring.time
+            Time: surveyReoccuring.time
           }));
           setReocurring(prevReocurring => ({
             ...prevReocurring,
-            Multiplier: response.surveyReoccuring.timeMultiplier
+            Multiplier: surveyReoccuring.timeMultiplier
           }));
         }
       } catch (error) {
@@ -113,9 +119,9 @@ function CreateSurveys() {
   const EditSurvey = async () => {
     try {
       if (Check){
-        await SurveyApi.createSurvey(SurveyName, date, Reocurring, null, Selectedgroups, false );
+        await SurveyApi.editSurvey(id, SurveyName, date, Reocurring, null, Selectedgroups, false );
       } else {
-        await SurveyApi.createSurvey(SurveyName, date, null, null, Selectedgroups, false );
+        await SurveyApi.editSurvey(id,SurveyName, date, null, null, Selectedgroups, false );
       }
       navigate(-1);
     } catch (error) {
@@ -125,11 +131,7 @@ function CreateSurveys() {
 
   const DeleteSurvey = async () => {
     try {
-      if (Check){
-        await SurveyApi.createSurvey(SurveyName, date, Reocurring, null, Selectedgroups, false );
-      } else {
-        await SurveyApi.createSurvey(SurveyName, date, null, null, Selectedgroups, false );
-      }
+      SurveyApi.deleteSurvey(id);
       navigate(-1);
     } catch (error) {
       console.error('Error adding group:', error.message);
@@ -223,8 +225,8 @@ function CreateSurveys() {
               </div>
               <div className="flex justify-center pt-4">
                 <div className={"w-1/2 flex justify-center " + (id !== "0" ? 'block': 'hidden')}>
-                  <button onClick={() => createSurvey()} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Delete Survey</button>
-                  <button onClick={() => createSurvey()} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Edit Survey</button>
+                  <button onClick={() => setShowModalDelete(true)} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Delete Survey</button>
+                  <button onClick={() => EditSurvey()} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Edit Survey</button>
                 </div>
               </div>  
             </div>
@@ -256,6 +258,39 @@ function CreateSurveys() {
             </div>
           </div>
           </div>
+
+          <TEModal show={showModalDelete} setShow={setShowModalDelete}>
+          <TEModalDialog centered>
+            <TEModalContent>
+              <TEModalHeader>
+              <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
+                Delete {SurveyName}?
+              </h5>
+              </TEModalHeader>
+              <TEModalBody>
+                <div className="flex flex-col p-3 ">
+                  <p className="text-XL">Are you sure you want to delete this survey: "{SurveyName}"?</p>
+                </div>
+              </TEModalBody>
+              <TEModalFooter>
+                <div className="flow-root">
+                  <button
+                    type="button"
+                    className="float-left inline-block rounded bg-gray-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black hover:bg-gray-400 "
+                    onClick={() => setShowModalDelete(false)}>
+                    No
+                  </button>
+                  <button
+                    type="button"
+                    className="float-right ml-1 inline-block rounded bg-red-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white hover:bg-red-800 "
+                    onClick={() =>{ setShowModalDelete(false); DeleteSurvey();}} >
+                    Yes
+                  </button>
+                </div>
+              </TEModalFooter>
+            </TEModalContent>
+          </TEModalDialog>
+        </TEModal> 
       </div>
     );
   }

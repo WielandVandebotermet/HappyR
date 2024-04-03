@@ -16,7 +16,7 @@ const SurveyApi = {
   getSurveyById: async (id) => {
     try {
       const response = await axios.get(`${API_URL}${id}`);
-      return response;
+      return response.data;
     } catch (error) {
       throw new Error(`Error fetching Survey: ${error.message}`);
     }
@@ -47,10 +47,15 @@ const SurveyApi = {
     }
   },
 
-  editSurvey: async (groupName, id) => {
+  editSurvey: async (id, testName, startDate, reoccuring, questions, groupList, started) => {
     try {
-      await axios.put(`${API_URL}edit/${id}`, groupName, {
-        headers: { 'Content-Type': 'application/plain'}
+      await axios.put(`${API_URL}edit/${id}`, {
+        testName: testName,
+        startDate: startDate,
+        reoccuring: reoccuring,
+        questions: questions,
+        groupList: groupList,
+        started: started 
       });
     } catch (error) {
       throw new Error(`Error editing Survey: ${error.message}`);

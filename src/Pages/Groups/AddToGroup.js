@@ -3,7 +3,7 @@ import Select, {OnChangeValue, Props, components, } from 'react-select'
 import { useState, useEffect } from "react";
 import GroupApi from "../../API/GroupApi";
 import UserApi from "../../API/UserApi";
-import Back from "../../components/Back"
+import Back from "../../components/Navigation/Back"
 import MTUApi from "../../API/MTUApi";
 
 function AddToGroup() {

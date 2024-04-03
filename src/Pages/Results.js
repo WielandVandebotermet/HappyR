@@ -1,7 +1,8 @@
 import { Link} from "react-router-dom";
 import { useState, useEffect } from "react";
-import ResultsApi from "../API/ResultsAPi";
-import Back from "../components/Back"
+import ResultsApi from "../API/ResultApi";
+import Back from "../components/Navigation/Back"
+
 
 function Results() {
   const [results, setResults] = useState([]);

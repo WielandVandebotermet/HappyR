@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import { TEInput } from 'tw-elements-react';
 import { useState, useEffect } from "react";
 import TemplateApi from "../../API/TemplateApi";
-import Back from "../../components/Back"
+import Back from "../../components/Navigation/Back"
 
 function ExternalPeople() {
     const { Sid, Tid } = useParams();
