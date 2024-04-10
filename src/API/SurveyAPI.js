@@ -30,6 +30,7 @@ const SurveyApi = {
       throw new Error(`Error fetching Survey: ${error.message}`);
     }
   },
+  
   getSurveysByManagerId: async (id) => {
     try {
       const response = await axios.get(`${API_URL}FilterByManagerId/${id}`);

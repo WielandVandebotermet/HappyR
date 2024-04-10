@@ -27,10 +27,12 @@ function Groups() {
 
 const fetchGroupMembers = async () => {
   try {
-    const GU = await MTUApi.getAllGroupUsers();
-    const M = await MTUApi.getAllManagers();
-    setGU(GU);
-    setM(M);
+    const groupUsers  = await MTUApi.getAllGroupUsers();
+    const managers  = await MTUApi.getAllManagers();
+    console.log(groupUsers);
+    //console.log(managers);
+    setGU(groupUsers);
+    setM(managers);
   } catch (error) {
     console.error('Error fetching groups:', error.message);
   }
@@ -54,8 +56,9 @@ const fetchGroupMembers = async () => {
 
   const calculateGroupMembers = (groupId) => {
     if(!GU || !M){return 0}
-    const groupGU = GU.filter(user => user.team && user.team.id === groupId);
-    const groupM = M.filter(manager => manager.team && manager.team.id === groupId);
+    const groupGU = GU.filter(user => user.team.id === groupId);
+    const groupM = M.filter(manager => manager.team.id === groupId);
+
     return groupGU.length + groupM.length;
   };
   

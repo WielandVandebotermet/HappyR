@@ -11,10 +11,28 @@ const ResultApi = {
         throw new Error(`Error fetching Results: ${error.message}`);
       }
     }, 
+
+    getResultsByManager: async (id) => {
+      try {
+        const response = await axios.get(`${API_URL}manager/${id}`);
+        return response.data;
+      } catch (error) {
+        throw new Error(`Error fetching Results: ${error.message}`);
+      }
+    }, 
   
     getResultById: async (id) => {
       try {
         const response = await axios.get(`${API_URL}${id}`);
+        return response.data;
+      } catch (error) {
+        throw new Error(`Error fetching Result: ${error.message}`);
+      }
+    },
+
+    getResultBySurveyId: async (id) => {
+      try {
+        const response = await axios.get(`${API_URL}survey/${id}`);
         return response.data;
       } catch (error) {
         throw new Error(`Error fetching Result: ${error.message}`);
@@ -39,14 +57,15 @@ const ResultApi = {
     },
     
   
-    createResult: async (surveyId, userId, TotalResult, scoreList) => {
+    createResult: async (surveyId, userId, totalResult, scoreList) => {
       try {
-        await axios.post(`${API_URL}/create/`, {
-          SurveyId: surveyId,
-          UserId: userId,
-          TotalResult: TotalResult,
+        await axios.post(`${API_URL}create/`, {
+          surveyId: surveyId,
+          userId: userId,
+          totalResult: totalResult,
           scoreList: scoreList,
         });
+        console.log(surveyId, userId, totalResult, scoreList);
       } catch (error) {
         throw new Error(`Error creating Result: ${error.message}`);
       }

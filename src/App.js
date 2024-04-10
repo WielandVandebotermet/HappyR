@@ -5,7 +5,9 @@ import Home from './Pages/Home';
 
 import Profile from './Pages/Profile';
 
-import Results from './Pages/Results';
+import Results from './Pages/Results/Results';
+import ResultOverview from './Pages/Results/ResultOverview';
+
 
 import Groups from './Pages/Groups/Groups';
 import GroupOverview from './Pages/Groups/GroupOverview';
@@ -51,6 +53,7 @@ function Main() {
         <Route path={'/CreateCategorie/:Sid/:Qid/:Cid'} element={<CreateCategorie/>}/>
 
         <Route path={'/Results'} element={<Results/>}/>
+        <Route path={'/ResultOverview/:Sid/'} element={<ResultOverview/>}/>
       </Routes>
     </div>
   );

@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import Cookies from 'js-cookie';
 import { useParams, useNavigate } from "react-router-dom";
 import SurveyApi from "../../API/SurveyApi.js";
+import ResultApi from "../../API/ResultApi.js";
 import TemplateLoader from "../../components/Templates/TemplateLoader.js";
 
 function Test() {
@@ -19,7 +20,7 @@ function Test() {
       setSurvey(response);
       setQuestions(response.questions)
     } catch (error) {
-      console.error('Error fetching groups:', error.message);
+      console.error('Error fetching surveys:', error.message);
     }
   }
 
@@ -43,7 +44,17 @@ function Test() {
     setQ(q+1);
   };
   
-  const Finish = () => {
+  const Finish = async () => {
+    let TotalResult = 0
+    for (const key in results) {
+      TotalResult += results[key].score;
+    }
+    const scoreArray = Object.values(results);
+    try {
+      await ResultApi.createResult(survey.id, UserId, TotalResult, scoreArray);
+    } catch (error) {
+      console.error('Error fetching surveys:', error.message);
+    }
     navigate(-1);
   };
 

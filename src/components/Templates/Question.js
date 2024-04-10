@@ -31,7 +31,7 @@ const Question = ({ question, answer }) => {
 
   const handleResult = (value) => {
     SetSliderValue(value);
-    answer({"questionId": question.id ,"value": value, "categoryId": CategorieId });
+    answer({"questionId": question.id , "score": value, "categoryId": CategorieId });
   };
 
   return (

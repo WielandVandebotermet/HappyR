@@ -8,7 +8,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    require("tw-elements-react/dist/plugin.cjs")
+    require("tw-elements-react/dist/plugin.cjs"),
   ],
 }
 
