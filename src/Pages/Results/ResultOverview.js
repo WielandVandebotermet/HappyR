@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import SurveyApi from "../../API/SurveyApi";
 import GroupApi from "../../API/GroupApi";
-import ResultGroupAccordion from "../../components/ResultGroupAccordion";
+import ResultGroupAccordion from "../../components/Results/ResultGroupAccordion";
 import { TECollapse } from "tw-elements-react";
 
 function ResultOverview() {
@@ -10,6 +10,8 @@ function ResultOverview() {
   const [survey, setSurvey] = useState(null);
   const [groups, setGroups] = useState(null);
   const [activeElement, setActiveElement] = useState("element");
+  const [activeGroup, setActiveGroup] = useState("");
+  const [activeUser, setActiveUser] = useState("");
   const [date, setDate] = useState(null);
 
   const getResults = async () => {
@@ -17,9 +19,9 @@ function ResultOverview() {
       const response = await SurveyApi.getSurveyById(Sid);
       setSurvey(response);
       const startDate = new Date(response.startDate);
-      const month = startDate.toLocaleDateString('en-GB', { month: 'long' });
+      const month = startDate.toLocaleDateString("en-GB", { month: "long" });
       const day = startDate.getDate();
-      setDate(month +" "+ day)
+      setDate(month + " " + day);
     } catch (error) {
       console.error("Error fetching groups:", error);
     }
@@ -37,8 +39,11 @@ function ResultOverview() {
   useEffect(() => {
     getResults();
     fetchGroups();
-    console.log("Test");
   }, [Sid]);
+
+  useEffect(() => {
+    console.log("activeUser:", activeUser, "RO"); // Check if activeUser changes
+  }, [activeUser]);
 
   const HandleClick = (value) => {
     if (value === activeElement) {
@@ -48,21 +53,37 @@ function ResultOverview() {
     }
   };
 
+  const handleGroupToggle = (groupId) => {
+    setActiveGroup(activeGroup === groupId ? "" : groupId);
+    console.log("Group");
+  };
+
+  const handleUserToggle = (userId) => {
+    setActiveUser(activeUser === userId ? "" : userId);
+    console.log("user", activeUser); // Check if activeUser changes
+  };
+
   if (!survey || !groups) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="flex flex-col p-3">
-      <h1 className="p-2 text-center text-4xl">{date} | {survey.testName}</h1>
+      <h1 className="p-2 text-center text-4xl">
+        {date} | {survey.testName}
+      </h1>
       <div className="flex flex-col p-3 justify-center">
-        {survey.groupList.map((groupId, index) => (
-          <div
-            key={"ResultGroup:" + groupId + " Group:" + groupId}
-            className="flow-root"
-          >
-            <ResultGroupAccordion groupId={groupId} groups={groups} />
-          </div>
+        {groups.map((group) => (
+          <ResultGroupAccordion
+            key={group.id}
+            survey={survey}
+            groupId={group.id}
+            groups={groups}
+            activeElement={activeGroup}
+            handleGroupToggle={handleGroupToggle}
+            activeUser={activeUser}
+            handleUserToggle={handleUserToggle}
+          />
         ))}
         <div className="rounded-none border border-l-0 border-r-0 border-t-0 border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
           <h2 className="mb-0" id="headingOne">

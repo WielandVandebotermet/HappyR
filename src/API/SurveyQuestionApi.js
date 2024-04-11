@@ -11,6 +11,15 @@ const SurveyQuestionApi = {
           throw new Error(`Error fetching Survey: ${error.message}`);
         }
       },
+
+      getSurveyQuestionById: async (id) => {
+        try {
+          const response = await axios.get(`${API_URL}question/${id}`);
+          return response.data;
+        } catch (error) {
+          throw new Error(`Error fetching Survey: ${error.message}`);
+        }
+      },
     
       deleteSurveyQuestion: async (id) => {
         try {

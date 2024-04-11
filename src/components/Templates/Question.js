@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import { useState, useEffect} from "react";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import isEqual from 'lodash/isEqual';
