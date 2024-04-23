@@ -47,7 +47,7 @@ function Main() {
         <Route path={'/ExternalPeople/:Sid/:Qid/:Tid?'} element={<ExternalPeople/>}/>
         <Route path={'/TemplateShowcase/'} element={<TemplateShowcase/>}/>
 
-        <Route path={'/Test/:Sid'} element={<Test/>}/>
+        <Route path={'/Test/:Sid/:Gid'} element={<Test/>}/>
 
         <Route path={'/SelectCategorie/:Sid/:Qid/'} element={<SelectCategorie/>}/>
         <Route path={'/CreateCategorie/:Sid/:Qid/:Cid'} element={<CreateCategorie/>}/>

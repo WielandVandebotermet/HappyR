@@ -16,6 +16,8 @@ function SelectCategorie() {
         }
     }
 
+console.log(categories)
+
     useEffect(() => {
         getCategories()
     }, []);
@@ -23,14 +25,16 @@ function SelectCategorie() {
     return (
         <div className="">
           <div className="flex flex-col p-3">
-            <h1 className="p-2 text-center text-4xl">categories</h1>
+            <h1 className="p-2 text-center text-4xl">Select Category</h1>
             <div className="flex flex-col p-3 justify-center">
                 {categories.map((categorie) => {
                   return (
-                    <div className="flex justify-center ">
+                    <div key={categorie.id} className="flex justify-center ">
                       <Link to={"/CreateCategorie/" + Sid + "/" + Qid+ "/" + categorie.id}>
                         <div className="m-4 p-6 rounded-lg border-gray-900  hover:border-blue-600 border">
-                          <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{categorie.CategorieName}</h5>
+                          <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{categorie.categoryName}</h5>
+                          <p className="text-right text-sm">Impact Score: {categorie.scoreImpact}</p>
+
                         </div>
                       </Link>
                     </div>

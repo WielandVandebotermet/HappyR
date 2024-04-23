@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { TECollapse } from "tw-elements-react";
 import UserApi from "../../API/UserApi";
 import { TETooltip } from "tw-elements-react";
 import ResultLoader from "./Questions/ResultLoader";
@@ -10,6 +9,7 @@ const ResultUserAccordion = ({
   UserId,
   activeElement,
   handleUserToggle,
+  activeUser,
 }) => {
   const [title, setTitle] = useState("");
   const [data, setData] = useState(result.scoreList);
@@ -47,14 +47,11 @@ const ResultUserAccordion = ({
       <h2 className="mb-0" id="headingOne">
         <button
           className={`${
-            activeElementUser === UserId &&
+            activeUser === result.userId &&
             `text-primary [box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:!text-primary-400 dark:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]`
           } group relative flex w-full items-center rounded-none border-0 bg-white px-5 py-4 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white`}
           type="button"
-          onClick={() => {
-            handleClick(UserId);
-            handleUserToggle(UserId); // Pass the UserId as an argument
-          }}
+          onClick={() => handleUserToggle(result.userId)}
           aria-expanded="true"
           aria-controls="collapseOne"
         >
@@ -86,7 +83,9 @@ const ResultUserAccordion = ({
       <div
         className={
           "!mt-0 !rounded-b-none !shadow-none " +
-          (activeElement === UserId ? "inline" : "hidden")}>
+          (activeElement === UserId ? "inline" : "hidden")
+        }
+      >
         <div className="px-5 py-4">
           {survey.questions.map((question, index) => (
             <div key={question.id} className="h-full m-2 p-2">

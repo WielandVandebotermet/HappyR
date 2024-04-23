@@ -11,8 +11,9 @@ import {
   TEModalFooter,
   TETextarea
 } from "tw-elements-react";
+import Question from "../../components/Templates/Question";
 
-function GroupOverview() {
+function TemplateOptions() {
     const { Sid, Qid, Tid } = useParams();
     const [question, setQuestion] = useState({});
     const [page, setPage] = useState(false);
@@ -21,6 +22,8 @@ function GroupOverview() {
     const [showModalBar, setShowModalBar] = useState(false);
     const [categorieId, setCategorieId] = useState(false);
     const navigate = useNavigate();
+
+    console.log(question);
 
     const getTemplate = async () => {
       try {
@@ -33,8 +36,8 @@ function GroupOverview() {
 
     const getQuestion = async () => {
       try {
-        const result = await SurveyQuestionApi.getSurveyById(Sid);
-        setQuestion(result.question[Qid-1]);
+        const result = await SurveyQuestionApi.getSurveyQuestionById(Qid);
+        setQuestion(result);
       } catch (error) {
         console.error('Error fetching groups:', error);
       }
@@ -42,7 +45,19 @@ function GroupOverview() {
 
     const SaveOptions = async () => {
       try {
-        await SurveyQuestionApi.createSurveyQuestion(Tid, question);
+        const settings = [
+          {text: question.Bmin, question: "Bmin"},
+          {text: question.Bmax, question: "Bmax"},
+          {text: question.Step, question: "Step"},
+          {text: 0, question: "categorieId"},
+        ]
+        console.log(settings);
+        const questionId = await SurveyQuestionApi.createSurveyQuestion(Sid, Tid, question.Title, question.SubText, question.options, settings);
+        if(categorieId  == null){
+            navigate("/SelectCategorie/" + Sid + "/" + questionId);
+        } else {
+          navigate("/CreateCategorie/" + Sid + "/" + Qid + "/" + categorieId );
+        }
       } catch (error) {
         console.error('Error adding group:', error.message);
       }
@@ -50,7 +65,18 @@ function GroupOverview() {
 
     const EditOptions = async () => {
       try {
-        await SurveyQuestionApi.editSurveyQuestion(Qid, Tid, question);
+        const settings = [
+          {text: question.Bmin, question: "Bmin"},
+          {text: question.Bmax, question: "Bmax"},
+          {text: question.Step, question: "Step"},
+          {text: question.categorieId, question: "categorieId"},
+        ]
+        await SurveyQuestionApi.createeditSurveyQuestionSurveyQuestion(Qid, question.Title, question.SubText, question.options, settings);
+        if(categorieId  == null){
+          navigate("/SelectCategorie/" + Sid + "/" + Qid);
+      } else {
+        navigate("/CreateCategorie/" + Sid + "/" + Qid + "/" + categorieId );
+      }
       } catch (error) {
         console.error('Error adding group:', error.message);
       }
@@ -67,7 +93,7 @@ function GroupOverview() {
     }
   
     useEffect(() => {
-      if(Tid){
+      if(Qid == 0){
       getTemplate()
       } else {
       getQuestion()
@@ -78,6 +104,7 @@ function GroupOverview() {
       if(question){
         getCategorie();
       }
+      console.log(question);
     }, [question]);
 
 
@@ -149,8 +176,8 @@ function GroupOverview() {
           <div className="flex flex-row justify-center">  
                   <button onClick={() => setPage(false)} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
                   <button onClick={() => navigate("/TemplateShowcase/")} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Preview</button>
-                  <button onClick={() => SaveOptions()} type="button" className={"py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center " + (Tid ? 'inline-block' : 'hidden')}>Save</button>
-                  <button onClick={() => EditOptions()} type="button" className={"py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center " + (!Tid ? 'inline-block' : 'hidden')}>Edit</button>
+                  <button onClick={() => SaveOptions()} type="button" className={"py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center " + (Tid ? 'inline-block' : 'hidden')}>Save & Select Category</button>
+                  <button onClick={() => EditOptions()} type="button" className={"py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center " + (!Tid ? 'inline-block' : 'hidden')}>Edit & Edit Category</button>
 
               </div>
         </div>
@@ -169,8 +196,7 @@ function GroupOverview() {
               </TEModalBody>
               <TEModalFooter>
                   <div className="flow-root">
-                    <button type="button" className="float-left inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200" onClick={() => setShowModalTitle(false)}> Close </button>
-                    <button type="button" className="float-right ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Save changes </button>
+                    <button type="button" onClick={() => setShowModalTitle(false)} className="float-right ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Close </button>
                   </div>
               </TEModalFooter>
             </TEModalContent>
@@ -190,8 +216,7 @@ function GroupOverview() {
               </TEModalBody>
               <TEModalFooter>
                   <div className="flow-root">
-                    <button type="button" className="float-left inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200" onClick={() => setShowModalSubText(false)}> Close </button>
-                    <button type="button" className="float-right ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Save changes </button>
+                    <button type="button" onClick={() => setShowModalSubText(false)} className="float-right ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Close </button>
                   </div>
               </TEModalFooter>
             </TEModalContent>
@@ -216,21 +241,10 @@ function GroupOverview() {
                       <p className="text-right text-md mt-1 pt-1 pl-10">Step size: </p>
                       <input className="border border-gray-900 rounded p-1 m-1" min="1" type="number"  name="Step" value={question.Step} onChange={(e) => ChangeQuestion(e.target.value, "Step")}></input >
                     </div>
-                    <div className={"flex justify-center " + (categorieId  === "0" ? '' : 'hidden')}>
-                      <Link to={"/SelectCategorie/" + Sid + "/" + Qid}>
-                        <button type="button" className="p-3 m-1 mt-2 font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Categorie</button>
-                      </Link>
-                    </div>
-                    <div className={"flex justify-center " + (categorieId  !== "0" ? '' : 'hidden')}>
-                      <Link to={"/CreateCategorie/" + Sid + "/" + Qid+ "/" + categorieId }>
-                        <button type="button" className="p-3 m-1 mt-2 font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Categorie</button>
-                      </Link>
-                    </div>
               </TEModalBody>
               <TEModalFooter>
                   <div className="flow-root">
-                    <button type="button" className="float-left inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200" onClick={() => setShowModalBar(false)}> Close </button>
-                    <button type="button" className="float-right ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Save changes </button>
+                    <button onClick={() => setShowModalBar(false)} type="button" className="float-right ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Close </button>
                   </div>
               </TEModalFooter>
             </TEModalContent>
@@ -240,4 +254,4 @@ function GroupOverview() {
         </div>
       );
     }
-    export default GroupOverview;
+    export default TemplateOptions;

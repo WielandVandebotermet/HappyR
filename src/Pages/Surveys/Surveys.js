@@ -10,6 +10,9 @@ function Surveys() {
   const [surveys, setSurveys] = useState([]);
   const [groups, setGroups] = useState([]);
   const [UserId, setuserId] = useState(Cookies.get("UserId") || 0);
+  const [GroupId, setGroupId] = useState();
+  const [userGroups, setUserGroups] = useState();
+
 
 
   const getSurveys = async () => {
@@ -31,8 +34,18 @@ function Surveys() {
     }
   };
 
+  const fetchUserGroups = async () => {
+    try {
+      const response = await GroupApi.getTeamsByUserId(UserId);
+      setUserGroups(response);
+    } catch (error) {
+      console.error('Error fetching groups:', error.message);
+    }
+  };
+
   useEffect(() => {
     fetchGroups();
+    fetchUserGroups();
   }, []);
 
   useEffect(() => {
@@ -51,7 +64,7 @@ function Surveys() {
             <h1 className="p-2 text-center text-4xl">Surveys</h1>
             <div className="flex flex-col p-3 justify-center">
             {surveys.map((survey, index) => (
-              <SurveyMap key={index} survey={survey} groups={groups} url={"/Test/"+ survey.id} />
+              <SurveyMap key={index} survey={survey} groups={groups} userGroups={userGroups} url={"/Test/"+ survey.id + "/"} />
             ))}
           </div>
         </div>

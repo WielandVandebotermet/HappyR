@@ -5,6 +5,12 @@ module.exports = {
     "./node_modules/tw-elements-react/dist/js/**/*.js"
   ],
   theme: {
+    colors: {
+      StrongBlue: '#232d4b',
+      NeutralBlue: '#005573',
+      MineralGreen: '#00aa9b',
+      AccentRed: '#f04641',
+    },
     extend: {},
   },
   plugins: [

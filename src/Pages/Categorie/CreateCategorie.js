@@ -14,14 +14,13 @@ function CreateCategorie() {
             const result = await CategoryApi.getCategoryById(Cid);
             if (result) {
                 setCategorie(result);
-                setcategorieName(result.CategorieName || '');
-                setcategorieImpact(result.Impact || 100);
+                setcategorieName(result.categoryName || '');
+                setcategorieImpact(result.scoreImpact || 100);
             }
         } catch (error) {
             console.error('Error fetching category:', error);
         }
     }
-    
 
     const handleDecimal = (value) => {
         if(value > 500){value = 500}
@@ -56,13 +55,18 @@ function CreateCategorie() {
                 </div>
             <div className="flex flex-col">
               <div className="flex justify-center">
-                <Link to={"/TemplatePage/" + Sid+ "/"+ Qid} className={"w-1/2 flex justify-center " + (Cid === "0" ? 'hidden': 'block')}>
-                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Select Categorie</button>
+                <Link to={"/SelectTemplate/" + Sid} className={"w-1/2 flex justify-center " + (Cid === "0" ? 'hidden': 'block')}>
+                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Use Category</button>
                 </Link>
-                <Link to={"/TemplatePage/" + Sid+ "/"+ Qid} className={"w-1/2 flex justify-center " + (Cid !== "0" ? 'hidden': 'Block')}>
-                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Create Categorie</button>
+                <Link to={"/SelectTemplate/" + Sid} className={"w-1/2 flex justify-center " + (Cid !== "0" ? 'hidden': 'Block')}>
+                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Create Category</button>
                 </Link>
               </div>
+            </div>
+            <div className="pt-5 flex justify-center">
+                <Link to={"/SelectCategorie/" + Sid+ "/"+ Qid} className={"w-1/2 flex justify-center "}>
+                    <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Select Category</button>
+                </Link>
             </div>
             <Back />
         </div>

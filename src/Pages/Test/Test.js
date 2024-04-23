@@ -7,6 +7,7 @@ import TemplateLoader from "../../components/Templates/TemplateLoader.js";
 
 function Test() {
   const { Sid } = useParams();
+  const { Gid } = useParams();
   const [UserId, setuserId] = useState(Cookies.get("UserId") || 0);
   const [q, setQ] = useState(0);
   const [survey, setSurvey] = useState([]);
@@ -51,7 +52,7 @@ function Test() {
     }
     const scoreArray = Object.values(results);
     try {
-      await ResultApi.createResult(survey.id, UserId, TotalResult, scoreArray);
+      await ResultApi.createResult(survey.id, UserId, TotalResult, scoreArray, Gid);
     } catch (error) {
       console.error('Error fetching surveys:', error.message);
     }

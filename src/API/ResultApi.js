@@ -57,11 +57,12 @@ const ResultApi = {
     },
     
   
-    createResult: async (surveyId, userId, totalResult, scoreList) => {
+    createResult: async (surveyId, userId, totalResult, scoreList, groupId) => {
       try {
         await axios.post(`${API_URL}create/`, {
           surveyId: surveyId,
           userId: userId,
+          groupId: groupId,
           totalResult: totalResult,
           scoreList: scoreList,
         });

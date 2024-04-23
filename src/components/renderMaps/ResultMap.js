@@ -42,7 +42,7 @@ function ResultMap({ survey, groups, url }) {
         
       };
 
-    if(!group.groupName || loading){
+      if (!group || !group.groupName || loading) {
         return <div>Loading...</div>;
     }
 

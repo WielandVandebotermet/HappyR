@@ -50,6 +50,7 @@ function Groups() {
     getSurvey();
   }, []);
 
+
   if (!survey || !survey.questions) {
     return (<p>Loading...</p>);
   }
@@ -61,8 +62,8 @@ function Groups() {
               <div>
                 <h1 className="p-2 text-center text-4xl">Select Template</h1>
                 {templates.map((template) => (
-                  <div className="flex justify-center" key={template.id}>
-                    <Link to={"/TemplateOptions/" + Sid + "/" + (q+1)+"/"+ template.id}>
+                  <div className="flex justify-center" key={"template" + template.id}>
+                    <Link to={"/TemplateOptions/" + Sid + "/" + 0 +"/"+ template.id}>
                       <div className="m-4 p-6 rounded-lg border-gray-900 hover:border-blue-600 border">
                         <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{template.templateName}</h5>
                       </div>
@@ -74,11 +75,11 @@ function Groups() {
               <div>
                 <div className="flex flex-col p-3 justify-center">
                 {survey.questions[q].options.map((option) => (
-                  <div className={"m-4 p-6 rounded-lg border-[#170699] border " + (option.settingValue === true ? 'bg-[#170699] border-white' : 'bg-white')}>
+                  <div key={"option" + option.id} className={"m-4 p-6 rounded-lg border-[#170699] border " + (option.settingValue === true ? 'bg-[#170699] border-white' : 'bg-white')}>
                     <h5 className={"text-center mb-2 text-2xl font-bold tracking-tight " + (option.settingValue === true ? 'text-white' : 'text-[#170699]')}>{option.setting}: {option.settingValue.toString()}</h5>
                   </div>
                 ))}
-                <Link to={"/TemplatePage/" + Sid +"/"+ (q+1)} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Edit</Link>
+                <Link to={"/TemplateOptions/" + Sid +"/"+ survey.questions[q].id + "/" + survey.questions[q].templateId} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Edit</Link>
                 </div>
               </div>
             )}

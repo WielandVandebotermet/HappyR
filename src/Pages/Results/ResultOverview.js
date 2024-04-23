@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import SurveyApi from "../../API/SurveyApi";
 import GroupApi from "../../API/GroupApi";
 import ResultGroupAccordion from "../../components/Results/ResultGroupAccordion";
 import { TECollapse } from "tw-elements-react";
+import Back from "../../components/Navigation/Back";
 
 function ResultOverview() {
   const { Sid } = useParams();
@@ -13,6 +14,7 @@ function ResultOverview() {
   const [activeGroup, setActiveGroup] = useState("");
   const [activeUser, setActiveUser] = useState("");
   const [date, setDate] = useState(null);
+  const navigate = useNavigate();
 
   const getResults = async () => {
     try {
@@ -29,20 +31,25 @@ function ResultOverview() {
 
   const fetchGroups = async () => {
     try {
-      const response = await GroupApi.getAllTeams();
+      const response = await GroupApi.getTeamsBySurveyId(Sid);
       setGroups(response);
+      if (response.length > 0) {
+        setActiveGroup(response[0].id);
+      }
+
       console.log("groups", response);
     } catch (error) {
       console.error("Error fetching groups:", error.message);
     }
   };
+
   useEffect(() => {
     getResults();
     fetchGroups();
   }, [Sid]);
 
   useEffect(() => {
-    console.log("activeUser:", activeUser, "RO"); // Check if activeUser changes
+    console.log("activeUser:", activeUser); // Check if activeUser changes
   }, [activeUser]);
 
   const HandleClick = (value) => {
@@ -54,83 +61,90 @@ function ResultOverview() {
   };
 
   const handleGroupToggle = (groupId) => {
-    setActiveGroup(activeGroup === groupId ? "" : groupId);
-    console.log("Group");
+    if (groupId !== activeGroup) {
+      setActiveGroup(groupId);
+    }
   };
 
   const handleUserToggle = (userId) => {
-    setActiveUser(activeUser === userId ? "" : userId);
-    console.log("user", activeUser); // Check if activeUser changes
+    setActiveUser((prevActiveUser) => {
+      return prevActiveUser === userId ? "" : userId;
+    });
   };
 
+  function Landscape() {
+    const isLandscape = window.innerWidth > window.innerHeight;
+    return isLandscape;
+  }
+  
   if (!survey || !groups) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="flex flex-col p-3">
-      <h1 className="p-2 text-center text-4xl">
-        {date} | {survey.testName}
-      </h1>
-      <div className="flex flex-col p-3 justify-center">
-        {groups.map((group) => (
-          <ResultGroupAccordion
-            key={group.id}
-            survey={survey}
-            groupId={group.id}
-            groups={groups}
-            activeElement={activeGroup}
-            handleGroupToggle={handleGroupToggle}
-            activeUser={activeUser}
-            handleUserToggle={handleUserToggle}
-          />
-        ))}
-        <div className="rounded-none border border-l-0 border-r-0 border-t-0 border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
-          <h2 className="mb-0" id="headingOne">
+    <div className="max-h-full flex flex-col">
+      <div className="flex-grow flex flex-col overflow-y-auto">
+        <h1 className="p-2 text-center text-4xl">
+          {date} | {survey.testName}
+          <Link onClick={() => navigate(-1)} className="w-1/2">
             <button
-              className={`${
-                activeElement === "element" &&
-                `text-primary [box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:!text-primary-400 dark:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]`
-              } group relative flex w-full items-center rounded-none border-0 bg-white px-5 py-4 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white`}
               type="button"
-              onClick={() => HandleClick("element")}
-              aria-expanded="true"
-              aria-controls="collapseOne"
+              className="p-2 ml-3 text-white bg-[#170699] hover:text-[#AB1AAB] hover:underline rounded-lg text-center"
             >
-              Total
-              <span
-                className={`${
-                  activeElement === "element"
-                    ? `rotate-[-180deg] -mr-1`
-                    : `rotate-0 fill-[#212529] dark:fill-white`
-                } ml-auto h-5 w-5 shrink-0 fill-[#336dec] transition-transform duration-200 ease-in-out motion-reduce:transition-none dark:fill-blue-300`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="h-6 w-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                  />
-                </svg>
-              </span>
+              Back
             </button>
-          </h2>
-          <TECollapse
-            show={activeElement === "element"}
-            className="!mt-0 !rounded-b-none !shadow-none"
-          >
-            <div className="px-5 py-4">TEST</div>
-          </TECollapse>
+          </Link>
+        </h1>
+        <div className="overflow-y-auto">
+          <div className="flex flex-wrap  justify-center">
+            {groups.map((group) => (
+              <h5
+                key={group.id}
+                className="p-3 mb-2 text-xl font-medium leading-tight"
+              >
+                <button
+                  className={
+                    activeGroup === group.id ? "underline" : "no-underline"
+                  }
+                  onClick={() => handleGroupToggle(group.id)}
+                >
+                  {group.groupName}
+                </button>
+              </h5>
+            ))}
+            <h5 className="p-3 mb-2 text-xl font-medium leading-tight">
+              <button
+                className={
+                  activeGroup === "Total" ? "underline" : "no-underline"
+                }
+                onClick={() => handleGroupToggle("Total")}
+              >
+                Total
+              </button>
+            </h5>
+          </div>
+          <div className={" " + (Landscape() == false ? " p-0 " : " p-9 ")}>
+            {groups.map((group) => (
+              <div key={group.id}>
+                {activeGroup === group.id && (
+                  <ResultGroupAccordion
+                    survey={survey}
+                    groupId={group.id}
+                    groups={groups}
+                    activeUser={activeUser}
+                    handleUserToggle={handleUserToggle}
+                  />
+                )}
+              </div>
+            ))}
+            <div key={"Total"}>
+              {activeGroup === "Total" && <p>Test</p>}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
 export default ResultOverview;

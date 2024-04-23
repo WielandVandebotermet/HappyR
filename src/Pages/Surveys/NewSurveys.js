@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import SurveyApi from "../../API/SurveyApi";
 import GroupApi from "../../API/GroupApi";
 import Back from "../../components/Navigation/Back"
-import SurveyMap from '../../components/renderMaps/SurveyMap.js';
+import SurveyMap from '../../components/renderMaps/ManageSurveyMap.js';
 
 function CreateSurveys() {
   const [surveys, setSurveys] = useState([]);
@@ -41,7 +41,7 @@ function CreateSurveys() {
     return (
       <div className="">
         <div className="flex flex-col p-3">
-            <h1 className="p-2 text-center text-4xl">Inactive Surveys</h1>
+            <h1 className="p-2 text-center text-4xl">Manage Surveys</h1>
             <div className="flex flex-col p-3 justify-center">
             {surveys.map((survey, index) => (
               <SurveyMap key={index} survey={survey} groups={groups} url={"/CreateSurvey/"+ survey.id}/>
