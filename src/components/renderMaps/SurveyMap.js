@@ -44,8 +44,8 @@ function SurveyMap({ survey, groups, url, userGroups }) {
 
   return (
     <div>
-      <div className="flex justify-center ">
-        <button onClick={setGroup}>
+      <div className="flex justify-center">
+        <button onClick={setGroup} className="hover:text-MineralGreen text-StrongBlue">
           <div
             key={survey.id}
             className="block max-w-sm m-4 p-6 rounded-lg border-gray-900  hover:border-blue-600 border"

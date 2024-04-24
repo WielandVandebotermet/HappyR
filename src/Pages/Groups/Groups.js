@@ -97,15 +97,15 @@ function Groups() {
       <div>
         <div className="">
           <div className="flex flex-col p-3">
-            <h1 className="p-2 text-center text-4xl">Groups</h1>
-            <div className="flex flex-wrap justify-center">
+            <h1 className="p-2 text-center text-4xl text-StrongBlue">Groups</h1>
+            <div className="flex flex-wrap justify-center ">
               {groups.map((group) => (
                 <div
                   key={group.id}
                   className="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 p-3"
                 >
                   <Link to={"/GroupOverview/" + group.id}>
-                    <div className="m-4 p-6 rounded-lg border-gray-900 hover:border-blue-600 border">
+                    <div className="m-4 p-6 rounded-lg text-StrongBlue border-StrongBlue hover:text-MineralGreen border">
                       <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">
                         {group.groupName}
                       </h5>
@@ -125,7 +125,7 @@ function Groups() {
               <button
                 onClick={() => setShowModal(true)}
                 type="button"
-                className="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center"
+                className="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium border-[5px] text-AccentRed border-MineralGreen hover:bg-MineralGreen01 hover:text-white rounded-lg text-center"
               >
                 Create Group
               </button>
@@ -137,15 +137,15 @@ function Groups() {
 
       <TEModal show={showModal} setShow={setShowModal}>
         <TEModalDialog centered>
-          <TEModalContent>
+          <TEModalContent className="bg-[#ffffff]">
             <TEModalHeader>
-              <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
+              <h5 className="text-xl font-medium leading-normal text-AccentRed">
                 Create Group
               </h5>
             </TEModalHeader>
             {/* <!--Modal body--> */}
             <TEModalBody>
-              <div className="flex flex-col p-3 ">
+              <div className="flex flex-col p-3 text-StrongBlue">
                 <input
                   className="border border-gray-900 rounded p-1 m-1"
                   type="text"
@@ -161,7 +161,7 @@ function Groups() {
               <div className="flow-root">
                 <button
                   type="button"
-                  className="float-left inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                  className="float-left inline-block rounded hover:bg-BGAccentRed bg-AccentRed text-[#ffffff] px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal"
                   onClick={() => setShowModal(false)}
                 >
                   Close
@@ -170,7 +170,7 @@ function Groups() {
                 <button
                   type="button"
                   onClick={handleAddGroup}
-                  className="float-right ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white"
+                  className="float-right ml-1 inline-block rounded hover:bg-StrongBlueHover bg-StrongBlue text-AccentRed px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal"
                 >
                   Save changes
                 </button>

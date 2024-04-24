@@ -1,9 +1,13 @@
 import {Routes, Route, BrowserRouter} from 'react-router-dom';
+import React, { useState } from 'react';
+
 import NavBar from './components/Nav&Footer/NavBar';
 import Footer from './components/Nav&Footer/Footer';
 import Home from './Pages/Home';
 
-import Profile from './Pages/Profile';
+import Profile from './Pages/Login/Profile';
+import Login from './Pages/Login/Login';
+
 
 import Results from './Pages/Results/Results';
 import ResultOverview from './Pages/Results/ResultOverview';
@@ -32,7 +36,10 @@ function Main() {
     <div className="content">
       <Routes>
         <Route path={'/'} element={<Home/>}/>
+
         <Route path={'/Profile'} element={<Profile/>}/>
+        <Route path={'/Login'} element={<Login/>}/>
+
 
         <Route path={'/Groups'} element={<Groups/>}/>
         <Route path={'/GroupOverview/:id'} element={<GroupOverview/>}/>
@@ -61,6 +68,12 @@ function Main() {
 
 
 function App() {
+  const [token, setToken] = useState();
+
+  // if(!token) {
+  //   return <Login setToken={setToken} />
+  // }
+
   return (
     <div className='relative min-h-screen'>
       <BrowserRouter >

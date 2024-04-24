@@ -56,7 +56,7 @@ function Groups() {
   }
 
       return (
-        <div className="">
+        <div className="text-StrongBlue">
           <div className="flex flex-col p-3">
             {!survey.questions[q] ? (
               <div>
@@ -64,7 +64,7 @@ function Groups() {
                 {templates.map((template) => (
                   <div className="flex justify-center" key={"template" + template.id}>
                     <Link to={"/TemplateOptions/" + Sid + "/" + 0 +"/"+ template.id}>
-                      <div className="m-4 p-6 rounded-lg border-gray-900 hover:border-blue-600 border">
+                      <div className="m-4 p-6 rounded-lg hover:border-MineralGreen01 hover:text-MineralGreen border">
                         <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{template.templateName}</h5>
                       </div>
                     </Link>
@@ -73,25 +73,26 @@ function Groups() {
               </div>
             ) : (
               <div>
-                <div className="flex flex-col p-3 justify-center">
+                <div className="flex flex-col p-3 justify-center text-StrongBlue">
+                <h1 className="flex justify-center text-3xl p-3">{survey.questions[q].question}</h1>
                 {survey.questions[q].options.map((option) => (
-                  <div key={"option" + option.id} className={"m-4 p-6 rounded-lg border-[#170699] border " + (option.settingValue === true ? 'bg-[#170699] border-white' : 'bg-white')}>
-                    <h5 className={"text-center mb-2 text-2xl font-bold tracking-tight " + (option.settingValue === true ? 'text-white' : 'text-[#170699]')}>{option.setting}: {option.settingValue.toString()}</h5>
+                  <div key={"option" + option.id} className={"m-4 p-6 rounded-lg border-StrongBlue border " + (option.settingValue === true ? 'bg-StrongBlue border-white' : 'bg-white')}>
+                    <h5 className={"text-center mb-2 text-2xl font-bold tracking-tight " + (option.settingValue === true ? 'text-white' : 'text-StrongBlue')}>{option.setting}: {option.settingValue.toString()}</h5>
                   </div>
                 ))}
-                <Link to={"/TemplateOptions/" + Sid +"/"+ survey.questions[q].id + "/" + survey.questions[q].templateId} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Edit</Link>
+                <Link to={"/TemplateOptions/" + Sid +"/"+ survey.questions[q].id + "/" + survey.questions[q].templateId} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-StrongBlue hover:bg-StrongBlueHover focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Edit</Link>
                 </div>
               </div>
             )}
           </div>
       
           <div className="flex flex-row justify-center">
-            <button onClick={Back} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
+            <button onClick={Back} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
             <div className="py-3 m-3">
               <p>{q + 1}/{survey.questions ? survey.questions.length : 0}</p>
             </div>
-            <button onClick={Next} type="button" className={`py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center ${ q+1 <= (survey.questions?.length ?? 0) ? '' : 'hidden'}`}>Next</button>
-            <button onClick={() => Finish()} type="button" className={`py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center ${ q+1 > (survey.questions?.length ?? 0) ? '' : 'hidden'}`}>Finish</button>
+            <button onClick={Next} type="button" className={`py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center ${ q+1 <= (survey.questions?.length ?? 0) ? '' : 'hidden'}`}>Next</button>
+            <button onClick={() => Finish()} type="button" className={`py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center ${ q+1 > (survey.questions?.length ?? 0) ? '' : 'hidden'}`}>Finish</button>
           </div>
         </div>
       );

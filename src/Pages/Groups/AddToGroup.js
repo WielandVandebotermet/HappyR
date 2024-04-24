@@ -127,18 +127,18 @@ function AddToGroup() {
     return (
       <div className="">
 
-        <div className="flex flex-col p-3 justify-center">
+        <div className="flex flex-col p-3 justify-center text-StrongBlue">
           <h1 className="p-2 text-center text-4xl">{group.groupName}</h1>
           <div className="flex flex-col p-3 justify-center">
             <h1 className="p-2 text-center text-2xl">Users</h1>
             <div className="flex justify-center">
-            <Select className="w-1/3" options={users} value={selected} onChange={onChange}/>
+            <Select className="w-1/3 text-StrongBlue" options={users} value={selected} onChange={onChange}/>
             </div>
             <div className="flex justify-center">
             <ul className="divide-y divide-gray-400 w-1/3">
             {addedUsers.map((user) => (
               <li key={user.value} className="flex gap-x-6 justify-center">
-                  <button onClick={() => RemoveUserList(user.value)} type="button" className="rounded hover:bg-gray-200 p-5">
+                  <button onClick={() => RemoveUserList(user.value)} type="button" className="rounded hover:text-MineralGreen p-5">
                     <div className="flex min-w-0 gap-x-4">
                       <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src="" alt=""/>
                       <div className="min-w-0 flex-auto">
@@ -156,10 +156,10 @@ function AddToGroup() {
 
         <div className="flex flex-col">
             <div className="flex justify-center">
-              <button onClick={() => AddGroupMember(addedUsers)}  type="button" className="py-2 mx-3 w-full max-w-screen-sm text-base font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Add GroupMember(s)</button>
+              <button onClick={() => AddGroupMember(addedUsers)}  type="button" className="py-2 mx-3 w-full max-w-screen-sm text-base font-medium border-[5px] text-AccentRed border-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center">Add GroupMember(s)</button>
             </div>
             <div className="flex justify-center">
-              <button onClick={() => AddManager(addedUsers)} type="button" className="py-2 mt-7 mx-3 w-full max-w-screen-sm text-base font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Add Manager(s)</button>
+              <button onClick={() => AddManager(addedUsers)} type="button" className="py-2 mt-7 mx-3 w-full max-w-screen-sm text-base font-medium  border-[5px] text-AccentRed border-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center">Add Manager(s)</button>
             </div>
             <Back />
         </div>

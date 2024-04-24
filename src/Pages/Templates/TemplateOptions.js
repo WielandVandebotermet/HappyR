@@ -139,16 +139,16 @@ function TemplateOptions() {
     }
 
       return (
-        <div className="">
+        <div className="text-StrongBlue">
           <div className={"w-full " + (!page ? 'inline-block' : 'hidden')}>            
             <div className="flex flex-col p-3 justify-center">
-              <h1 className="p-2 text-center text-4xl">{question.templateName || question.Question}</h1>
+              <h1 className="p-2 text-center text-4xl">{question.templateName || question.question}</h1>
               <div className="flex flex-col p-3 justify-center">
                 <div className="flex  flex-col justify-center">
                   {question.options.map((option) => (
                         <button key={option.id} onClick={() => handleToggleChange(option.id)}>
-                        <div className={"m-4 p-6 rounded-lg border-[#170699] border " + (option.settingValue === true ? 'bg-[#170699] border-white' : 'bg-white')}>
-                          <h5 className={"text-center mb-2 text-2xl font-bold tracking-tight " + (option.settingValue === true ? 'text-white' : 'text-[#170699]')}>{option.setting}: {option.settingValue.toString()}</h5>
+                        <div className={"m-4 p-6 rounded-lg border-StrongBlue  border " + (option.settingValue === true ? 'bg-StrongBlue border-white' : 'bg-white')}>
+                          <h5 className={"text-center mb-2 text-2xl font-bold tracking-tight " + (option.settingValue === true ? 'text-white' : 'text-StrongBlue')}>{option.setting}: {option.settingValue.toString()}</h5>
                         </div>
                       </button>
                     ))}
@@ -157,27 +157,27 @@ function TemplateOptions() {
             </div>
   
             <div className="flex flex-row justify-center">  
-                <button onClick={() => navigate(-1)} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
-                <button onClick={() => setPage(true)} type="button" className={"py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center " + (Tid ? "inline-block" : "hidden")}>Next</button>
+                <button onClick={() => navigate(-1)} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
+                <button onClick={() => setPage(true)} type="button" className={"py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center " + (Tid ? "inline-block" : "hidden")}>Next</button>
             </div>
           </div>
 
           <div className={"w-full " + (page ? 'inline-block' : 'hidden')}>
           <div className="flex flex-col p-3 justify-center">
           <div className="flex justify-center">
-            <button onClick={() => setShowModalTitle(true)} type="button" className="p-5 m-5 sm:w-fit  md:w-full font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Title</button>
+            <button onClick={() => setShowModalTitle(true)} type="button" className="p-5 m-5 sm:w-fit  md:w-full font-medium  border-[5px] border-MineralGreen text-AccentRed bg-white hover:bg-MineralGreen01 rounded-lg text-center">Title</button>
           </div>
           <div className="flex justify-center">
-            <button onClick={() => setShowModalSubText(true)} type="button" className="p-5 m-5 sm:w-fit  md:w-full font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">Sub Text</button>
+            <button onClick={() => setShowModalSubText(true)} type="button" className="p-5 m-5 sm:w-fit  md:w-full font-medium border-[5px] border-MineralGreen text-AccentRed bg-white hover:bg-MineralGreen01 rounded-lg text-center">Sub Text</button>
           </div>
           <div className="flex justify-center">
-            <button onClick={() => setShowModalBar(true)} type="button" className="p-5 m-5 sm:w-fit  md:w-full font-medium text-[#170699] border-[5px] border-[#170699] hover:bg-[#170699c0] hover:text-white rounded-lg text-center">BarSettings</button>
+            <button onClick={() => setShowModalBar(true)} type="button" className="p-5 m-5 sm:w-fit  md:w-full font-medium border-[5px] border-MineralGreen text-AccentRed bg-white hover:bg-MineralGreen01 rounded-lg text-center">BarSettings</button>
           </div>
           <div className="flex flex-row justify-center">  
-                  <button onClick={() => setPage(false)} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
-                  <button onClick={() => navigate("/TemplateShowcase/")} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Preview</button>
-                  <button onClick={() => SaveOptions()} type="button" className={"py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center " + (Tid ? 'inline-block' : 'hidden')}>Save & Select Category</button>
-                  <button onClick={() => EditOptions()} type="button" className={"py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center " + (!Tid ? 'inline-block' : 'hidden')}>Edit & Edit Category</button>
+                  <button onClick={() => setPage(false)} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
+                  <button onClick={() => navigate("/TemplateShowcase/")} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Preview</button>
+                  <button onClick={() => SaveOptions()} type="button" className={"py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center " + (Tid ? 'inline-block' : 'hidden')}>Save & Select Category</button>
+                  <button onClick={() => EditOptions()} type="button" className={"py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center " + (!Tid ? 'inline-block' : 'hidden')}>Edit & Edit Category</button>
 
               </div>
         </div>
@@ -196,7 +196,7 @@ function TemplateOptions() {
               </TEModalBody>
               <TEModalFooter>
                   <div className="flow-root">
-                    <button type="button" onClick={() => setShowModalTitle(false)} className="float-right ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Close </button>
+                    <button type="button" onClick={() => setShowModalTitle(false)} className="float-right ml-1 inline-block rounded hover:bg-StrongBlueHover bg-StrongBlue text-AccentRed px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Close </button>
                   </div>
               </TEModalFooter>
             </TEModalContent>
@@ -216,7 +216,7 @@ function TemplateOptions() {
               </TEModalBody>
               <TEModalFooter>
                   <div className="flow-root">
-                    <button type="button" onClick={() => setShowModalSubText(false)} className="float-right ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Close </button>
+                    <button type="button" onClick={() => setShowModalSubText(false)} className="float-right ml-1 inline-block rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-StrongBlueHover bg-StrongBlue text-AccentRed hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Close </button>
                   </div>
               </TEModalFooter>
             </TEModalContent>
@@ -244,7 +244,7 @@ function TemplateOptions() {
               </TEModalBody>
               <TEModalFooter>
                   <div className="flow-root">
-                    <button onClick={() => setShowModalBar(false)} type="button" className="float-right ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Close </button>
+                    <button onClick={() => setShowModalBar(false)} type="button" className="float-right ml-1 inline-block rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-StrongBlueHover bg-StrongBlue text-AccentRed hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"> Close </button>
                   </div>
               </TEModalFooter>
             </TEModalContent>

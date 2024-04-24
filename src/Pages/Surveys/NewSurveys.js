@@ -39,7 +39,7 @@ function CreateSurveys() {
   }
 
     return (
-      <div className="">
+      <div className="text-StrongBlue">
         <div className="flex flex-col p-3">
             <h1 className="p-2 text-center text-4xl">Manage Surveys</h1>
             <div className="flex flex-col p-3 justify-center">
@@ -51,7 +51,7 @@ function CreateSurveys() {
         <div className="flex flex-col">
           <Link to={"/CreateSurvey/0"}>
           <div className="flex justify-center">
-            <button type="button" className="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center">Create new Survey</button>
+            <button type="button" className="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center">Create new Survey</button>
           </div>
         </Link>
         <Back />

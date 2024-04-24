@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <nav className="w-screen bg-StrongBlue py-4">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="w-screen bg-StrongBlue01 py-4">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-StrongBlue01">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
             src={process.env.PUBLIC_URL + "/images/HappyR_Logo_Transparant.png"}

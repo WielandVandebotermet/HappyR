@@ -165,18 +165,18 @@ function CreateSurveys() {
 
     return (
       <div>
-        <div className={" "+ (GroupPage ? 'hidden' : 'block')}>
+        <div className={"text-StrongBlue "+ (GroupPage ? 'hidden' : 'block')}>
           <div className="flex flex-col p-3">
             <h1 className={"p-2 text-center text-4xl " + (id !== "0" ? 'block' : 'hidden')}>{SurveyName}</h1>
             <h1 className={"p-2 text-center text-4xl " + (id === "0" ? 'block' : 'hidden')}>Create new survey</h1>
               <div className="flex justify-center">
               <div className="w-full md:w-1/3 md:flex flex-col">
                 <div className="flex flex-col p-3">
-                  <input className="border border-gray-900 rounded p-1 m-1" type="text" name="groupName" label="Enter group name here" value={SurveyName} onChange={(e) => setSurveyName(e.target.value)}></input>
+                  <input className="border rounded p-1 m-1" type="text" name="groupName" label="Enter group name here" value={SurveyName} onChange={(e) => setSurveyName(e.target.value)}></input>
                   <p className="text-right text-md">Survey name</p>
                 </div>
                 <div className="flex flex-col p-3 ">
-                <input className="border border-gray-900 rounded p-1 m-1" aria-label="Date" type="date"  value={date} onChange={(e) => setDate(e.target.value)}/>
+                <input className="border rounded p-1 m-1" aria-label="Date" type="date"  value={date} onChange={(e) => setDate(e.target.value)}/>
                   <p className="text-right text-md">Date</p>
                 </div>
                 <div className="flex justify-center">
@@ -195,7 +195,7 @@ function CreateSurveys() {
                   </div>
                 </div>
                 
-                  <div className={"flex justify-center "+ (Check ? 'inline-block' : 'hidden')}>
+                  <div className={"flex justify-center bg-[#ffffff]"+ (Check ? 'inline-block' : 'hidden')}>
                     <div className="flex flex-col justify-center">
                       <div className="flex flex-row mx-3 mt-3 pt-3 justify-center">
                         <TESelect data={Number} label="" value={Reocurring.Time} onValueChange={(e) => ChangeReocurring(e.value, null)}/>
@@ -211,22 +211,22 @@ function CreateSurveys() {
           <div className="flex flex-col">
             <div className="flex justify-center">
               <div  className="w-1/2 flex justify-center">
-                <button onClick={() => setGroupPage(!GroupPage)} type="button" className="py-3.5 my-5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center">Select Group(s)</button>
+                <button onClick={() => setGroupPage(!GroupPage)} type="button" className="py-3.5 my-5 mx-3 w-9/12 text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center">Select Group(s)</button>
               </div>
             </div>
             <div className="flex flex-col">
               <div className="flex justify-center">
                 <div className={"w-1/2 flex justify-center " + (id !== "0" ? 'hidden': 'block')}>
-                  <button onClick={() => createSurvey()} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Create Survey</button>
+                  <button onClick={() => createSurvey()} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01rounded-lg text-center"}>Create Survey</button>
                 </div>
                 <Link to={"/SelectTemplate/" + id } className={"w-1/2 flex justify-center " + (id === "0" ? 'hidden': 'Block')}>
-                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Questions</button>
+                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"}>Questions</button>
                 </Link>
               </div>
               <div className="flex justify-center pt-4">
                 <div className={"w-1/2 flex justify-center " + (id !== "0" ? 'block': 'hidden')}>
-                  <button onClick={() => setShowModalDelete(true)} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Delete Survey</button>
-                  <button onClick={() => EditSurvey()} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Edit Survey</button>
+                  <button onClick={() => setShowModalDelete(true)} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"}>Delete Survey</button>
+                  <button onClick={() => EditSurvey()} type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"}>Edit Survey</button>
                 </div>
               </div>  
             </div>
@@ -234,15 +234,15 @@ function CreateSurveys() {
           </div>
         </div>
 
-        <div className={" "+ (GroupPage ? 'block' : 'hidden')}>
+        <div className={"text-StrongBlue "+ (GroupPage ? 'block' : 'hidden')}>
           <div className="flex flex-col p-3">
               <h1 className="p-2 text-center text-4xl">Select Groups</h1>
               <div className="flex flex-col p-3 justify-center">
                 {groups.map((group) => {
                     return (
-                      <div key={group.id} className="flex justify-center">
+                      <div key={group.id} className="flex justify-center text-StrongBlue">
                         <button onClick={() => handleToggleChange(group.id)}>
-                          <div className={"m-4 p-6 rounded-lg border-gray-900  hover:border-blue-600 border " + (Selectedgroups.includes(group.id) ? 'bg-blue-600' : 'bg-white')}>
+                          <div className={"m-4 p-6 rounded-lg hover:text-MineralGreen border " + (Selectedgroups.includes(group.id) ? 'bg-StrongBlueHover' : 'bg-white')}>
                             <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{group.groupName}</h5>
                           </div>
                         </button>
@@ -254,7 +254,7 @@ function CreateSurveys() {
 
             <div className="flex justify-center">
             <div className="w-1/2">
-              <button onClick={() => setGroupPage(!GroupPage)} type="button" className="py-3.5 my-7 mx-3 w-full font-medium text-white bg-[#170699] hover:text-[#AB1AAB] hover:underline rounded-lg text-center">Back</button>
+              <button onClick={() => setGroupPage(!GroupPage)} type="button" className="py-3.5 my-7 mx-3 w-full font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 hover:underline rounded-lg text-center">Back</button>
             </div>
           </div>
           </div>
