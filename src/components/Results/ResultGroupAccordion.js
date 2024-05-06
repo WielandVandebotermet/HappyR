@@ -25,6 +25,9 @@ const ResultGroupAccordion = ({
       if (response) {
         response = [response];
         response = response.filter(result => result.groupId == groupId)
+        console.log(results);
+        console.log('response', response);
+
       }
 
       setResults(response);
@@ -48,8 +51,8 @@ const ResultGroupAccordion = ({
               <button
                 className={`${
                   activeUser === "Result" + groupId &&
-                  `text-primary [box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:!text-primary-400 dark:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]`
-                } group relative flex w-full items-center rounded-none border-0 bg-white px-5 py-4 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white`}
+                  `text-MineralGreen [box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:!text-primary-400 dark:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]`
+                } group relative text-AccentRed flex w-full items-center rounded-none border-0 bg-white px-5 py-4 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white`}
                 type="button"
                 onClick={() => handleUserToggle("Result" + groupId)}
                 aria-expanded="true"

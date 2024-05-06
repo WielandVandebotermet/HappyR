@@ -106,9 +106,9 @@ function CreateSurveys() {
   const createSurvey = async () => {
     try {
       if (Check){
-        await SurveyApi.createSurvey(SurveyName, date, Reocurring, null, Selectedgroups, false );
+        await SurveyApi.createSurvey(SurveyName, date, Reocurring, null, Selectedgroups, true );
       } else {
-        await SurveyApi.createSurvey(SurveyName, date, null, null, Selectedgroups, false );
+        await SurveyApi.createSurvey(SurveyName, date, null, null, Selectedgroups, true );
       }
       navigate(-1);
     } catch (error) {
@@ -235,22 +235,22 @@ function CreateSurveys() {
         </div>
 
         <div className={"text-StrongBlue "+ (GroupPage ? 'block' : 'hidden')}>
-          <div className="flex flex-col p-3">
-              <h1 className="p-2 text-center text-4xl">Select Groups</h1>
-              <div className="flex flex-col p-3 justify-center">
-                {groups.map((group) => {
-                    return (
-                      <div key={group.id} className="flex justify-center text-StrongBlue">
-                        <button onClick={() => handleToggleChange(group.id)}>
-                          <div className={"m-4 p-6 rounded-lg hover:text-MineralGreen border " + (Selectedgroups.includes(group.id) ? 'bg-StrongBlueHover' : 'bg-white')}>
-                            <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{group.groupName}</h5>
-                          </div>
-                        </button>
-                      </div>
-                    )
-                  })}
-                </div>
+  <div className="flex flex-col p-3">
+    <h1 className="p-2 text-center text-4xl">Select Groups</h1>
+    <div className="flex flex-col justify-center">
+      {groups.map((group) => {
+        return (
+          <div key={group.id} className="flex w-full justify-center">
+            <button onClick={() => handleToggleChange(group.id)}>
+              <div className={"flex-grow m-2 p-5 rounded-lg hover:text-MineralGreen border w-full max-w-48" + (Selectedgroups.includes(group.id) ? 'bg-StrongBlueHover' : 'bg-white')}>
+                <h5 className="text-center text-2xl font-bold tracking-tight">{group.groupName}</h5>
               </div>
+            </button>
+          </div>
+        )
+      })}
+    </div>
+  </div>
 
             <div className="flex justify-center">
             <div className="w-1/2">

@@ -1,69 +1,70 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_SURVEY;
 
+const handleRequest = async (request) => {
+  try {
+    const token = Cookies.get("access_token");
+    const response = await request({
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Request failed: ${error.message}`);
+  }
+};
+
 const SurveyQuestionApi = {
   getSurveyById: async (id) => {
-    try {
-      const response = await axios.get(`${API_URL}${id}`);
-      return response.data;
-    } catch (error) {
-      throw new Error(`Error fetching Survey: ${error.message}`);
-    }
+    return handleRequest((config) => axios.get(`${API_URL}${id}`, config));
   },
 
   getSurveyQuestionById: async (id) => {
-    try {
-      const response = await axios.get(`${API_URL}question/${id}`);
-      return response.data;
-    } catch (error) {
-      throw new Error(`Error fetching Survey: ${error.message}`);
-    }
+    return handleRequest((config) =>
+      axios.get(`${API_URL}question/${id}`, config)
+    );
   },
 
   deleteSurveyQuestion: async (id) => {
-    try {
-      await axios.delete(`${API_URL}delete/${id}`);
-    } catch (error) {
-      throw new Error(`Error deleting Survey: ${error.message}`);
-    }
+    return handleRequest((config) =>
+      axios.delete(`${API_URL}delete/${id}`, config)
+    );
   },
 
   editSurveyQuestion: async (Qid, Title, SubText, options, settings) => {
-    try {
-      await axios.put(`${API_URL}question/edit/${Qid}`, {
+    return handleRequest((config) =>
+      axios.put(`${API_URL}question/edit/${Qid}`, {
         question: Title,
         text: SubText,
         options: options,
         settings: settings,
-      });
-    } catch (error) {
-      throw new Error(`Error editing Survey: ${error.message}`);
-    }
+      }, config)
+    );
   },
 
   createSurveyQuestion: async (Sid, Tid, Title, SubText, options, settings) => {
-    console.log("check: ",{
+    console.log({
       surveyId: Sid,
       question: Title,
       text: SubText,
       templateId: Tid,
       options: options,
       settings: settings,
-    });
-    try {
-      const response = await axios.post(`${API_URL}question/create`, {
+    },);
+    return handleRequest((config) =>
+      axios.post(`${API_URL}question/create`, {
         surveyId: Sid,
         question: Title,
         text: SubText,
         templateId: Tid,
         options: options,
         settings: settings,
-      });
-      return response.data;
-    } catch (error) {
-      throw new Error(`Error creating M: ${error.message}`);
-    }
+      }, config)
+    );
   },
 };
 export default SurveyQuestionApi;

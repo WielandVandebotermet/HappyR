@@ -44,10 +44,10 @@ const Question = ({ question, answer }) => {
               railStyle={{ backgroundColor: 'lightgray', height: '25px'}} 
               activeDotStyle={{ display: 'none'}} 
               dotStyle={{ display: 'none' }} 
-              trackStyle={{ backgroundColor: 'blue', height: '25px' }} 
+              trackStyle={{ backgroundColor: '#001466', height: '25px' }} 
               handleStyle={{
-                backgroundColor: 'blue',
-                borderColor: 'blue',
+                backgroundColor: '#001466',
+                borderColor: '#001466',
                 width: '30px',
                 height: '30px',
                 marginTop: '-2.5px',

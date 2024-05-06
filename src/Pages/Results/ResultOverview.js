@@ -5,6 +5,7 @@ import GroupApi from "../../API/GroupApi";
 import ResultGroupAccordion from "../../components/Results/ResultGroupAccordion";
 import { TECollapse } from "tw-elements-react";
 import Back from "../../components/Navigation/Back";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function ResultOverview() {
   const { Sid } = useParams();
@@ -16,6 +17,8 @@ function ResultOverview() {
   const [date, setDate] = useState(null);
   const navigate = useNavigate();
 
+
+  
   const getResults = async () => {
     try {
       const response = await SurveyApi.getSurveyById(Sid);
@@ -76,25 +79,26 @@ function ResultOverview() {
     const isLandscape = window.innerWidth > window.innerHeight;
     return isLandscape;
   }
-  
+
   if (!survey || !groups) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="max-h-full flex flex-col">
+    <div className="max-h-full flex flex-col text-StrongBlue">
       <div className="flex-grow flex flex-col overflow-y-auto">
-        <h1 className="p-2 text-center text-4xl">
-          {date} | {survey.testName}
-          <Link onClick={() => navigate(-1)} className="w-1/2">
-            <button
-              type="button"
-              className="p-2 ml-3 text-white bg-[#170699] hover:text-[#AB1AAB] hover:underline rounded-lg text-center"
-            >
-              Back
-            </button>
-          </Link>
-        </h1>
+        <div className="flex flex-row items-center justify-between p-2 m-2">
+          <div className="flex items-center">
+            <Link onClick={() => navigate(-1)} className="w-a h-auto hover:text-MineralGreen">
+            <FontAwesomeIcon icon="fa-solid fa-arrow-left" size="3x"/>
+            </Link>
+          </div>
+
+          <h1 className="p-2 text-center text-4xl flex-grow">
+            {date} | {survey.testName}
+          </h1>
+        </div>
+
         <div className="overflow-y-auto">
           <div className="flex flex-wrap  justify-center">
             {groups.map((group) => (
@@ -104,7 +108,9 @@ function ResultOverview() {
               >
                 <button
                   className={
-                    activeGroup === group.id ? "underline" : "no-underline"
+                    activeGroup === group.id
+                      ? "underline text-MineralGreen"
+                      : "no-underline text-AccentRed"
                   }
                   onClick={() => handleGroupToggle(group.id)}
                 >
@@ -115,7 +121,9 @@ function ResultOverview() {
             <h5 className="p-3 mb-2 text-xl font-medium leading-tight">
               <button
                 className={
-                  activeGroup === "Total" ? "underline" : "no-underline"
+                  activeGroup === "Total"
+                    ? "underline text-MineralGreen"
+                    : "no-underline text-AccentRed"
                 }
                 onClick={() => handleGroupToggle("Total")}
               >
@@ -137,9 +145,7 @@ function ResultOverview() {
                 )}
               </div>
             ))}
-            <div key={"Total"}>
-              {activeGroup === "Total" && <p>Test</p>}
-            </div>
+            <div key={"Total"}>{activeGroup === "Total" && <p>Test</p>}</div>
           </div>
         </div>
       </div>

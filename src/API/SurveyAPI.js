@@ -1,81 +1,89 @@
-import axios from 'axios';
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_SURVEY;
 
-const SurveyApi = {
+const handleRequest = async (request) => {
+  try {
+    const token = Cookies.get("access_token");
+    const response = await request({
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Request failed: ${error.message}`);
+  }
+};
 
+const SurveyApi = {
   getAllSurveys: async () => {
-    try {
-      const response = await axios.get(`${API_URL}all`);
-      return response.data;
-    } catch (error) {
-      throw new Error(`Error fetching Surveys: ${error.message}`);
-    }
-  }, 
+    return handleRequest((config) => axios.get(`${API_URL}all`, config));
+  },
 
   getSurveyById: async (id) => {
-    try {
-      const response = await axios.get(`${API_URL}${id}`);
-      return response.data;
-    } catch (error) {
-      throw new Error(`Error fetching Survey: ${error.message}`);
-    }
+    return handleRequest((config) => axios.get(`${API_URL}${id}`, config));
   },
 
   getSurveysByUserId: async (id) => {
-    try {
-      const response = await axios.get(`${API_URL}FilterByUserId/${id}`);
-      return response.data;
-    } catch (error) {
-      throw new Error(`Error fetching Survey: ${error.message}`);
-    }
+    return handleRequest((config) =>
+      axios.get(`${API_URL}FilterByUserId/${id}`, config)
+    );
   },
-  
+
   getSurveysByManagerId: async (id) => {
-    try {
-      const response = await axios.get(`${API_URL}FilterByManagerId/${id}`);
-      return response.data;
-    } catch (error) {
-      throw new Error(`Error fetching Survey: ${error.message}`);
-    }
+    return handleRequest((config) =>
+      axios.get(`${API_URL}FilterByManagerId/${id}`, config)
+    );
   },
 
   deleteSurvey: async (id) => {
-    try {
-      await axios.delete(`${API_URL}delete/${id}`);
-    } catch (error) {
-      throw new Error(`Error deleting Survey: ${error.message}`);
-    }
+    return handleRequest((config) =>
+      axios.delete(`${API_URL}delete/${id}`, config)
+    );
   },
 
-  editSurvey: async (id, testName, startDate, reoccuring, questions, groupList, started) => {
-    try {
-      await axios.put(`${API_URL}edit/${id}`, {
+  editSurvey: async (
+    id,
+    testName,
+    startDate,
+    reoccuring,
+    questions,
+    groupList,
+    started
+  ) => {
+    return handleRequest((config) =>
+      axios.put(`${API_URL}edit/${id}`, {
         testName: testName,
         startDate: startDate,
         reoccuring: reoccuring,
         questions: questions,
         groupList: groupList,
-        started: started 
-      });
-    } catch (error) {
-      throw new Error(`Error editing Survey: ${error.message}`);
-    }
+        started: started,
+      }, config)
+    );
   },
 
-  createSurvey: async (testName, startDate, reoccuring, questions, groupList, started) => {
-    try {
-          await axios.post(`${API_URL}create`, {
-            testName: testName,
-            startDate: startDate,
-            reoccuring: reoccuring,
-            questions: questions,
-            groupList: groupList,
-            started: started
-          });
-    } catch (error) {
-      throw new Error(`Error creating M: ${error.message}`);
-    }
-  }  
+  createSurvey: async (
+    testName,
+    startDate,
+    reoccuring,
+    questions,
+    groupList,
+    started
+  ) => {
+    return handleRequest((config) =>
+      axios.post(`${API_URL}create`,  {
+        testName: testName,
+        startDate: startDate,
+        reoccuring: reoccuring,
+        questions: questions,
+        groupList: groupList,
+        started: started,
+      }, config)
+    );
+  },
 };
 export default SurveyApi;

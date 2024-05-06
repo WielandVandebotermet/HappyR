@@ -15,7 +15,7 @@ const NavBar = () => {
           </span>
         </a>
         <div className="hidden w-full md:block md:w-auto">
-          <ul className="font-medium center flex flex-col p-4 md:p-0 mt-4 border rounded-lg text-AccentRed text-white md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+          <ul className="font-medium center flex flex-col p-4 md:p-0 mt-4 border rounded-lg text-AccentRed md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
             <Link
               to="/"
               className="text-xl block py-2 px-3 rounded hover:text-MineralGreen hover:underline md:border-0 md:p-2"

@@ -1,77 +1,67 @@
-import axios from 'axios';
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_RESULT;
 
+const handleRequest = async (request) => {
+  try {
+    const token = Cookies.get("access_token");
+    const response = await request({
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Request failed: ${error.message}`);
+  }
+};
+
 const ResultApi = {
-    getAllResults: async () => {
-      try {
-        const response = await axios.get(`${API_URL}all`);
-        return response.data;
-      } catch (error) {
-        throw new Error(`Error fetching Results: ${error.message}`);
-      }
-    }, 
+  getAllResults: async () => {
+    return handleRequest((config) => axios.get(`${API_URL}all`, config));
+  },
 
-    getResultsByManager: async (id) => {
-      try {
-        const response = await axios.get(`${API_URL}manager/${id}`);
-        return response.data;
-      } catch (error) {
-        throw new Error(`Error fetching Results: ${error.message}`);
-      }
-    }, 
-  
-    getResultById: async (id) => {
-      try {
-        const response = await axios.get(`${API_URL}${id}`);
-        return response.data;
-      } catch (error) {
-        throw new Error(`Error fetching Result: ${error.message}`);
-      }
-    },
+  getResultsByManager: async (id) => {
+    return handleRequest((config) =>
+      axios.get(`${API_URL}manager/${id}`, config)
+    );
+  },
 
-    getResultBySurveyId: async (id) => {
-      try {
-        const response = await axios.get(`${API_URL}survey/${id}`);
-        return response.data;
-      } catch (error) {
-        throw new Error(`Error fetching Result: ${error.message}`);
-      }
-    },
-  
-    deleteResult: async (id) => {
-      try {
-        await axios.delete(`${API_URL}delete/${id}`);
-      } catch (error) {
-        throw new Error(`Error deleting Result: ${error.message}`);
-      }
-    },
-  
-    editResult: async (groupName, id) => {
-      try {
-        await axios.put(`${API_URL}edit/${id}`, groupName, {
-          headers: { 'Content-Type': 'application/plain'}});
-      } catch (error) {
-        throw new Error(`Error editing Result: ${error.message}`);
-      }
-    },
-    
-  
-    createResult: async (surveyId, userId, totalResult, scoreList, groupId) => {
-      try {
-        await axios.post(`${API_URL}create/`, {
-          surveyId: surveyId,
-          userId: userId,
-          groupId: groupId,
-          totalResult: totalResult,
-          scoreList: scoreList,
-        });
-        console.log(surveyId, userId, totalResult, scoreList);
-      } catch (error) {
-        throw new Error(`Error creating Result: ${error.message}`);
-      }
-    }
-    
-  };
+  getResultById: async (id) => {
+    return handleRequest((config) => axios.get(`${API_URL}${id}`, config));
+  },
+
+  getResultBySurveyId: async (id) => {
+    return handleRequest((config) =>
+      axios.get(`${API_URL}survey/${id}`, config)
+    );
+  },
+
+  deleteResult: async (id) => {
+    return handleRequest((config) =>
+      axios.delete(`${API_URL}delete/${id}`, config)
+    );
+  },
+
+  editResult: async (groupName, id) => {
+    return handleRequest((config) =>
+      axios.put(`${API_URL}edit/${id}`, groupName, config)
+    );
+  },
+
+  createResult: async (surveyId, userId, totalResult, scoreList, groupId) => {
+    return handleRequest((config) =>
+      axios.post(`${API_URL}create/`, {
+        surveyId: surveyId,
+        userId: userId,
+        groupId: groupId,
+        totalResult: totalResult,
+        scoreList: scoreList,
+      }, config)
+    );
+  },
+};
 
 export default ResultApi;

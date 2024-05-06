@@ -49,7 +49,7 @@ function ResultMap({ survey, groups, url }) {
     return (
         <div className="flex justify-center ">
             <Link to={url}>
-                <div key={"Survey:"+survey.id} className="block max-w-sm m-4 p-6 rounded-lg border-gray-900  hover:border-blue-600 border">
+                <div key={"Survey:"+survey.id} className="block max-w-sm m-4 p-6 rounded-lg border text-StrongBlue border-StrongBlue hover:text-MineralGreen">
                     <div className="">
                         <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">{formattedDate} | {survey.testName}</h5>
                     </div>

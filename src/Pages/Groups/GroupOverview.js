@@ -38,6 +38,7 @@ function GroupOverview() {
     try {
       const GU = await MTUApi.getTeamUsersByTeamId(group.id);
       const M = await MTUApi.getManagersByTeamId(group.id);
+      console.log('GU',GU, 'M',M)
       setGU(GU);
       setM(M);
     } catch (error) {
@@ -126,15 +127,15 @@ function GroupOverview() {
                       <div className="flex min-w-0 gap-x-4">
                         <img
                           className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                          src=""
-                          alt=""
+                          src={manager.user.profileImage}
+                          alt="User profileImage"
                         />
                         <div className="min-w-0 flex-auto ">
                           <p className="text-sm font-semibold leading-6 text-gray-900">
                             {manager.user.firstName} {manager.user.lastName}
                           </p>
                           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                            Email
+                            {manager.user.email}
                           </p>
                         </div>
                       </div>
@@ -162,15 +163,15 @@ function GroupOverview() {
                       <div className="flex min-w-0 gap-x-4">
                         <img
                           className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                          src=""
-                          alt=""
+                          src={GroupUser.user.profileImage}
+                          alt="User profileImage"
                         />
                         <div className="min-w-0 flex-auto">
                           <p className="text-sm font-semibold leading-6 text-gray-900">
                             {GroupUser.user.firstName} {GroupUser.user.lastName}
                           </p>
                           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                            Email
+                            {GroupUser.user.email}
                           </p>
                         </div>
                       </div>
@@ -269,14 +270,14 @@ function GroupOverview() {
                 <div className="flow-root">
                   <button
                     type="button"
-                    className="bg-StrongBlue02 hover:bg-StrongBlueHover text-[#ffffff] float-left inline-block rounded bg-gray-200 px-6 pb-2 pt-2.5 text-md leading-normal text-black hover:bg-gray-400 "
+                    className="bg-StrongBlue02 hover:bg-StrongBlueHover text-white float-left inline-block rounded bg-gray-200 px-6 pb-2 pt-2.5 text-md leading-normal text-black hover:bg-gray-400 "
                     onClick={() => setShowModalDelete(false)}
                   >
                     No
                   </button>
                   <button
                     type="button"
-                    className="bg-AccentRed hover:bg-BGAccentRed text-[#ffffff] float-right ml-1 inline-block rounded bg-red-600 px-6 pb-2 pt-2.5 text-md leading-normal text-white hover:bg-red-800 "
+                    className="bg-AccentRed hover:bg-BGAccentRed text-white float-right ml-1 inline-block rounded bg-red-600 px-6 pb-2 pt-2.5 text-md leading-normal hover:bg-red-800 "
                     onClick={() => {
                       setShowModalDelete(false);
                       DeleteUser();

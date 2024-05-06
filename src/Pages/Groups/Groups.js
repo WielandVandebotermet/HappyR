@@ -17,15 +17,20 @@ import Back from "../../components/Navigation/Back";
 function Groups() {
   const [showModal, setShowModal] = useState(false);
   const [groups, setGroups] = useState([]);
-  const [GU, setGU] = useState([]);
-  const [M, setM] = useState([]);
-  const [UserId, setuserId] = useState(Cookies.get("UserId") || 0);
-  const [groupName, setGroupName] = useState("");
+  const [GU, setGU] = useState();
+  const [M, setM] = useState();
+  const UserId = Cookies.get("UserId");
+  const [groupName, setGroupName] = useState();
 
   const fetchGroups = async () => {
     try {
       const response = await GroupApi.getAllTeams();
-      setGroups(response);
+      console.log(response);
+      if (Array.isArray(response)) {
+        setGroups(response);
+      } else {
+        setGroups([]); // Set groups to an empty array
+      }
     } catch (error) {
       console.error("Error fetching groups:", error.message);
     }
@@ -35,8 +40,6 @@ function Groups() {
     try {
       const groupUsers = await MTUApi.getAllGroupUsers();
       const managers = await MTUApi.getAllManagers();
-      console.log(groupUsers);
-      //console.log(managers);
       setGU(groupUsers);
       setM(managers);
     } catch (error) {
@@ -87,6 +90,8 @@ function Groups() {
 
     return groupM.length;
   };
+
+  console.log(groups);
 
   if (!groups || !GU || !M) {
     return <div>Loading...</div>;

@@ -38,7 +38,7 @@ function CreateCategorie() {
     }, []);
 
     return (
-        <div className="">
+        <div className="text-StrongBlue">
            <h1 className={"p-2 text-center text-4xl " + (Cid !== "0" ? '' : 'hidden')}>{categorieName}</h1>
            <h1 className={"p-2 text-center text-4xl " + (Cid === "0" ? '' : 'hidden')}>Create Categorie</h1>
                 <div className="flex justify-center">
@@ -56,16 +56,16 @@ function CreateCategorie() {
             <div className="flex flex-col">
               <div className="flex justify-center">
                 <Link to={"/SelectTemplate/" + Sid} className={"w-1/2 flex justify-center " + (Cid === "0" ? 'hidden': 'block')}>
-                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Use Category</button>
+                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"}>Use Category</button>
                 </Link>
                 <Link to={"/SelectTemplate/" + Sid} className={"w-1/2 flex justify-center " + (Cid !== "0" ? 'hidden': 'Block')}>
-                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Create Category</button>
+                  <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"}>Create Category</button>
                 </Link>
               </div>
             </div>
             <div className="pt-5 flex justify-center">
                 <Link to={"/SelectCategorie/" + Sid+ "/"+ Qid} className={"w-1/2 flex justify-center "}>
-                    <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-white bg-[#170699] hover:bg-blue-600 rounded-lg text-center"}>Select Category</button>
+                    <button type="button" className={"py-3.5 mx-3 w-9/12 text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"}>Select Category</button>
                 </Link>
             </div>
             <Back />

@@ -59,20 +59,20 @@ const ResultQuestion = ({ question, answer }) => {
           tag="a"
           title={question.text}
           wrapperProps={{ href: "#" }}
-          className="p-2 text-center text-xl text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600 pointer-events-auto cursor-pointer"
+          className="p-2 text-center text-xl text-AccentRed hover:text-MineralGreen transition duration-150 ease-in-out  focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600 pointer-events-auto cursor-pointer"
         >
           {question.question}
         </TETooltip>
         <div className="flex justify-center">
-          <div className="flex pb-2 m-2 p-2 w-full justify-center">
+          <div className="flex pb-2 m-2 p-2 w-full justify-center bg-white">
             <Slider
               railStyle={{ backgroundColor: "lightgray", height: "25px" }}
               activeDotStyle={{ display: "none" }}
               dotStyle={{ display: "none" }}
-              trackStyle={{ backgroundColor: "blue", height: "25px" }}
+              trackStyle={{ backgroundColor: "#66CCC3", height: "25px" }}
               handleStyle={{
-                backgroundColor: "blue",
-                borderColor: "blue",
+                backgroundColor: "#66CCC3",
+                borderColor: "#66CCC3",
                 width: "30px",
                 height: "30px",
                 marginTop: "-2.5px",

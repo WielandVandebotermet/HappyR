@@ -14,7 +14,11 @@ function Results() {
   const getResults = async () => {
     try {
       const response = await SurveyApi.getSurveysByManagerId(UserId);
-      setSurveys(response);
+      if (Array.isArray(response)) {
+        setSurveys(response);
+      } else {
+        setSurveys([]); // Set groups to an empty array
+      }
     } catch (error) {
       console.error('Error fetching groups:', error);
     }
@@ -40,7 +44,7 @@ function Results() {
 
     return (
       <div className="min-h-screen">
-        <div className="flex flex-col p-3">
+        <div className="flex flex-col p-3 text-StrongBlue">
             <h1 className="p-2 text-center text-4xl">Results</h1>
             <div className="flex flex-col p-3 justify-center">
               {surveys.map((survey, index) => (

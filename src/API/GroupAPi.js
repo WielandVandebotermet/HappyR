@@ -1,70 +1,51 @@
 import axios from 'axios';
+import Cookies from "js-cookie";
 
 const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_GROUPAPI;
 
+const handleRequest = async (request) => {
+  try {
+    const token = Cookies.get('access_token');
+    const response = await request({
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Request failed: ${error.message}`);
+  }
+};
+
 const GroupApi = {
-    getAllTeams: async () => {
-      try {
-        const response = await axios.get(`${API_URL}all`);
-        return response.data;
-      } catch (error) {
-        throw new Error(`Error fetching teams: ${error.message}`);
-      }
-    }, 
-  
-    getTeamById: async (id) => {
-      try {
-        const response = await axios.get(`${API_URL}${id}`);
-        return response.data;
-      } catch (error) {
-        throw new Error(`Error fetching team: ${error.message}`);
-      }
-    },
+  getAllTeams: async () => {
+    return handleRequest((config) => axios.get(`${API_URL}all`, config));
+  },
 
-    getTeamsByUserId: async (id) => {
-      try {
-        const response = await axios.get(`${API_URL}user/${id}`);
-        return response.data;
-      } catch (error) {
-        throw new Error(`Error fetching team: ${error.message}`);
-      }
-    },
+  getTeamById: async (id) => {
+    return handleRequest((config) => axios.get(`${API_URL}${id}`, config));
+  },
 
-    getTeamsBySurveyId: async (id) => {
-      try {
-        const response = await axios.get(`${API_URL}survey/${id}`);
-        return response.data;
-      } catch (error) {
-        throw new Error(`Error fetching team: ${error.message}`);
-      }
-    },
-  
-    deleteTeam: async (id) => {
-      try {
-        await axios.delete(`${API_URL}delete/${id}`);
-      } catch (error) {
-        throw new Error(`Error deleting team: ${error.message}`);
-      }
-    },
-  
-    editTeam: async (groupName, id) => {
-      try {
-        await axios.put(`${API_URL}edit/${id}`, groupName, {
-          headers: { 'Content-Type': 'application/plain'}});
-      } catch (error) {
-        throw new Error(`Error editing team: ${error.message}`);
-      }
-    },
-    
-  
-    createTeam: async (groupName, userId) => {
-      try {
-        await axios.post(`${API_URL}/create/${userId}`, `${groupName}`);
-      } catch (error) {
-        throw new Error(`Error creating team: ${error.message}`);
-      }
-    }
-    
-  };
+  getTeamsByUserId: async (id) => {
+    return handleRequest((config) => axios.get(`${API_URL}user/${id}`, config));
+  },
+
+  getTeamsBySurveyId: async (id) => {
+    return handleRequest((config) => axios.get(`${API_URL}survey/${id}`, config));
+  },
+
+  deleteTeam: async (id) => {
+    return handleRequest((config) => axios.delete(`${API_URL}delete/${id}`, config));
+  },
+
+  editTeam: async (groupName, id) => {
+    return handleRequest((config) => axios.put(`${API_URL}edit/${id}`, { groupName: groupName }, config));
+  },
+
+  createTeam: async (groupName, userId) => {
+    return handleRequest((config) => axios.post(`${API_URL}create/${userId}`,  { groupName: groupName }, config));
+  }
+};
 
 export default GroupApi;

@@ -43,22 +43,22 @@ const ResultUserAccordion = ({
   }
 
   return (
-    <div className="rounded-none border border-l-0 border-r-0 border-t-0 border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
+    <div className="rounded-none border border-l-0 border-r-0 border-t-0  border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
       <h2 className="mb-0" id="headingOne">
         <button
           className={`${
-            activeUser === result.userId &&
-            `text-primary [box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:!text-primary-400 dark:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]`
-          } group relative flex w-full items-center rounded-none border-0 bg-white px-5 py-4 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white`}
+            activeElement === UserId &&
+            `text-MineralGreen [box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:!text-primary-400 dark:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]`
+          } group relative text-AccentRed flex w-full items-center rounded-none border-0 bg-white px-5 py-4 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white`}
           type="button"
-          onClick={() => handleUserToggle(result.userId)}
+          onClick={() => handleUserToggle(UserId)}
           aria-expanded="true"
           aria-controls="collapseOne"
         >
           {title}
           <span
             className={`${
-              activeElementUser === UserId
+              activeElement === UserId
                 ? `rotate-[-180deg] -mr-1`
                 : `rotate-0 fill-[#212529] dark:fill-white`
             } ml-auto h-5 w-5 shrink-0 fill-[#336dec] transition-transform duration-200 ease-in-out motion-reduce:transition-none dark:fill-blue-300`}

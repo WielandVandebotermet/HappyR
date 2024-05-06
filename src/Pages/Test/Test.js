@@ -72,7 +72,7 @@ function Test() {
   }
 
     return (
-      <div className="flex flex-col p-3 ">
+      <div className="flex flex-col p-3 text-StrongBlue">
         <h1 className="p-2 text-center text-4xl">{survey.testName}</h1>
         <div className="">
           {questions.map((question, index) => (
@@ -83,12 +83,12 @@ function Test() {
         </div>
 
         <div className="flex flex-row justify-center">
-            <button onClick={Back} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
+            <button onClick={Back} type="button" className="py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">Back</button>
             <div className="py-3 m-3">
               <p>{q + 1}/{survey.questions ? survey.questions.length : 0}</p>
             </div>
-            <button onClick={Next} type="button" className={`py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center ${ q+1 < (survey.questions?.length ?? 0) ? '' : 'hidden'}`}>Next</button>
-            <button onClick={Finish} type="button" className={`py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-white bg-[#170699] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center ${ q+1 >= (survey.questions?.length ?? 0) ? '' : 'hidden'}`}>Finish</button>
+            <button onClick={Next} type="button" className={`py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center ${ q+1 < (survey.questions?.length ?? 0) ? '' : 'hidden'}`}>Next</button>
+            <button onClick={Finish} type="button" className={`py-3.5 mx-3 w-1/3 max-w-screen-sm text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center ${ q+1 >= (survey.questions?.length ?? 0) ? '' : 'hidden'}`}>Finish</button>
           </div>
     </div>
     );

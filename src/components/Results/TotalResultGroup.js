@@ -308,8 +308,8 @@ const TotalResultGroup = ({ result }) => {
           "flex flex-col" + (Landscape() == false ? " p-0 " : " p-0 ")
         }
       >
-        <div className="flex flex-wrap justify-center">
-          <div className="overflow-auto">
+        <div className="flex flex-col flex-wrap justify-center">
+          <div className="flex overflow-auto justify-center">
             <StackableBarChart
               data={UserScoreList}
               maxValues={MaxTotalScoreList}
@@ -319,7 +319,7 @@ const TotalResultGroup = ({ result }) => {
               legendPadding={getLegendPadding()}
             />
           </div>
-          <div className="overflow-auto">
+          <div className="flex overflow-auto justify-center">
             <StackableBarChart
               data={UserQuestionScoreList}
               maxValues={MaxQuestionScoreList}
@@ -329,7 +329,7 @@ const TotalResultGroup = ({ result }) => {
               legendPadding={getLegendPadding()}
             />
           </div>
-          <div className="overflow-auto">
+          <div className="flex overflow-auto justify-center">
             <BoxPlot
               data={UserScoreList}
               maxValues={MaxTotalScoreList}
@@ -339,7 +339,7 @@ const TotalResultGroup = ({ result }) => {
               legendPadding={getLegendPadding()}
             />
           </div>
-          <div className="overflow-auto">
+          <div className="flex overflow-auto justify-center">
             <BoxPlot
               data={UserQuestionScoreList}
               maxValues={MaxQuestionScoreList}
