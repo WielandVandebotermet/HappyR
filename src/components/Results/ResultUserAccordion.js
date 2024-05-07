@@ -86,7 +86,7 @@ const ResultUserAccordion = ({
           (activeElement === UserId ? "inline" : "hidden")
         }
       >
-        <div className="px-5 py-4">
+        <div className="px-5 pb-6">
           {survey.questions.map((question, index) => (
             <div key={question.id} className="h-full m-2 p-2">
               <ResultLoader

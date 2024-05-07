@@ -23,9 +23,9 @@ const ResultApi = {
     return handleRequest((config) => axios.get(`${API_URL}all`, config));
   },
 
-  getResultsByManager: async (id) => {
+  getResultsByManager: async (SurveyId, UserId) => {
     return handleRequest((config) =>
-      axios.get(`${API_URL}manager/${id}`, config)
+      axios.get(`${API_URL}manager/`, {SurveyId, UserId}, config)
     );
   },
 

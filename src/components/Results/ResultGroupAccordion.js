@@ -5,6 +5,7 @@ import ResultUserAccordion from "./ResultUserAccordion";
 import ResultApi from "../../API/ResultApi";
 import Results from "../../Pages/Results/Results";
 import ResultLoader from "./TotalResultGroup";
+import Cookies from 'js-cookie';
 
 const ResultGroupAccordion = ({
   survey,
@@ -22,12 +23,10 @@ const ResultGroupAccordion = ({
   const fetchResults = async () => {
     try {
       let response = await ResultApi.getResultBySurveyId(Sid);
+      console.log(response)
       if (response) {
-        response = [response];
         response = response.filter(result => result.groupId == groupId)
         console.log(results);
-        console.log('response', response);
-
       }
 
       setResults(response);

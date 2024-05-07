@@ -7,7 +7,6 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
-
 library.add(faArrowLeft);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

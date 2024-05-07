@@ -10,7 +10,7 @@ const StackableBarChart = ({
 }) => {
   const svgRef = useRef();
   const legendRef = useRef();
-  const titlePadding = 20; // Padding for the title
+  const titlePadding = 10; // Padding for the title
 
   const [categories, setCategories] = useState([]);
 
@@ -94,7 +94,7 @@ const StackableBarChart = ({
       .attr("class", "legend-item")
       .attr(
         "transform",
-        (d, i) => `translate(0, ${i * barHeight + legendPadding})`
+        (d, i) => `translate(0, ${i * barHeight + legendPadding + 5})`
       ); // Add legend padding here
 
     legendItems

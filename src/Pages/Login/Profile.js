@@ -7,7 +7,7 @@ import MTUApi from "../../API/MTUApi";
 import Cookies from "js-cookie";
 
 function Profile() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated} = useAuth0();
   const UserId = Cookies.get("UserId");
   const [GroupsM, SetGroupsM] = useState([]);
   const [GroupsGU, SetGroupsGU] = useState([]);
@@ -29,7 +29,7 @@ function Profile() {
 
   console.log(user);
 
-  if (isLoading || !GroupsGU || !GroupsM) {
+  if (!GroupsGU || !GroupsM) {
     return <div>...Loading</div>;
   }
 

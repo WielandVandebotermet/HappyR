@@ -35,7 +35,7 @@ const Question = ({ question, answer }) => {
   };
 
   return (
-    <div className="flex flex-col p-3 ">
+    <div className="flex-grow flex-col p-3 ">
       <h1 className="p-2 text-center text-3xl">{question.question}</h1>
       <h1 className="p-2 text-center text-xl">{question.text}</h1>
       <div className="flex justify-center">

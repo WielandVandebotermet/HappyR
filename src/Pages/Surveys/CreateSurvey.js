@@ -240,9 +240,9 @@ function CreateSurveys() {
     <div className="flex flex-col justify-center">
       {groups.map((group) => {
         return (
-          <div key={group.id} className="flex w-full justify-center">
+          <div key={group.id} className="flex  justify-center">
             <button onClick={() => handleToggleChange(group.id)}>
-              <div className={"flex-grow m-2 p-5 rounded-lg hover:text-MineralGreen border w-full max-w-48" + (Selectedgroups.includes(group.id) ? 'bg-StrongBlueHover' : 'bg-white')}>
+              <div className={"flex-grow m-2 p-5 rounded-lg hover:text-MineralGreen border w-full max-w-64 " + (Selectedgroups.includes(group.id) ? 'bg-StrongBlueHover' : 'bg-white')}>
                 <h5 className="text-center text-2xl font-bold tracking-tight">{group.groupName}</h5>
               </div>
             </button>

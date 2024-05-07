@@ -183,14 +183,13 @@ const TotalResultGroup = ({ result }) => {
 
     const promises = [];
 
-    for (const r of result) {
-      for (const item of r.scoreList) {
+      for (const item of result[0].scoreList) {
         const { questionId, categoryId } = item;
         promises.push(
           getMaxCategoryScore(categoryId, questionId, categoryScores)
         );
       }
-    }
+    
 
     await Promise.all(promises);
     setMaxTotalScoreList(categoryScores);
@@ -254,12 +253,11 @@ const TotalResultGroup = ({ result }) => {
     let MTR = 0;
     const promises = [];
 
-    for (const r of result) {
-      for (const item of r.scoreList) {
+      for (const item of result[0].scoreList) {
         const { questionId, score } = item;
         promises.push(getMaxQuestionScore(questionId, questionScores, MTR));
       }
-    }
+    
     await Promise.all(promises);
     setMaxQuestionScoreList(questionScores);
     setMaxTotalResults(MTR);

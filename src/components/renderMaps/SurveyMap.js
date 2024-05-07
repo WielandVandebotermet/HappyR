@@ -91,7 +91,7 @@ function SurveyMap({ survey, groups, url, userGroups }) {
             </TEModalHeader>
             <TEModalBody className="text-StrongBlue">
               {filteredGroups.map((group, index) => (
-                <div>
+                <div key={group.id}>
                   <Link to={url + group.id}>
                     <div className="m-4 p-6 rounded-lg hover:text-MineralGreen border">
                       <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">
