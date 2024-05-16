@@ -1,5 +1,4 @@
 import { NavLink} from "react-router-dom";
-
 function Home() {
     return (
         <div className="flex flex-col h-auto text-StrongBlue border-StrongBlue">

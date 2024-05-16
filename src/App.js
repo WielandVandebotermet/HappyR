@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import React from "react";
 import Cookies from "js-cookie";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from 'axios';
+import axios from "axios";
+
+import { subscribeToPushNotifications } from "./components/Notifications/subscribeToPushNotifications";
 
 import NavBar from "./components/Nav&Footer/NavBar";
 import Footer from "./components/Nav&Footer/Footer";
@@ -81,36 +83,47 @@ function App() {
     const checkAuthentication = async () => {
       if (!isLoading) {
         if (!isAuthenticated) return loginWithRedirect();
-        
+
         // Fetch Auth0 user ID
         const auth0UserId = user?.sub;
-        
+
         // Call backend to get external user ID
         try {
           const accessToken = await getAccessTokenSilently();
           const response = await axios.get(`${API_URL}Auth/${auth0UserId}`, {
             headers: {
-              Authorization: `Bearer ${accessToken}`
-            }
+              Authorization: `Bearer ${accessToken}`,
+            },
           });
           if (response.status === 200) {
             const UserId = response.data.id;
             // Store external user ID in cookies
-            Cookies.set('UserId', UserId);
-            Cookies.set('access_token', accessToken);
+            Cookies.set("UserId", UserId);
+            Cookies.set("access_token", accessToken);
             setUserId(UserId);
 
+            subscribeToPushNotifications();
           } else {
-            console.error('Failed to fetch external user ID:', response.statusText);
+            console.error(
+              "Failed to fetch external user ID:",
+              response.statusText
+            );
           }
         } catch (error) {
-          console.error('Error fetching external user ID:', error);
+          console.error("Error fetching external user ID:", error);
         }
       }
     };
 
     checkAuthentication();
-  }, [isAuthenticated, isLoading, loginWithRedirect, user, getAccessTokenSilently]);
+  }, [
+    isAuthenticated,
+    isLoading,
+    loginWithRedirect,
+    user,
+    getAccessTokenSilently,
+  ]);
+
 
 
   return (

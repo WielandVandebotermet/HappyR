@@ -1,23 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script>
-      if('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', {scope: '/'})
-        .then(function (registration) {
-        });
-        navigator.serviceWorker.ready.then(function (registration) {
-        });
-      }
-    </script>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/images/HappyR_Logo_Transparant.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="The Satisfaction Survey web app."
+    <meta name="description" content="The Satisfaction Survey web app." />
+    <link
+      rel="apple-touch-icon"
+      href="%PUBLIC_URL%/images/HappyR_Logo_Transparant.png"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/images/HappyR_Logo_Transparant.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -47,5 +38,48 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          // Register the Firebase messaging service worker (firebase-messaging-sw.js)
+          navigator.serviceWorker
+            .register("/firebase-messaging-sw.js")
+            .then(function (registration) {
+              // Service worker registration success
+              console.log(
+                "Firebase messaging service worker registration successful"
+              );
+            })
+            .catch(function (error) {
+              // Service worker registration failed
+              console.error(
+                "Firebase messaging service worker registration failed:",
+                error
+              );
+            });
+          // Ensure service worker registration after page load
+          // Register the main service worker (sw.js)
+          navigator.serviceWorker
+            .register("/sw.js")
+            .then(function (registration) {
+              // Service worker registration success
+              console.log("Main service worker registration successful");
+
+              // Request permission for notifications
+              Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                  console.log("Notification permission granted.");
+                } else {
+                  console.log("Unable to get permission to notify.");
+                }
+              });
+            })
+            .catch(function (error) {
+              // Service worker registration failed
+              console.error("Main service worker registration failed:", error);
+            });        
+        });
+      }
+    </script>
   </body>
 </html>

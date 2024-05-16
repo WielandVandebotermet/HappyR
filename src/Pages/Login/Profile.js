@@ -29,7 +29,7 @@ function Profile() {
 
   console.log(user);
 
-  if (!GroupsGU || !GroupsM) {
+  if (!GroupsGU || !GroupsM || !user) {
     return <div>...Loading</div>;
   }
 
