@@ -39,8 +39,6 @@ function ResultOverview() {
       if (response.length > 0) {
         setActiveGroup(response[0].id);
       }
-
-      console.log("groups", response);
     } catch (error) {
       console.error("Error fetching groups:", error.message);
     }
@@ -50,10 +48,6 @@ function ResultOverview() {
     getResults();
     fetchGroups();
   }, [Sid]);
-
-  useEffect(() => {
-    console.log("activeUser:", activeUser); // Check if activeUser changes
-  }, [activeUser]);
 
   const HandleClick = (value) => {
     if (value === activeElement) {

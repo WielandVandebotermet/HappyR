@@ -63,9 +63,6 @@ function Test() {
     getSurvey();
   }, []);
 
-  useEffect(() => {
-    console.log(results);
-  }, [results]);
 
   if (!questions || !survey) {
     return <div>Loading...</div>;

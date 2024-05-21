@@ -18,12 +18,17 @@ import ResultOverview from "./Pages/Results/ResultOverview";
 import Groups from "./Pages/Groups/Groups";
 import GroupOverview from "./Pages/Groups/GroupOverview";
 import AddToGroup from "./Pages/Groups/AddToGroup";
+
 import SelectTemplate from "./Pages/Templates/SelectTemplate";
 import TemplateOptions from "./Pages/Templates/TemplateOptions";
 import ExternalPeople from "./Pages/Templates/ExternalPeople";
 import TemplateShowcase from "./Pages/Templates/TemplateShowcase";
+
 import SelectCategorie from "./Pages/Categorie/SelectCategorie";
 import CreateCategorie from "./Pages/Categorie/CreateCategorie";
+
+import Questions from "./Pages/Templates/Questions";
+
 import Test from "./Pages/Test/Test";
 import Surveys from "./Pages/Surveys/Surveys";
 import NewSurveys from "./Pages/Surveys/NewSurveys";
@@ -43,6 +48,8 @@ function Main() {
         <Route path={"/NewSurveys"} element={<NewSurveys />} />
         <Route path={"/CreateSurvey/:id"} element={<CreateSurvey />} />
         <Route path={"/SelectTemplate/:Sid"} element={<SelectTemplate />} />
+        <Route path={"/Questions/:Sid"} element={<Questions />} />
+
         <Route
           path={"/TemplateOptions/:Sid/:Qid/:Tid?"}
           element={<TemplateOptions />}

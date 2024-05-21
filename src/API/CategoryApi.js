@@ -28,17 +28,27 @@ const CategoryApi = {
   },
 
   deleteCategory: async (id) => {
-    return handleRequest((config) => axios.delete(`${API_URL}delete/${id}`, config));
-  },
-
-  editCategory: async (groupName, id) => {
     return handleRequest((config) =>
-      axios.put(`${API_URL}edit/${id}`, groupName, config)
+      axios.delete(`${API_URL}delete/${id}`, config)
     );
   },
 
-  createCategory: async (testName) => {
-    return handleRequest((config) => axios.post(`${API_URL}create`, { testName }, config));
+  editCategory: async (categorieId, categorieName, categorieImpact) => {
+    return handleRequest((config) =>
+      axios.put(`${API_URL}edit/${categorieId}`, {
+        categoryName: categorieName,
+        scoreImpact: categorieImpact,
+      }, config)
+    );
+  },
+
+  createCategory: async (categorieName, categorieImpact) => {
+    return handleRequest((config) =>
+      axios.post(`${API_URL}create`, {
+        categoryName: categorieName,
+        scoreImpact: categorieImpact,
+       }, config)
+    );
   },
 };
 

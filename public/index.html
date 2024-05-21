@@ -46,9 +46,9 @@
             .register("/firebase-messaging-sw.js")
             .then(function (registration) {
               // Service worker registration success
-              console.log(
+/*               console.log(
                 "Firebase messaging service worker registration successful"
-              );
+              ); */
             })
             .catch(function (error) {
               // Service worker registration failed
@@ -63,14 +63,14 @@
             .register("/sw.js")
             .then(function (registration) {
               // Service worker registration success
-              console.log("Main service worker registration successful");
+              // console.log("Main service worker registration successful");
 
               // Request permission for notifications
               Notification.requestPermission().then(function (permission) {
                 if (permission === "granted") {
-                  console.log("Notification permission granted.");
+                  // console.log("Notification permission granted.");
                 } else {
-                  console.log("Unable to get permission to notify.");
+                  //console.log("Unable to get permission to notify.");
                 }
               });
             })

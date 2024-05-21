@@ -39,6 +39,12 @@ const SurveyApi = {
     );
   },
 
+  getSurveysResultsByManagerId: async (id) => {
+    return handleRequest((config) =>
+      axios.get(`${API_URL}FilterResultsByManagerId/${id}`, config)
+    );
+  },
+
   deleteSurvey: async (id) => {
     return handleRequest((config) =>
       axios.delete(`${API_URL}delete/${id}`, config)
@@ -49,7 +55,6 @@ const SurveyApi = {
     id,
     testName,
     startDate,
-    reoccuring,
     questions,
     groupList,
     started
@@ -58,7 +63,6 @@ const SurveyApi = {
       axios.put(`${API_URL}edit/${id}`, {
         testName: testName,
         startDate: startDate,
-        reoccuring: reoccuring,
         questions: questions,
         groupList: groupList,
         started: started,
@@ -69,7 +73,6 @@ const SurveyApi = {
   createSurvey: async (
     testName,
     startDate,
-    reoccuring,
     questions,
     groupList,
     started
@@ -78,7 +81,6 @@ const SurveyApi = {
       axios.post(`${API_URL}create`,  {
         testName: testName,
         startDate: startDate,
-        reoccuring: reoccuring,
         questions: questions,
         groupList: groupList,
         started: started,

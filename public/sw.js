@@ -1,4 +1,4 @@
-const CACHE_NAME = 'HappyR-Cache-V9';
+const CACHE_NAME = 'HappyR-Cache-V10';
 const CACHE_TTL = 24 * 60 * 60; // 1 day in seconds
 
 self.addEventListener('push', event => {
@@ -51,6 +51,14 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  if (event.request.method === 'PUT') {
+    return;
+  }
+
+  if (event.request.method === 'DELETE') {
+    return;
+  }
+
   event.respondWith(
     caches.open(CACHE_NAME)
       .then(cache => {
@@ -66,7 +74,7 @@ self.addEventListener('fetch', event => {
               })
               .catch(() => {
                 // If fetch fails, return the cached response if available
-                return cachedResponse || new Response(null, { status: 404, statusText: 'Not found' });
+                return cachedResponse || new Response(null, { status: 404, statusText: 'Cache Not found' });
               });
 
             return cachedResponse || fetchPromise;

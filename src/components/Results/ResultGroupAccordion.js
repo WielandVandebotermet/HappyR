@@ -23,10 +23,8 @@ const ResultGroupAccordion = ({
   const fetchResults = async () => {
     try {
       let response = await ResultApi.getResultBySurveyId(Sid);
-      console.log(response)
       if (response) {
         response = response.filter(result => result.groupId == groupId)
-        console.log(results);
       }
 
       setResults(response);

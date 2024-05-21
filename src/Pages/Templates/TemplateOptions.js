@@ -171,7 +171,6 @@ function TemplateOptions() {
     if (question) {
       getCategorie();
     }
-    console.log(question);
   }, [question]);
 
   const handleToggleChange = (optionId) => {

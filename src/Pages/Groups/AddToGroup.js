@@ -27,8 +27,6 @@ function AddToGroup() {
         (user) => !groupM.includes(user.id) && !groupGU.includes(user.id)
       );
 
-      console.log(result);
-
       const transformedUsers = filteredUsers.map((user) => ({
         value: user.id,
         label: `${user.firstName} ${user.lastName}`,
@@ -112,10 +110,6 @@ function AddToGroup() {
       getUsers();
     }
   }, [group]);
-
-  useEffect(() => {
-    console.log(addedUsers);
-  }, [addedUsers]);
 
   if (!group && !users) {
     return <div>Loading...</div>;

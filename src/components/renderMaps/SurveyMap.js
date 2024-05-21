@@ -24,15 +24,10 @@ function SurveyMap({ survey, groups, url, userGroups }) {
   const group = groups.find((group) => group.id === survey.groupList[0]);
 
   const setGroup = () => {
-    console.log("check");
-    console.log(survey.groupList);
-    console.log(userGroups);
-    
     if (survey.groupList && survey.groupList.length > 1) {
       const filtered = userGroups.filter((group) => survey.groupList.includes(group.id));
       setFilteredGroups(filtered);
       setModal(true);
-      console.log(filtered);
     } else if (survey.groupList && survey.groupList.length === 1) {
       navigate(url + survey.groupList[0]);
     }

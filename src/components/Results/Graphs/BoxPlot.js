@@ -23,7 +23,6 @@ const BoxPlot = ({ data, maxValues, title, Height, Width, legendPadding }) => {
     const filteredData = Object.keys(data).map((name) => data[name][selectedCategory]);
  
     const filteredMax = maxValues[selectedCategory];
-    console.log(filteredMax);
 
     // Calculate quartiles, median, min, and max
     const q1 = d3.quantile(filteredData.sort(d3.ascending), 0.25);

@@ -38,7 +38,6 @@ function GroupOverview() {
     try {
       const GU = await MTUApi.getTeamUsersByTeamId(group.id);
       const M = await MTUApi.getManagersByTeamId(group.id);
-      console.log('GU',GU, 'M',M)
       setGU(GU);
       setM(M);
     } catch (error) {

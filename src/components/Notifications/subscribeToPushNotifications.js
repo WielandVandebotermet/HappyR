@@ -6,14 +6,14 @@ export function subscribeToPushNotifications() {
     const applicationServerKey = process.env.REACT_APP_VAPID_PUBLIC_KEY;
     const messaging = getMessaging();
     getToken(messaging, { vapidKey: applicationServerKey }).then((currentToken) => {
-      console.log(currentToken);
+      //console.log(currentToken);
       if (currentToken) {
         sendSubscriptionToServer(currentToken);
       } else {
-        console.log('No registration token available. Request permission to generate one.');
+        //console.log('No registration token available. Request permission to generate one.');
       }
     }).catch((err) => {
-      console.log('An error occurred while retrieving token. ', err);
+      //console.log('An error occurred while retrieving token. ', err);
     });
   }
   

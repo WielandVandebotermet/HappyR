@@ -13,7 +13,7 @@ function Results() {
 
   const getResults = async () => {
     try {
-      const response = await SurveyApi.getSurveysByManagerId(UserId);
+      const response = await SurveyApi.getSurveysResultsByManagerId(UserId);
       if (Array.isArray(response)) {
         setSurveys(response);
       } else {

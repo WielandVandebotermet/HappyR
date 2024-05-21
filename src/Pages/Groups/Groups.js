@@ -13,19 +13,20 @@ import {
 import GroupApi from "../../API/GroupApi";
 import MTUApi from "../../API/MTUApi";
 import Back from "../../components/Navigation/Back";
+import { useNavigate } from "react-router-dom";
 
 function Groups() {
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [groups, setGroups] = useState([]);
   const [GU, setGU] = useState();
   const [M, setM] = useState();
   const UserId = Cookies.get("UserId");
-  const [groupName, setGroupName] = useState();
+  const [groupName, setGroupName] = useState('');
 
   const fetchGroups = async () => {
     try {
       const response = await GroupApi.getAllTeams();
-      console.log(response);
       if (Array.isArray(response)) {
         setGroups(response);
       } else {
@@ -61,6 +62,7 @@ function Groups() {
     } catch (error) {
       console.error("Error adding group:", error.message);
     }
+    navigate(0);
   };
 
   const calculateTotalMembers = (groupId) => {
@@ -90,8 +92,6 @@ function Groups() {
 
     return groupM.length;
   };
-
-  console.log(groups);
 
   if (!groups || !GU || !M) {
     return <div>Loading...</div>;

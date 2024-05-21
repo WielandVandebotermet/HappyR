@@ -27,8 +27,6 @@ function Profile() {
     fetchGroups();
   }, [user]);
 
-  console.log(user);
-
   if (!GroupsGU || !GroupsM || !user) {
     return <div>...Loading</div>;
   }

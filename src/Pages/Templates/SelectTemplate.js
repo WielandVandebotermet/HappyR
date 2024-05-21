@@ -4,7 +4,7 @@ import TemplateApi from "../../API/TemplateApi";
 import SurveyQuestionApi from "../../API/SurveyQuestionApi";
 
 function Groups() {
-  const { Sid } = useParams();
+  const {Sid} = useParams();
   const [q, setQ] = useState(0);
   const [templates, setTemplates] = useState([]);
   const [survey, setSurvey] = useState([]);
