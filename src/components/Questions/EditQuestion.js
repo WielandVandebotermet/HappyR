@@ -15,6 +15,7 @@ import SurveyQuestionApi from "../../API/SurveyQuestionApi";
 
 const EditQuestion = ({ Sid, templates, categories, question }) => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [questionPage, setQuestionPage] = useState(true);
@@ -22,7 +23,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
   const [editCategoryPage, setEditCategoryPage] = useState(false);
 
   const selectedTemplate = templates.find(
-    (template) => template.id == parseInt(question.templateId)
+    (template) => template.id === parseInt(question.templateId)
   );
 
   const [selectedTemplateId, setSelectedTemplateId] = useState(
@@ -57,6 +58,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
       const setting = question.settings.find(
         (setting) => setting.question === "categorieId"
       );
+
       if (setting) {
         const categorie = categories.find(
           (categorie) => categorie.id === parseInt(setting.text)
@@ -92,6 +94,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
 
   const BackToQuestion = () => {
     setEditCategoryPage(false);
+    setSelectCategoryPage(false);
     setQuestionPage(true);
   };
 
@@ -101,22 +104,36 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
   };
 
   const NextToEditCategorie = () => {
-    const isAllFieldsFilled = () => {
-      if (!questionTitle || !questionSubtext) return false;
-      return true;
-    };
+    if (
+      barMin &&
+      barMax &&
+      stepSize &&
+      barMin > 0 &&
+      barMax > barMin &&
+      barMax > stepSize &&
+      stepSize > 0 &&
+      questionTitle.trim() &&
+      questionSubtext.trim()
+    ) {
 
-    setQuestionPage(!isAllFieldsFilled());
-    setEditCategoryPage(isAllFieldsFilled());
+      setSelectCategoryPage(false);
+      setQuestionPage(false);
+      setEditCategoryPage(true);
+
+      setErrorMessage(false);
+    } else {
+      setErrorMessage(true);
+    }
   };
 
   const NextToSelectCategorie = () => {
+    setQuestionPage(false);
     setEditCategoryPage(false);
     setSelectCategoryPage(true);
   };
 
   const Post = () => {
-    if (categorieId == -1) {
+    if (categorieId === -1) {
       PostCatId0();
     } else {
       PutCatEdit();
@@ -124,62 +141,80 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
   };
 
   const PostCatId0 = async () => {
-    try {
-      let settings = [{ text: categorieId, question: "categorieId" }];
-      if (selectedTemplateOptions[0].settingValue == true) {
-        settings = [
-          { text: barMin, question: "Bmin" },
-          { text: barMax, question: "Bmax" },
-          { text: stepSize, question: "Step" },
-          { text: categorieId, question: "categorieId" },
-        ];
-      }
+    if (
+      categorieId &&
+      categorieImpact &&
+      categorieName.trim() &&
+      categorieImpact > 0
+    ) {
+      try {
+        let settings = [{ text: categorieId, question: "categorieId" }];
+        if (selectedTemplateOptions[0].settingValue === true) {
+          settings = [
+            { text: barMin, question: "Bmin" },
+            { text: barMax, question: "Bmax" },
+            { text: stepSize, question: "Step" },
+            { text: categorieId, question: "categorieId" },
+          ];
+        }
 
-      await SurveyQuestionApi.editSurveyQuestionAndCategory(
-        Sid,
-        question.id,
-        questionTitle,
-        questionSubtext,
-        selectedTemplateOptions,
-        settings,
-        categorieName,
-        parseInt(categorieImpact)
-      );
-    navigate(0);
-    } catch (error) {
-      console.error("Error adding group:", error.message);
+        await SurveyQuestionApi.editSurveyQuestionAndCategory(
+          Sid,
+          question.id,
+          questionTitle,
+          questionSubtext,
+          selectedTemplateOptions,
+          settings,
+          categorieName,
+          parseInt(categorieImpact)
+        );
+        navigate(0);
+      } catch (error) {
+        console.error("Error adding group:", error.message);
+      }
+    } else {
+      setErrorMessage(true);
     }
   };
 
   const PutCatEdit = async () => {
-    try {
-      let settings = [{ text: categorieId, question: "categorieId" }];
-      if (selectedTemplateOptions[0].settingValue == true) {
-        settings = [
-          { text: barMin, question: "Bmin" },
-          { text: barMax, question: "Bmax" },
-          { text: stepSize, question: "Step" },
-          { text: categorieId, question: "categorieId" },
-        ];
+    if (
+      categorieId &&
+      categorieImpact &&
+      categorieName.trim() &&
+      categorieImpact > 0
+    ) {
+      try {
+        let settings = [{ text: categorieId, question: "categorieId" }];
+        if (selectedTemplateOptions[0].settingValue === true) {
+          settings = [
+            { text: barMin, question: "Bmin" },
+            { text: barMax, question: "Bmax" },
+            { text: stepSize, question: "Step" },
+            { text: categorieId, question: "categorieId" },
+          ];
+        }
+
+        await CategoryApi.editCategory(
+          categorieId,
+          categorieName,
+          parseInt(categorieImpact)
+        );
+
+        await SurveyQuestionApi.editSurveyQuestion(
+          Sid,
+          question.id,
+          questionTitle,
+          questionSubtext,
+          selectedTemplateOptions,
+          settings
+        );
+        navigate(0);
+      } catch (error) {
+        console.error("Error adding group:", error.message);
       }
-
-      await CategoryApi.editCategory(
-        categorieId,
-        categorieName,
-        parseInt(categorieImpact)
-      );
-
-      await SurveyQuestionApi.editSurveyQuestion(
-        Sid,
-        question.id,
-        questionTitle,
-        questionSubtext,
-        selectedTemplateOptions,
-        settings
-      );
-      navigate(0);
-    } catch (error) {
-      console.error("Error adding group:", error.message);
+    } else {
+      setErrorMessage(true);
     }
   };
 
@@ -207,6 +242,14 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
         <h1 className="p-2 mx-4 text-center text-4xl">
           {selectedTemplateName}
         </h1>
+        {errorMessage && (
+          <div className="text-danger-600 flex flex-col text-center text-lg font-bold mb-4">
+            <p> Please fill in all forms.</p>
+            <p> min must be greater than 0.</p>
+            <p> max must be greater than min.</p>
+            <p> StepSize must be smaller than max and bigger than 0.</p>
+          </div>
+        )}
         <div className="flex-col p-3">
           <div className="flex flex-col p-2">
             <input
@@ -346,16 +389,13 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
           >
             {categorieName}
           </h1>
-          <h1
-            className={
-              "p-2 text-center text-4xl " +
-              (categorieId === "-1" ? "" : "hidden")
-            }
-          >
-            Create Categorie
-          </h1>
           <div className="flex justify-center">
             <div className="flex flex-col justify-center">
+              {errorMessage && (
+                <div className="text-danger-600 text-center text-lg font-bold mb-4">
+                  Please fill in all forms
+                </div>
+              )}
               <div className="flex flex-col m-3">
                 <input
                   className="border border-gray-900 rounded p-1 m-1"
@@ -386,7 +426,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
             <div
               className={
                 "w-full flex justify-center " +
-                (categorieId == "-1" ? "block" : "hidden")
+                (categorieId === Number(-1) ? "block" : "hidden")
               }
             >
               <button
@@ -405,7 +445,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
             <div
               className={
                 "w-full flex justify-center " +
-                (categorieId !== "-1" ? "block" : "hidden")
+                (categorieId !== Number(-1) ? "block" : "hidden")
               }
             >
               <button
@@ -424,7 +464,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
           <div className="flex justify-center w-full pt-5">
             <button
               onClick={() => {
-                NextToSelectCategorie()
+                NextToSelectCategorie();
               }}
               className="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium border-[5px] border-MineralGreen text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"
             >
@@ -472,6 +512,8 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
               <button
                 onClick={() => {
                   setCategorieId(-1);
+                  setCategorieName("");
+                  setCategorieImpact(100);
                   NextToEditCategorie();
                 }}
                 type="button"

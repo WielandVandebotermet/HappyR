@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { TETooltip } from "tw-elements-react";
-import { tree } from "d3";
 
 const ResultQuestion = ({ question, answer }) => {
   const [SliderValue, SetSliderValue] = useState(0);

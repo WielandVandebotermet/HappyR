@@ -94,7 +94,7 @@ function TemplateOptions() {
         question.options,
         settings
       );
-      if (categorieId == null) {
+      if (categorieId === null) {
         navigate("/SelectCategorie/" + Sid + "/" + Qid);
       } else {
         navigate("/CreateCategorie/" + Sid + "/" + Qid + "/" + categorieId);
@@ -153,7 +153,7 @@ function TemplateOptions() {
   };
 
   useEffect(() => {
-    if (Qid == 0) {
+    if (Qid === 0) {
       getTemplate();
     } else {
       getQuestion();

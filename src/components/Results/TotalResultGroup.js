@@ -303,7 +303,7 @@ const TotalResultGroup = ({ result }) => {
     return (
       <div
         className={
-          "flex flex-col" + (Landscape() == false ? " p-0 " : " p-0 ")
+          "flex flex-col" + (Landscape() === false ? " p-0 " : " p-0 ")
         }
       >
         <div className="flex flex-col flex-wrap justify-center">

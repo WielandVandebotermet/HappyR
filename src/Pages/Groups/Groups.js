@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import {
   TERipple,
   TEModal,
@@ -17,12 +16,13 @@ import { useNavigate } from "react-router-dom";
 
 function Groups() {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [groups, setGroups] = useState([]);
   const [GU, setGU] = useState();
   const [M, setM] = useState();
-  const UserId = Cookies.get("UserId");
-  const [groupName, setGroupName] = useState('');
+  const UserId = localStorage.getItem('UserId');
+  const [groupName, setGroupName] = useState("");
 
   const fetchGroups = async () => {
     try {
@@ -54,15 +54,19 @@ function Groups() {
   }, []);
 
   const handleAddGroup = async () => {
-    try {
-      await GroupApi.createTeam(groupName, UserId);
-      setGroupName("");
-      fetchGroups();
-      fetchGroupMembers();
-    } catch (error) {
-      console.error("Error adding group:", error.message);
+    if (groupName.trim()) {
+      try {
+        await GroupApi.createTeam(groupName, UserId);
+        setGroupName("");
+        fetchGroups();
+        fetchGroupMembers();
+      } catch (error) {
+        console.error("Error adding group:", error.message);
+      }
+      navigate(0);
+    } else {
+      setErrorMessage(true);
     }
-    navigate(0);
   };
 
   const calculateTotalMembers = (groupId) => {
@@ -151,6 +155,11 @@ function Groups() {
             {/* <!--Modal body--> */}
             <TEModalBody>
               <div className="flex flex-col p-3 text-StrongBlue">
+                {errorMessage && (
+                  <div className="text-danger-600 text-center text-lg font-bold mb-4">
+                    Please fill in all forms
+                  </div>
+                )}
                 <input
                   className="border border-gray-900 rounded p-1 m-1"
                   type="text"

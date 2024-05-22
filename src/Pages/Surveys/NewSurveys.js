@@ -1,6 +1,5 @@
 import { Link} from "react-router-dom";
 import { useState, useEffect } from "react";
-import Cookies from 'js-cookie';
 import SurveyApi from "../../API/SurveyApi";
 import GroupApi from "../../API/GroupApi";
 import Back from "../../components/Navigation/Back"
@@ -9,7 +8,7 @@ import SurveyMap from '../../components/renderMaps/ManageSurveyMap.js';
 function CreateSurveys() {
   const [surveys, setSurveys] = useState([]);
   const [groups, setGroups] = useState([]);
-  const [UserId, setuserId] = useState(Cookies.get("UserId") || 0);
+  const [UserId, setuserId] = useState(localStorage.getItem('UserId') || 0);
 
   const getSurveys = async () => {
     try {

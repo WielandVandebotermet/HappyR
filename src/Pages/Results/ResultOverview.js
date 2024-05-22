@@ -3,8 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import SurveyApi from "../../API/SurveyApi";
 import GroupApi from "../../API/GroupApi";
 import ResultGroupAccordion from "../../components/Results/ResultGroupAccordion";
-import { TECollapse } from "tw-elements-react";
-import Back from "../../components/Navigation/Back";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function ResultOverview() {
@@ -125,7 +123,7 @@ function ResultOverview() {
               </button>
             </h5>
           </div>
-          <div className={" " + (Landscape() == false ? " p-0 " : " p-9 ")}>
+          <div className={" " + (Landscape() === false ? " p-0 " : " p-9 ")}>
             {groups.map((group) => (
               <div key={group.id}>
                 {activeGroup === group.id && (

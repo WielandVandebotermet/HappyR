@@ -7,6 +7,7 @@ import SurveyQuestionApi from "../../API/SurveyQuestionApi";
 
 const NewQuestion = ({ Sid, templates, categories }) => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const [templatePage, setTemplatePage] = useState(true);
   const [questionPage, setQuestionPage] = useState(false);
@@ -63,13 +64,28 @@ const NewQuestion = ({ Sid, templates, categories }) => {
   };
 
   const NextToSelectCategorie = () => {
-    const isAllFieldsFilled = () => {
-      if (!questionTitle || !questionSubtext) return false;
-      return true;
-    };
+    if (
+      barMin &&
+      barMax &&
+      stepSize &&
+      barMin > 0 &&
+      barMax > barMin &&
+      barMax > stepSize &&
+      stepSize > 0 &&
+      questionTitle.trim() &&
+      questionSubtext.trim()
+    ) {
+      const isAllFieldsFilled = () => {
+        if (!questionTitle || !questionSubtext) return false;
+        return true;
+      };
 
-    setQuestionPage(!isAllFieldsFilled());
-    setSelectCategoryPage(isAllFieldsFilled());
+      setQuestionPage(!isAllFieldsFilled());
+      setSelectCategoryPage(isAllFieldsFilled());
+      setErrorMessage(false);
+    } else {
+      setErrorMessage(true);
+    }
   };
 
   const NextEditCategorie = () => {
@@ -86,63 +102,81 @@ const NewQuestion = ({ Sid, templates, categories }) => {
   };
 
   const PostCatId0 = async () => {
-    try {
-      let settings = [{ text: categorieId, question: "categorieId" }];
+    if (
+      categorieId &&
+      categorieImpact &&
+      categorieName.trim() &&
+      categorieImpact > 0
+    ) {
+      try {
+        let settings = [{ text: categorieId, question: "categorieId" }];
 
-      if (selectedTemplateOptions[0].settingValue == true) {
-        settings = [
-          { text: barMin, question: "Bmin" },
-          { text: barMax, question: "Bmax" },
-          { text: stepSize, question: "Step" },
-          { text: categorieId, question: "categorieId" },
-        ];
+        if (selectedTemplateOptions[0].settingValue == true) {
+          settings = [
+            { text: barMin, question: "Bmin" },
+            { text: barMax, question: "Bmax" },
+            { text: stepSize, question: "Step" },
+            { text: categorieId, question: "categorieId" },
+          ];
+        }
+
+        await SurveyQuestionApi.createSurveyQuestionAndCategory(
+          Sid,
+          selectedTemplateId,
+          questionTitle,
+          questionSubtext,
+          selectedTemplateOptions,
+          settings,
+          categorieName,
+          parseInt(categorieImpact)
+        );
+        navigate(0);
+      } catch (error) {
+        console.error("Error adding group:", error.message);
       }
-
-      await SurveyQuestionApi.createSurveyQuestionAndCategory(
-        Sid,
-        selectedTemplateId,
-        questionTitle,
-        questionSubtext,
-        selectedTemplateOptions,
-        settings,
-        categorieName,
-        parseInt(categorieImpact)
-      );
-      navigate(0);
-    } catch (error) {
-      console.error("Error adding group:", error.message);
+    } else {
+      setErrorMessage(true);
     }
   };
 
   const PostCatEdit = async () => {
-    try {
-      let settings = [{ text: categorieId, question: "categorieId" }];
+    if (
+      categorieId &&
+      categorieImpact &&
+      categorieName.trim() &&
+      categorieImpact > 0
+    ) {
+      try {
+        let settings = [{ text: categorieId, question: "categorieId" }];
 
-      if (selectedTemplateOptions[0].settingValue == true) {
-        settings = [
-          { text: barMin, question: "Bmin" },
-          { text: barMax, question: "Bmax" },
-          { text: stepSize, question: "Step" },
-          { text: categorieId, question: "categorieId" },
-        ];
+        if (selectedTemplateOptions[0].settingValue == true) {
+          settings = [
+            { text: barMin, question: "Bmin" },
+            { text: barMax, question: "Bmax" },
+            { text: stepSize, question: "Step" },
+            { text: categorieId, question: "categorieId" },
+          ];
+        }
+        await CategoryApi.editCategory(
+          categorieId,
+          categorieName,
+          parseInt(categorieImpact)
+        );
+
+        await SurveyQuestionApi.createSurveyQuestion(
+          Sid,
+          selectedTemplateId,
+          questionTitle,
+          questionSubtext,
+          selectedTemplateOptions,
+          settings
+        );
+        navigate(0);
+      } catch (error) {
+        console.error("Error adding group:", error.message);
       }
-      await CategoryApi.editCategory(
-        categorieId,
-        categorieName,
-        parseInt(categorieImpact)
-      );
-
-      await SurveyQuestionApi.createSurveyQuestion(
-        Sid,
-        selectedTemplateId,
-        questionTitle,
-        questionSubtext,
-        selectedTemplateOptions,
-        settings
-      );
-      navigate(0);
-    } catch (error) {
-      console.error("Error adding group:", error.message);
+    } else {
+      setErrorMessage(true);
     }
   };
 
@@ -199,6 +233,14 @@ const NewQuestion = ({ Sid, templates, categories }) => {
         <h1 className="p-2 mx-4 text-center text-4xl">
           {selectedTemplateName}
         </h1>
+        {errorMessage && (
+          <div className="text-danger-600 flex flex-col text-center text-lg font-bold mb-4">
+            <p> Please fill in all forms.</p>
+            <p> min must be greater than 0.</p>
+            <p> max must be greater than min.</p>
+            <p> StepSize must be smaller than max and bigger than 0.</p>
+          </div>
+        )}
         <div className="flex-col p-3">
           <div className="flex flex-col p-2">
             <input
@@ -323,6 +365,8 @@ const NewQuestion = ({ Sid, templates, categories }) => {
               <button
                 onClick={() => {
                   setCategorieId(-1);
+                  setCategorieName("");
+                  setCategorieImpact(100);
                   NextEditCategorie();
                 }}
                 type="button"
@@ -352,21 +396,18 @@ const NewQuestion = ({ Sid, templates, categories }) => {
           <h1
             className={
               "p-2 text-center text-4xl " +
-              (categorieId !== "-1" ? "" : "hidden")
+              (categorieId !== Number(-1) ? "" : "hidden")
             }
           >
             {categorieName}
           </h1>
-          <h1
-            className={
-              "p-2 text-center text-4xl " +
-              (categorieId === "-1" ? "" : "hidden")
-            }
-          >
-            Create Categorie
-          </h1>
           <div className="flex justify-center">
             <div className="flex flex-col justify-center">
+              {errorMessage && (
+                <div className="text-danger-600 text-center text-lg font-bold mb-4">
+                  Please fill in all forms
+                </div>
+              )}
               <div className="flex flex-col m-3">
                 <input
                   className="border border-gray-900 rounded p-1 m-1"
@@ -397,7 +438,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
             <div
               className={
                 "w-full flex justify-center " +
-                (categorieId == "-1" ? "block" : "hidden")
+                (categorieId === Number(-1) ? "block " : "hidden")
               }
             >
               <button
@@ -416,7 +457,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
             <div
               className={
                 "w-full flex justify-center " +
-                (categorieId !== "-1" ? "block" : "hidden")
+                (categorieId !== Number(-1) ? "block " : "hidden")
               }
             >
               <button
@@ -436,6 +477,9 @@ const NewQuestion = ({ Sid, templates, categories }) => {
             <button
               onClick={() => {
                 setCategorieId(-1);
+                setCategorieName("");
+                setCategorieImpact(100);
+
                 setSelectCategoryPage(true);
                 setEditCategoryPage(false);
               }}

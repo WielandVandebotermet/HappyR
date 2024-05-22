@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 
 const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_MTUAPI;
 const API_URL_GU =
@@ -9,7 +8,7 @@ const API_URL_M =
 
 const handleRequest = async (request) => {
   try {
-    const token = Cookies.get("access_token");
+    const token = localStorage.getItem('access_token');
     const response = await request({
       headers: {
         Authorization: `Bearer ${token}`,

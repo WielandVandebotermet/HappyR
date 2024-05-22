@@ -75,10 +75,6 @@ function Questions() {
     return <div>... Loading!</div>;
   }
 
-console.log(activeQuestion);
-console.log(typeof activeQuestion);
-
-
   return (
     <div className="max-h-full flex flex-col text-StrongBlue">
       <div className="flex-grow flex flex-col overflow-y-auto">
@@ -133,7 +129,7 @@ console.log(typeof activeQuestion);
               <h5 className="mb-2 text-xl font-medium leading-tight pl-4 hover:text-MineralGreen">
                 <button
                   className={
-                    activeQuestion === "-1"
+                    activeQuestion === Number(-1)
                       ? "underline text-MineralGreen"
                       : "no-underline text-AccentRed"
                   }

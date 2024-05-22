@@ -2,7 +2,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SurveyApi from "../../API/SurveyApi";
 import GroupApi from "../../API/GroupApi";
-import { TESelect } from "tw-elements-react";
 import Back from "../../components/Navigation/Back";
 import {
   TEModal,
@@ -14,6 +13,7 @@ import {
 } from "tw-elements-react";
 
 function CreateSurveys() {
+  const [errorMessage, setErrorMessage] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const [showModalDelete, setShowModalDelete] = useState(false);
@@ -21,6 +21,13 @@ function CreateSurveys() {
   const [groups, setGroups] = useState([]);
   const [Selectedgroups, setSelectedgroups] = useState([]);
   const [SurveyName, setSurveyName] = useState("");
+  const [started, setStarted] = useState(false);
+  const [MinDate, setMinDate] = useState(() => {
+    const today = new Date();
+    today.setDate(today.getDate() + 1);
+    return today.toISOString().split("T")[0];
+  });
+
   const [date, setDate] = useState(() => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -34,6 +41,7 @@ function CreateSurveys() {
       try {
         const response = await SurveyApi.getSurveyById(id);
         setSurveyName(response.testName);
+        setStarted(response.started);
 
         const dateConvert = new Date(response.startDate);
         const year = dateConvert.getFullYear();
@@ -69,18 +77,22 @@ function CreateSurveys() {
   };
 
   const createSurvey = async () => {
-    try {
-      await SurveyApi.createSurvey(
-        SurveyName,
-        date,
-        null,
-        Selectedgroups,
-        true
-      );
+    if (SurveyName.trim() && date.trim() && Selectedgroups.length > 0) {
+      try {
+        await SurveyApi.createSurvey(
+          SurveyName,
+          date,
+          null,
+          Selectedgroups,
+          false
+        );
 
-      navigate(-1);
-    } catch (error) {
-      console.error("Error adding group:", error.message);
+        navigate(-1);
+      } catch (error) {
+        console.error("Error adding group:", error.message);
+      }
+    } else {
+      setErrorMessage(true);
     }
   };
 
@@ -132,6 +144,11 @@ function CreateSurveys() {
           >
             Create new survey
           </h1>
+          {errorMessage && (
+            <div className="text-danger-600 text-center text-lg font-bold mb-4">
+              Please fill in all forms
+            </div>
+          )}
           <div className="flex justify-center">
             <div className="w-full md:w-1/3 md:flex flex-col">
               <div className="flex flex-col p-3">
@@ -152,6 +169,7 @@ function CreateSurveys() {
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
+                  min={MinDate}
                 />
                 <p className="text-right text-md">Date</p>
               </div>
@@ -193,18 +211,24 @@ function CreateSurveys() {
                 to={"/Questions/" + id}
                 className={
                   "w-1/2 flex justify-center " +
-                  (id === "0" ? "hidden" : "Block")
+                  (id === "0" || started ? "hidden" : "Block")
                 }
               >
                 <button
                   type="button"
                   className={
-                    "py-3.5 mx-3 w-9/12 text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"
+                    "py-3.5 mx-3 w-9/12 text-base font-medium text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center "
                   }
+                  disabled={started}
                 >
                   Questions
                 </button>
               </Link>
+              {started && (
+                <div className="text-danger-600 flex flex-col text-center text-lg font-bold">
+                  <p> Survey has started</p>
+                </div>
+              )}
             </div>
             <div className="flex justify-center pt-4">
               <div
@@ -299,7 +323,6 @@ function CreateSurveys() {
                   type="button"
                   className="text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 float-left inline-block rounded bg-gray-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black hover:bg-gray-400 "
                   onClick={() => setShowModalDelete(false)}
-
                 >
                   No
                 </button>

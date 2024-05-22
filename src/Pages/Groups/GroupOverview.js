@@ -11,10 +11,9 @@ import {
 import GroupApi from "../../API/GroupApi";
 import MTUApi from "../../API/MTUApi";
 import Back from "../../components/Navigation/Back";
-import Cookies from "js-cookie";
 
 function GroupOverview() {
-  const [UserId] = useState(Cookies.get("UserId") || 0);
+  const [UserId] = useState(localStorage.getItem('UserId') || 0);
   const [Manager, setManager] = useState(false);
   const [Key, setkey] = useState({});
   const [groupName, setGroupName] = useState("");

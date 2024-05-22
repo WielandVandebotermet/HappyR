@@ -1,12 +1,11 @@
-import Cookies from "js-cookie";
 
 export function sendSubscriptionToServer(
   Token
 ) {
   const URL =
     process.env.REACT_APP_API_URL + process.env.REACT_APP_NOTIFICATION;
-  const UserId = Cookies.get("UserId");
-  const accessToken = Cookies.get("access_token");
+  const UserId = localStorage.getItem('UserId');
+  const accessToken = localStorage.getItem('access_token');
 
   const subscriptionData = {
     userId: UserId,

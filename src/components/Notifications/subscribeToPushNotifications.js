@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { sendSubscriptionToServer } from "./sendSubscriptionToServer";
 import { getMessaging, getToken } from "firebase/messaging";
 

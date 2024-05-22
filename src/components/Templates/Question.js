@@ -1,7 +1,7 @@
 import { useState, useEffect} from "react";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import isEqual from 'lodash/isEqual';
+
 
 const Question = ({ question, answer }) => {
   const [SliderValue, SetSliderValue] = useState(0);

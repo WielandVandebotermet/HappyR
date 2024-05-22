@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { TECollapse } from "tw-elements-react";
 import ResultUserAccordion from "./ResultUserAccordion";
 import ResultApi from "../../API/ResultApi";
-import Results from "../../Pages/Results/Results";
 import ResultLoader from "./TotalResultGroup";
-import Cookies from 'js-cookie';
 
 const ResultGroupAccordion = ({
   survey,
@@ -24,7 +21,7 @@ const ResultGroupAccordion = ({
     try {
       let response = await ResultApi.getResultBySurveyId(Sid);
       if (response) {
-        response = response.filter(result => result.groupId == groupId)
+        response = response.filter(result => result.groupId === groupId)
       }
 
       setResults(response);

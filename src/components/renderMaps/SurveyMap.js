@@ -1,12 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState} from "react";
 import {
   TEModal,
   TEModalDialog,
   TEModalContent,
   TEModalHeader,
   TEModalBody,
-  TEModalFooter,
 } from "tw-elements-react";
 
 function SurveyMap({ survey, groups, url, userGroups }) {

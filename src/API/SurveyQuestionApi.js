@@ -1,11 +1,10 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 
 const API_URL = process.env.REACT_APP_API_URL + process.env.REACT_APP_SURVEY;
 
 const handleRequest = async (request) => {
   try {
-    const token = Cookies.get("access_token");
+    const token = localStorage.getItem('access_token');
     const response = await request({
       headers: {
         Authorization: `Bearer ${token}`,
@@ -78,7 +77,7 @@ const SurveyQuestionApi = {
 
   editSurveyQuestionAndCategory: async (Sid, Qid, Title, SubText, options, settings, categorieName, categorieImpact) => {
     return handleRequest((config) =>
-      axios.post(`${API_URL}question/edit/categorie/${Qid}`, {
+      axios.put(`${API_URL}question/edit/categorie/${Qid}`, {
         surveyId: Sid,
         question: Title,
         text: SubText,

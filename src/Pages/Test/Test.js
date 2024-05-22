@@ -1,5 +1,4 @@
 import { useState, useEffect, lazy, Suspense } from "react";
-import Cookies from 'js-cookie';
 import { useParams, useNavigate } from "react-router-dom";
 import SurveyApi from "../../API/SurveyApi.js";
 import ResultApi from "../../API/ResultApi.js";
@@ -8,7 +7,7 @@ import TemplateLoader from "../../components/Templates/TemplateLoader.js";
 function Test() {
   const { Sid } = useParams();
   const { Gid } = useParams();
-  const [UserId, setuserId] = useState(Cookies.get("UserId") || 0);
+  const [UserId, setuserId] = useState(localStorage.getItem('UserId') || 0);
   const [q, setQ] = useState(0);
   const [survey, setSurvey] = useState([]);
   const [questions, setQuestions] = useState([]);
@@ -73,7 +72,7 @@ function Test() {
         <h1 className="p-2 text-center text-4xl">{survey.testName}</h1>
         <div className="">
           {questions.map((question, index) => (
-            <div key={question.id} className={"flex justify-center " + (index == q ? 'inline-block' : 'hidden')}>
+            <div key={question.id} className={"flex justify-center " + (index === q ? 'inline-block' : 'hidden')}>
               <TemplateLoader templateId={question.templateId} question={question} HandleResult={HandleResult} q={q} />
             </div>
           ))}

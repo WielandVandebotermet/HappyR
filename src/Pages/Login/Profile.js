@@ -2,13 +2,11 @@ import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import LogoutButton from "../../components/Auth/LogoutButton";
 import Back from "../../components/Navigation/Back";
-import userApi from "../../API/UserApi";
 import MTUApi from "../../API/MTUApi";
-import Cookies from "js-cookie";
 
 function Profile() {
   const { user, isAuthenticated} = useAuth0();
-  const UserId = Cookies.get("UserId");
+  const UserId = localStorage.getItem('UserId');
   const [GroupsM, SetGroupsM] = useState([]);
   const [GroupsGU, SetGroupsGU] = useState([]);
 
