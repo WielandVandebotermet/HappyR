@@ -4,13 +4,13 @@ importScripts('https://www.gstatic.com/firebasejs/8.3.1/firebase-messaging.js');
 
 // Initialize the Firebase app in the service worker with the given configuration
 firebase.initializeApp({
-    apiKey: "AIzaSyBOFv9soUJfczljNmQnHadXiXKryhz5M-8",
-    authDomain: "happyr-32a1e.firebaseapp.com",
-    projectId: "happyr-32a1e",
-    storageBucket: "happyr-32a1e.appspot.com",
-    messagingSenderId: "173610922189",
-    appId: "1:173610922189:web:89d167a9c725005e5cf984",
-    measurementId: "G-2PM2MEJ3QN"
+    apiKey: ,
+    authDomain: ,
+    projectId: ,
+    storageBucket: ,
+    messagingSenderId: ,
+    appId: ,
+    measurementId: 
 });
 
 // Retrieve an instance of Firebase Messaging to handle background messages
