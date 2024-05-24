@@ -24,6 +24,7 @@ function GroupOverview() {
   const [M, setM] = useState([]);
   const [group, setGroup] = useState([]);
 
+  // Fetch group details by ID
   const fetchGroups = async () => {
     try {
       const response = await GroupApi.getTeamById(id);
@@ -33,6 +34,7 @@ function GroupOverview() {
     }
   };
 
+  // Fetch group members and managers
   const fetchGroupMembers = async () => {
     try {
       const GU = await MTUApi.getTeamUsersByTeamId(group.id);
@@ -40,10 +42,11 @@ function GroupOverview() {
       setGU(GU);
       setM(M);
     } catch (error) {
-      console.error("Error fetching groups:", error.message);
+      console.error("Error fetching group members:", error.message);
     }
   };
 
+  // Check if the current user is a manager
   const CheckManager = async () => {
     for (let i = 0; i < M.length; i++) {
       if (UserId == M[i].user.id) {
@@ -52,15 +55,17 @@ function GroupOverview() {
     }
   };
 
+  // Change the group name
   const ChangeGroupName = async () => {
     try {
       await GroupApi.editTeam(groupName, group.id);
       fetchGroups();
     } catch (error) {
-      console.error("Error adding group:", error.message);
+      console.error("Error changing group name:", error.message);
     }
   };
 
+  // Delete a user from the group
   const DeleteUser = async () => {
     try {
       if (Key.Type === "M") {
@@ -74,26 +79,31 @@ function GroupOverview() {
     }
   };
 
+  // Fetch group details on component mount
   useEffect(() => {
     fetchGroups();
   }, []);
 
+  // Fetch group members once group details are available
   useEffect(() => {
     if (group.id) {
       fetchGroupMembers();
     }
   }, [group]);
 
+  // Check if the user is a manager once the managers are available
   useEffect(() => {
     if (M) {
       CheckManager();
     }
   }, [M]);
 
+  // Render loading screen if group data is not yet available
   if (!group) {
     return <div>Loading...</div>;
   }
 
+  // Render the main component UI
   return (
     <div>
       <div className="">

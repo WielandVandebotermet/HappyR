@@ -1,15 +1,19 @@
+// Import necessary modules
 import { useState, useEffect } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { TETooltip } from "tw-elements-react";
 
+// Define ResultQuestion component
 const ResultQuestion = ({ question, answer }) => {
+  // Define state variables
   const [SliderValue, SetSliderValue] = useState(0);
   const [marks, setMarks] = useState({});
   const [Bmin, setBmin] = useState(0);
   const [Bmax, setBmax] = useState(1);
   const [CategorieId, setCategorieId] = useState("0");
 
+  // Fetch question settings and set state variables accordingly
   useEffect(() => {
     const newMarks = {};
     let Bmin = 0,
@@ -46,11 +50,13 @@ const ResultQuestion = ({ question, answer }) => {
     SetSliderValue(answer.score);
   }, []);
 
+  // Handle slider value change
   const handleResult = (value) => {
     SetSliderValue(value);
     answer({ questionId: question.id, score: value, categoryId: CategorieId });
   };
 
+  // Render ResultQuestion component
   return (
     <div className="h-full w-full">
       <div className="flex flex-col p-3">
@@ -88,4 +94,6 @@ const ResultQuestion = ({ question, answer }) => {
     </div>
   );
 };
+
+// Export ResultQuestion component
 export default ResultQuestion;

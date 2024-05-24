@@ -13,6 +13,7 @@ import {
 } from "tw-elements-react";
 
 function CreateSurveys() {
+  // State variables for error message, URL parameters, navigation, modal visibility, page state, groups, selected groups, survey name, start date, and minimum date
   const [errorMessage, setErrorMessage] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ function CreateSurveys() {
     return `${year}-${month}-${day}`;
   });
 
+  // Function to fetch survey details if ID is not "0"
   const getSurveys = async () => {
     if (id !== "0") {
       try {
@@ -57,6 +59,7 @@ function CreateSurveys() {
     }
   };
 
+  // Function to fetch all groups
   const fetchGroups = async () => {
     try {
       const response = await GroupApi.getAllTeams();
@@ -66,6 +69,7 @@ function CreateSurveys() {
     }
   };
 
+  // Function to handle toggle change for selecting groups
   const handleToggleChange = (groupId) => {
     setSelectedgroups((prevSelectedGroups) => {
       if (prevSelectedGroups.includes(groupId)) {
@@ -76,6 +80,7 @@ function CreateSurveys() {
     });
   };
 
+  // Function to create a new survey
   const createSurvey = async () => {
     if (SurveyName.trim() && date.trim() && Selectedgroups.length > 0) {
       try {
@@ -96,6 +101,7 @@ function CreateSurveys() {
     }
   };
 
+  // Function to edit an existing survey
   const EditSurvey = async () => {
     try {
       await SurveyApi.editSurvey(
@@ -112,6 +118,7 @@ function CreateSurveys() {
     }
   };
 
+  // Function to delete an existing survey
   const DeleteSurvey = async () => {
     try {
       SurveyApi.deleteSurvey(id);
@@ -121,11 +128,13 @@ function CreateSurveys() {
     }
   };
 
+  // Fetch survey details and groups on component mount
   useEffect(() => {
     getSurveys();
     fetchGroups();
   }, []);
 
+  // Render the CreateSurveys component
   return (
     <div>
       <div className={"text-StrongBlue " + (GroupPage ? "hidden" : "block")}>

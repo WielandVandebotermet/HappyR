@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 
+/**
+ * NavBar component renders a navigation bar with links.
+ */
 const NavBar = () => {
   return (
     <nav className="w-screen bg-StrongBlue01 py-4">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-StrongBlue01">
+        {/* Logo and Brand Name */}
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
             src={process.env.PUBLIC_URL + "/images/HappyR_Logo_Transparant.png"}
@@ -14,6 +18,8 @@ const NavBar = () => {
             HappyR
           </span>
         </a>
+        
+        {/* Navigation Links */}
         <div className="hidden w-full md:block md:w-auto">
           <ul className="font-medium center flex flex-col p-4 md:p-0 mt-4 border rounded-lg text-AccentRed md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
             <Link

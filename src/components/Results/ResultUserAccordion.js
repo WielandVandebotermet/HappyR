@@ -1,8 +1,10 @@
+// Import necessary modules
 import { useEffect, useState } from "react";
 import UserApi from "../../API/UserApi";
 import { TETooltip } from "tw-elements-react";
 import ResultLoader from "./Questions/ResultLoader";
 
+// Define ResultUserAccordion component
 const ResultUserAccordion = ({
   survey,
   result,
@@ -16,6 +18,7 @@ const ResultUserAccordion = ({
   const [activeElementUser, setActiveElementUser] = useState("");
   const [user, setUser] = useState([]);
 
+  // Fetch user details based on UserId
   const GetUser = async () => {
     try {
       const response = await UserApi.getUserById(UserId);
@@ -26,24 +29,29 @@ const ResultUserAccordion = ({
     }
   };
 
+  // Trigger GetUser on component mount or when UserId changes
   useEffect(() => {
     GetUser();
   }, [UserId]);
 
+  // Update activeElementUser when activeElement changes
   useEffect(() => {
     setActiveElementUser(activeElement);
   }, [activeElement]);
 
+  // Handle user toggle click event
   const handleClick = () => {
     handleUserToggle(UserId);
   };
 
+  // Display loading message if user data is not yet available
   if (!user) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="rounded-none border border-l-0 border-r-0 border-t-0  border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
+      {/* Accordion Header */}
       <h2 className="mb-0" id="headingOne">
         <button
           className={`${
@@ -80,6 +88,8 @@ const ResultUserAccordion = ({
           </span>
         </button>
       </h2>
+
+      {/* Accordion Content */}
       <div
         className={
           "!mt-0 !rounded-b-none !shadow-none " +
@@ -102,4 +112,5 @@ const ResultUserAccordion = ({
   );
 };
 
+// Export ResultUserAccordion component
 export default ResultUserAccordion;

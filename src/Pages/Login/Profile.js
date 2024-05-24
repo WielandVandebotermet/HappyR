@@ -5,11 +5,17 @@ import Back from "../../components/Navigation/Back";
 import MTUApi from "../../API/MTUApi";
 
 function Profile() {
-  const { user, isAuthenticated} = useAuth0();
+  // Auth0 hook to access user information and authentication status
+  const { user, isAuthenticated } = useAuth0();
+
+  // Get user ID from local storage
   const UserId = localStorage.getItem('UserId');
+
+  // State variables to store user's managed groups and group memberships
   const [GroupsM, SetGroupsM] = useState([]);
   const [GroupsGU, SetGroupsGU] = useState([]);
 
+  // Fetch user's managed groups and group memberships
   const fetchGroups = async () => {
     try {
       const GroupM = await MTUApi.getManagerByUserId(UserId);
@@ -21,14 +27,17 @@ function Profile() {
     }
   };
 
+  // Fetch groups on component mount or when user information changes
   useEffect(() => {
     fetchGroups();
   }, [user]);
 
+  // Render loading screen if group data is not yet available
   if (!GroupsGU || !GroupsM || !user) {
     return <div>...Loading</div>;
   }
 
+  // Render the profile information and group memberships
   return (
     <div className="flex flex-col p-3 ">
       <div className="flex flex-row justify-center p-3">

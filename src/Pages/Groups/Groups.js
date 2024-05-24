@@ -24,6 +24,7 @@ function Groups() {
   const UserId = localStorage.getItem('UserId');
   const [groupName, setGroupName] = useState("");
 
+  // Fetch all groups
   const fetchGroups = async () => {
     try {
       const response = await GroupApi.getAllTeams();
@@ -37,6 +38,7 @@ function Groups() {
     }
   };
 
+  // Fetch all group members and managers
   const fetchGroupMembers = async () => {
     try {
       const groupUsers = await MTUApi.getAllGroupUsers();
@@ -48,11 +50,13 @@ function Groups() {
     }
   };
 
+  // Fetch groups and group members on component mount
   useEffect(() => {
     fetchGroups();
     fetchGroupMembers();
   }, []);
 
+  // Add a new group
   const handleAddGroup = async () => {
     if (groupName.trim()) {
       try {
@@ -69,6 +73,7 @@ function Groups() {
     }
   };
 
+  // Calculate total members of a group
   const calculateTotalMembers = (groupId) => {
     if (!GU || !M) {
       return 0;
@@ -79,6 +84,7 @@ function Groups() {
     return groupGU.length + groupM.length;
   };
 
+  // Calculate group members of a group
   const calculateGroupMembers = (groupId) => {
     if (!GU) {
       return 0;
@@ -88,6 +94,7 @@ function Groups() {
     return groupGU.length;
   };
 
+  // Calculate managers of a group
   const calculateManagers = (groupId) => {
     if (!M) {
       return 0;
@@ -97,10 +104,12 @@ function Groups() {
     return groupM.length;
   };
 
+  // Render loading screen if data is not yet available
   if (!groups || !GU || !M) {
     return <div>Loading...</div>;
   }
 
+  // Render the main component UI
   return (
     <div>
       <div>
@@ -144,6 +153,7 @@ function Groups() {
         </div>
       </div>
 
+      {/* Modal for creating a group */}
       <TEModal show={showModal} setShow={setShowModal}>
         <TEModalDialog centered>
           <TEModalContent className="bg-[#ffffff]">
@@ -152,7 +162,7 @@ function Groups() {
                 Create Group
               </h5>
             </TEModalHeader>
-            {/* <!--Modal body--> */}
+            {/* Modal body */}
             <TEModalBody>
               <div className="flex flex-col p-3 text-StrongBlue">
                 {errorMessage && (

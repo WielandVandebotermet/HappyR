@@ -13,52 +13,54 @@ import {
 import CategoryApi from "../../API/CategoryApi";
 import SurveyQuestionApi from "../../API/SurveyQuestionApi";
 
+// Component for editing a question
 const EditQuestion = ({ Sid, templates, categories, question }) => {
+  // React hooks for managing state
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(false);
 
+  // State variables for managing modal visibility and page navigation
   const [deleteModal, setDeleteModal] = useState(false);
   const [questionPage, setQuestionPage] = useState(true);
   const [selectCategoryPage, setSelectCategoryPage] = useState(false);
   const [editCategoryPage, setEditCategoryPage] = useState(false);
 
-  const selectedTemplate = templates.find(
-    (template) => template.id === parseInt(question.templateId)
-  );
-
+  // State variables for managing question details
   const [selectedTemplateId, setSelectedTemplateId] = useState(
     question.templateId
   );
   const [selectedTemplateName, setSelectedTemplateName] = useState(
-    selectedTemplate.templateName
+    question.templateName
   );
-
   const [selectedTemplateOptions, setSelectedTemplateOptions] = useState(
     question.options
   );
-
   const [questionTitle, setQuestionTitle] = useState(question.question);
   const [questionSubtext, setQuestionSubtext] = useState(question.text);
 
+  // State variables for managing settings
   const [barMin, setBarMin] = useState(1);
   const [barMax, setBarMax] = useState(10);
   const [stepSize, setStepSize] = useState(1);
 
+  // State variables for managing category details
   const [categorieId, setCategorieId] = useState("-1");
   const [categorieName, setCategorieName] = useState("");
   const [categorieImpact, setCategorieImpact] = useState(100);
 
+  // Fetching initial data and setting initial state on component mount
   useEffect(() => {
     setCat();
     setSettings();
   }, [Sid]);
 
+  // Function to set category details if available
   const setCat = () => {
+    // Check if settings are available for category
     if (question.settings) {
       const setting = question.settings.find(
         (setting) => setting.question === "categorieId"
       );
-
       if (setting) {
         const categorie = categories.find(
           (categorie) => categorie.id === parseInt(setting.text)
@@ -72,6 +74,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
     }
   };
 
+  // Function to set settings if available
   const setSettings = () => {
     if (selectedTemplateOptions[0].settingValue && question.settings) {
       const bmx = question.settings.find(
@@ -83,7 +86,6 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
       const stepSizeSetting = question.settings.find(
         (setting) => setting.question === "Step"
       );
-
       if (bmx && bmn && stepSizeSetting) {
         setBarMax(bmx.text);
         setBarMin(bmn.text);
@@ -92,18 +94,22 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
     }
   };
 
+  // Function to navigate back to question editing page
   const BackToQuestion = () => {
     setEditCategoryPage(false);
     setSelectCategoryPage(false);
     setQuestionPage(true);
   };
 
+  // Function to navigate back to category editing page
   const BackToEditCategory = () => {
     setSelectCategoryPage(false);
     setEditCategoryPage(true);
   };
 
+  // Function to proceed to category editing page
   const NextToEditCategorie = () => {
+    // Validation for required fields
     if (
       barMin &&
       barMax &&
@@ -115,23 +121,23 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
       questionTitle.trim() &&
       questionSubtext.trim()
     ) {
-
       setSelectCategoryPage(false);
       setQuestionPage(false);
       setEditCategoryPage(true);
-
       setErrorMessage(false);
     } else {
       setErrorMessage(true);
     }
   };
 
+  // Function to proceed to category selection page
   const NextToSelectCategorie = () => {
     setQuestionPage(false);
     setEditCategoryPage(false);
     setSelectCategoryPage(true);
   };
 
+  // Function to handle submission of question details
   const Post = () => {
     if (categorieId === -1) {
       PostCatId0();
@@ -140,6 +146,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
     }
   };
 
+  // Function to handle submission of category details when category ID is 0
   const PostCatId0 = async () => {
     if (
       categorieId &&
@@ -177,6 +184,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
     }
   };
 
+  // Function to handle submission of category details when category ID is not 0
   const PutCatEdit = async () => {
     if (
       categorieId &&
@@ -218,6 +226,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
     }
   };
 
+  // Function to delete the question
   const DeleteQuestion = async () => {
     try {
       await SurveyQuestionApi.deleteSurveyQuestion(question.id);
@@ -226,30 +235,34 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
       console.error("Error adding group:", error.message);
     }
   };
-
   if (!templates) {
+    // If templates are not yet loaded, show loading indicator
     return <div>...Loading</div>;
   }
 
   return (
     <div className="text-StrongBlue">
+      {/* Main content */}
       <div
         className={
           "flex flex-col p-3 justify-between" +
           (questionPage ? " inline-block" : " hidden")
         }
       >
+        {/* Question title */}
         <h1 className="p-2 mx-4 text-center text-4xl">
           {selectedTemplateName}
         </h1>
+        {/* Error message */}
         {errorMessage && (
           <div className="text-danger-600 flex flex-col text-center text-lg font-bold mb-4">
-            <p> Please fill in all forms.</p>
-            <p> min must be greater than 0.</p>
-            <p> max must be greater than min.</p>
-            <p> StepSize must be smaller than max and bigger than 0.</p>
+            <p>Please fill in all forms.</p>
+            <p>Min must be greater than 0.</p>
+            <p>Max must be greater than min.</p>
+            <p>StepSize must be smaller than max and bigger than 0.</p>
           </div>
         )}
+        {/* Question input fields */}
         <div className="flex-col p-3">
           <div className="flex flex-col p-2">
             <input
@@ -272,7 +285,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
             ></TETextarea>
             <p className="text-left text-md">Subtext</p>
           </div>
-
+          {/* Additional settings for certain template options */}
           <div
             className={
               "flex flex-col p-2 " +
@@ -316,6 +329,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
             </div>
           </div>
         </div>
+        {/* Buttons for actions */}
         <div className="flex flex-row justify-center">
           <button
             type="button"
@@ -336,6 +350,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
         </div>
       </div>
 
+      {/* Delete modal */}
       <TEModal show={deleteModal} setShow={setDeleteModal}>
         <TEModalDialog centered>
           <TEModalContent className="bg-[#ffffff]">
@@ -391,12 +406,14 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
           </h1>
           <div className="flex justify-center">
             <div className="flex flex-col justify-center">
+              {/* Error message */}
               {errorMessage && (
                 <div className="text-danger-600 text-center text-lg font-bold mb-4">
                   Please fill in all forms
                 </div>
               )}
               <div className="flex flex-col m-3">
+                {/* Input field for category name */}
                 <input
                   className="border border-gray-900 rounded p-1 m-1"
                   type="text"
@@ -404,9 +421,10 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
                   value={categorieName || ""}
                   onChange={(e) => setCategorieName(e.target.value)}
                 ></input>
-                <p className="text-right text-md">Categorie Name</p>
+                <p className="text-right text-md">Category Name</p>
               </div>
               <div className="flex flex-col m-3 pb-3">
+                {/* Input field for score impact */}
                 <input
                   className="border border-gray-900 rounded p-1 m-1"
                   type="number"
@@ -429,6 +447,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
                 (categorieId === Number(-1) ? "block" : "hidden")
               }
             >
+              {/* Button to create category */}
               <button
                 type="button"
                 onClick={() => {
@@ -448,6 +467,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
                 (categorieId !== Number(-1) ? "block" : "hidden")
               }
             >
+              {/* Button to use category */}
               <button
                 type="button"
                 onClick={() => {
@@ -461,6 +481,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
               </button>
             </div>
           </div>
+          {/* Button to go to category list */}
           <div className="flex justify-center w-full pt-5">
             <button
               onClick={() => {
@@ -468,21 +489,23 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
               }}
               className="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium border-[5px] border-MineralGreen text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"
             >
-              Categorie List
+              Category List
             </button>
           </div>
         </div>
       </div>
 
+      {/* Select category page */}
       <div
         className={"w-full " + (selectCategoryPage ? "inline-block" : "hidden")}
       >
         <div className="flex flex-col p-3">
           <h1 className="p-2 text-center text-4xl">Select Category</h1>
           <div className="flex flex-col p-3 justify-center">
+            {/* Display available categories */}
             {categories.map((categorie) => {
               return (
-                <div key={categorie.id} className="flex justify-center ">
+                <div key={categorie.id} className="flex justify-center">
                   <button
                     onClick={() => {
                       setCategorieId(categorie.id);
@@ -509,6 +532,7 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
         <div className="flex flex-col">
           <div className="flex justify-center">
             <div className="flex justify-center w-full">
+              {/* Button to create new category */}
               <button
                 onClick={() => {
                   setCategorieId(-1);
@@ -519,10 +543,11 @@ const EditQuestion = ({ Sid, templates, categories, question }) => {
                 type="button"
                 className="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium border-[5px] border-MineralGreen text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"
               >
-                Create Categorie
+                Create Category
               </button>
             </div>
           </div>
+          {/* Button to go back */}
           <div className="flex justify-center w-full pt-5">
             <button
               onClick={() => {

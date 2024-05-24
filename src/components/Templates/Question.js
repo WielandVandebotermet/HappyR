@@ -1,7 +1,6 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-
 
 const Question = ({ question, answer }) => {
   const [SliderValue, SetSliderValue] = useState(0);
@@ -9,7 +8,8 @@ const Question = ({ question, answer }) => {
   const [Bmin, setBmin] = useState(0);
   const [Bmax, setBmax] = useState(1);
   const [CategorieId, setCategorieId] = useState("0");
-  
+
+  // Initialize slider settings and marks based on question settings
   useEffect(() => {
     const newMarks = {};
     let Bmin = 0, Bmax = 1;
@@ -29,38 +29,39 @@ const Question = ({ question, answer }) => {
     SetSliderValue(Bmin);
   }, []);
 
+  // Handle slider value change and pass the result to the parent component
   const handleResult = (value) => {
     SetSliderValue(value);
-    answer({"questionId": question.id , "score": value, "categoryId": CategorieId });
+    answer({ "questionId": question.id, "score": value, "categoryId": CategorieId });
   };
 
   return (
-    <div className="flex-grow flex-col p-3 ">
+    <div className="flex-grow flex-col p-3">
       <h1 className="p-2 text-center text-3xl">{question.question}</h1>
       <h1 className="p-2 text-center text-xl">{question.text}</h1>
       <div className="flex justify-center">
-          <div className="flex pb-10 m-5 p-5 w-full justify-center">
-            <Slider
-              railStyle={{ backgroundColor: 'lightgray', height: '25px'}} 
-              activeDotStyle={{ display: 'none'}} 
-              dotStyle={{ display: 'none' }} 
-              trackStyle={{ backgroundColor: '#001466', height: '25px' }} 
-              handleStyle={{
-                backgroundColor: '#001466',
-                borderColor: '#001466',
-                width: '30px',
-                height: '30px',
-                marginTop: '-2.5px',
-              }} 
-              min={Bmin}
-              max={Bmax}
-              value={SliderValue}
-              onChange={(value) => handleResult(value)}
-              marks={marks}
-            />
-          </div>
+        <div className="flex pb-10 m-5 p-5 w-full justify-center">
+          <Slider
+            railStyle={{ backgroundColor: 'lightgray', height: '25px' }}
+            activeDotStyle={{ display: 'none' }}
+            dotStyle={{ display: 'none' }}
+            trackStyle={{ backgroundColor: '#001466', height: '25px' }}
+            handleStyle={{
+              backgroundColor: '#001466',
+              borderColor: '#001466',
+              width: '30px',
+              height: '30px',
+              marginTop: '-2.5px',
+            }}
+            min={Bmin}
+            max={Bmax}
+            value={SliderValue}
+            onChange={(value) => handleResult(value)}
+            marks={marks}
+          />
         </div>
-  </div>
+      </div>
+    </div>
   );
 };
 

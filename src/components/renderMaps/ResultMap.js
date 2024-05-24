@@ -2,24 +2,25 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ResultApi from "../../API/ResultApi";
 
+// Component to display survey results
 function ResultMap({ survey, groups, url }) {
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [results, setResults] = useState(); // State to store results
+  const [loading, setLoading] = useState(true); // State to track loading status
 
+  // Extracting start date from the survey object
   const startDate = new Date(survey.startDate);
   const month = startDate.toLocaleDateString("en-GB", { month: "long" });
   const day = startDate.getDate();
   const formattedDate = `${month} ${day}`;
 
+  // Finding the group associated with the survey
   const group = groups.find((group) => group.id === survey.groupList[0]);
 
+  // Function to fetch results from the API
   const fetchResults = async () => {
     try {
       let response = await ResultApi.getResultBySurveyId(survey.id);
-
-      if (response) {
-        response = [response];
-      }
+      console.log(response);
 
       setResults(response);
     } catch (error) {
@@ -29,25 +30,31 @@ function ResultMap({ survey, groups, url }) {
     }
   };
 
+  // Fetch results when the component mounts
   useEffect(() => {
     fetchResults();
   }, []);
 
+  // Function to determine the number of answers
   const Answerd = (index) => {
     if (index === 0) {
+      console.log(results);
       const Amount = results.length;
       return Amount + " Answerd";
     }
   };
 
+  // If group, group name, or results are not available or if still loading, display loading message
   if (!group || !group.groupName || loading) {
     return <div>Loading...</div>;
   }
 
+  // If there are no results, return null
   if (results.length === 0) {
     return null;
   }
 
+  // Rendering survey results
   return (
     <div className="flex justify-center ">
       <Link to={url}>

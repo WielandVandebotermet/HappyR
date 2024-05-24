@@ -14,6 +14,7 @@ function AddToGroup() {
   const [selected, setSelected] = useState([]);
   const [addedUsers, setAddedUsers] = useState([]);
 
+  // Fetch all users and filter out those already in the group or managers
   const getUsers = async () => {
     try {
       const result = await UserApi.getAllUsers();
@@ -36,23 +37,26 @@ function AddToGroup() {
 
       setUsers(transformedUsers);
     } catch (error) {
-      console.error("Error fetching groups:", error.message);
+      console.error("Error fetching users:", error.message);
     }
   };
 
+  // Fetch group details by ID
   const getGroup = async () => {
     try {
       const result = await GroupApi.getTeamById(id);
       setGroup(result);
     } catch (error) {
-      console.error("Error fetching groups:", error);
+      console.error("Error fetching group:", error);
     }
   };
 
+  // Handle user selection change
   const onChange = (selectedOptions) => {
     addUserList(selectedOptions);
   };
 
+  // Add selected user to the list of users to be added to the group
   const addUserList = async (user) => {
     const updatedUsers = users.filter((u) => u.value !== user.value);
     setUsers(updatedUsers);
@@ -60,6 +64,7 @@ function AddToGroup() {
     setAddedUsers((prevAddedUsers) => [...prevAddedUsers, user]);
   };
 
+  // Remove user from the list of users to be added to the group
   const RemoveUserList = async (userId) => {
     const userToRemove = addedUsers.find((user) => user.value === userId);
 
@@ -73,6 +78,7 @@ function AddToGroup() {
     }
   };
 
+  // Add selected users to the group
   const AddGroupMember = async (addedUsers) => {
     try {
       for (const user of addedUsers) {
@@ -83,10 +89,11 @@ function AddToGroup() {
       getUsers();
       setAddedUsers([]);
     } catch (error) {
-      console.error("Error adding group:", error.message);
+      console.error("Error adding group members:", error.message);
     }
   };
 
+  // Add selected users as managers
   const AddManager = async (addedUsers) => {
     try {
       for (const user of addedUsers) {
@@ -97,23 +104,27 @@ function AddToGroup() {
       getUsers();
       setAddedUsers([]);
     } catch (error) {
-      console.error("Error adding group:", error.message);
+      console.error("Error adding managers:", error.message);
     }
   };
 
+  // Fetch group details on component mount
   useEffect(() => {
     getGroup();
   }, []);
 
+  // Fetch users once group details are available
   useEffect(() => {
     if (group.id) {
       getUsers();
     }
   }, [group]);
-
+  // Render loading screen if group or users data is not yet available
   if (!group && !users) {
     return <div>Loading...</div>;
   }
+
+  // Render the main component UI
   return (
     <div className="">
       <div className="flex flex-col p-3 justify-center text-StrongBlue">
@@ -126,10 +137,10 @@ function AddToGroup() {
               options={users}
               formatOptionLabel={(user) => (
                 <div className="flex items-center">
-                <img src={user.icon} alt="user-image" className="w-auto h-8 mr-2" />
-                <span>{user.label}</span>
-                <span className="pl-3 text-StrongBlueHover">{user.email}</span>
-              </div>
+                  <img src={user.icon} alt="user-image" className="w-auto h-8 mr-2" />
+                  <span>{user.label}</span>
+                  <span className="pl-3 text-StrongBlueHover">{user.email}</span>
+                </div>
               )}
               value={selected}
               onChange={onChange}
@@ -191,4 +202,5 @@ function AddToGroup() {
     </div>
   );
 }
+
 export default AddToGroup;

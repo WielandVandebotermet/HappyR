@@ -9,11 +9,13 @@ const NewQuestion = ({ Sid, templates, categories }) => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(false);
 
+  // State variables for managing different pages
   const [templatePage, setTemplatePage] = useState(true);
   const [questionPage, setQuestionPage] = useState(false);
   const [selectCategoryPage, setSelectCategoryPage] = useState(false);
   const [editCategoryPage, setEditCategoryPage] = useState(false);
 
+  // State variables for managing selected template and categories
   const [selectedTemplateId, setSelectedTemplateId] = useState("-1");
   const [selectedTemplateName, setSelectedTemplateName] =
     useState("Choose Template");
@@ -26,13 +28,16 @@ const NewQuestion = ({ Sid, templates, categories }) => {
   const [categorieName, setCategorieName] = useState("");
   const [categorieImpact, setCategorieImpact] = useState(100);
 
+  // State variables for question details
   const [questionTitle, setQuestionTitle] = useState("");
   const [questionSubtext, setQuestionSubtext] = useState("");
 
+  // State variables for bar settings
   const [barMin, setBarMin] = useState(1);
   const [barMax, setBarMax] = useState(10);
   const [stepSize, setStepSize] = useState(1);
 
+  // Function to handle selecting a template
   const ChooseTemplate = (TemplateId, TemplateName, TemplateOptions) => {
     setSelectedTemplateId(TemplateId);
     setSelectedTemplateName(TemplateName);
@@ -42,6 +47,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
     setQuestionPage(true);
   };
 
+  // Function to go back to template selection
   const BackToTemplates = () => {
     setQuestionTitle("");
     setQuestionSubtext("");
@@ -53,16 +59,19 @@ const NewQuestion = ({ Sid, templates, categories }) => {
     setTemplatePage(true);
   };
 
+  // Function to go back to question page
   const BackToQuestion = () => {
     setSelectCategoryPage(false);
     setQuestionPage(true);
   };
 
+  // Function to go back to category selection page
   const BackToSelectCategory = () => {
     setEditCategoryPage(false);
     setSelectCategoryPage(true);
   };
 
+  // Function to proceed to category selection page
   const NextToSelectCategorie = () => {
     if (
       barMin &&
@@ -88,11 +97,13 @@ const NewQuestion = ({ Sid, templates, categories }) => {
     }
   };
 
+  // Function to proceed to category editing page
   const NextEditCategorie = () => {
     setSelectCategoryPage(false);
     setEditCategoryPage(true);
   };
 
+  // Function to handle posting new question
   const Post = () => {
     if (categorieId == -1) {
       PostCatId0();
@@ -101,6 +112,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
     }
   };
 
+  // Function to post new question with category ID 0
   const PostCatId0 = async () => {
     if (
       categorieId &&
@@ -139,6 +151,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
     }
   };
 
+  // Function to edit category and post new question
   const PostCatEdit = async () => {
     if (
       categorieId &&
@@ -183,9 +196,9 @@ const NewQuestion = ({ Sid, templates, categories }) => {
   if (!templates) {
     return <div>...Loading</div>;
   }
-
   return (
     <div className="text-StrongBlue">
+      {/* Template Selection Page */}
       <div
         className={
           "flex flex-col p-3 justify-between" +
@@ -193,8 +206,10 @@ const NewQuestion = ({ Sid, templates, categories }) => {
         }
       >
         <h1 className="p-2 text-center text-4xl">Select Template</h1>
+        {/* Map through available templates */}
         {templates.map((template) => (
           <div className="flex justify-center" key={"template" + template.id}>
+            {/* Template Selection Button */}
             <button
               onClick={() =>
                 ChooseTemplate(
@@ -203,18 +218,22 @@ const NewQuestion = ({ Sid, templates, categories }) => {
                   template.options
                 )
               }
+              // Disable button for "Comment" template
               className={`${
                 template.templateName === "Comment" ? "cursor-not-allowed" : ""
               }`}
               disabled={template.templateName === "Question Comment"}
             >
+              {/* Template Card */}
               <div
                 className={`m-4 p-6 rounded-lg border ${
+                  // Apply different styles for "Comment" template
                   template.templateName === "Comment"
                     ? "opacity-50 text-gray-400"
                     : "hover:border-MineralGreen01 hover:text-MineralGreen text-gray-900"
                 }`}
               >
+                {/* Template Name */}
                 <h5 className="text-center mb-2 text-2xl font-bold tracking-tight">
                   {template.templateName}
                 </h5>
@@ -224,15 +243,18 @@ const NewQuestion = ({ Sid, templates, categories }) => {
         ))}
       </div>
 
+      {/* Question Creation Page */}
       <div
         className={
           "flex flex-col p-3 justify-between" +
           (questionPage ? " inline-block" : " hidden")
         }
       >
+        {/* Display Selected Template Name */}
         <h1 className="p-2 mx-4 text-center text-4xl">
           {selectedTemplateName}
         </h1>
+        {/* Display Error Messages */}
         {errorMessage && (
           <div className="text-danger-600 flex flex-col text-center text-lg font-bold mb-4">
             <p> Please fill in all forms.</p>
@@ -241,8 +263,10 @@ const NewQuestion = ({ Sid, templates, categories }) => {
             <p> StepSize must be smaller than max and bigger than 0.</p>
           </div>
         )}
+        {/* Form for Question Creation */}
         <div className="flex-col p-3">
           <div className="flex flex-col p-2">
+            {/* Input for Question Title */}
             <input
               className="border border-gray-900 rounded p-1 m-1"
               type="text"
@@ -254,6 +278,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
             <p className="text-left text-md">Title</p>
           </div>
           <div className="flex flex-col p-2">
+            {/* Text Editor for Question Subtext */}
             <TETextarea
               className="border border-gray-900 rounded p-1 m-1"
               type="text"
@@ -264,6 +289,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
             <p className="text-left text-md">Subtext</p>
           </div>
 
+          {/* Additional Options for Certain Templates */}
           <div
             className={
               "flex flex-col p-2 " +
@@ -273,6 +299,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
             }
           >
             <div className="flex flex-col p-2">
+              {/* Input for Bar Minimum */}
               <input
                 className="border border-gray-900 rounded p-1 m-1"
                 type="text"
@@ -284,6 +311,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
               <p className="text-left text-md">Bar Minimum</p>
             </div>
             <div className="flex flex-col p-2">
+              {/* Input for Bar Maximum */}
               <input
                 className="border border-gray-900 rounded p-1 m-1"
                 type="text"
@@ -295,6 +323,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
               <p className="text-left text-md">Bar Maximum</p>
             </div>
             <div className="flex flex-col p-2">
+              {/* Input for Bar Step Size */}
               <input
                 className="border border-gray-900 rounded p-1 m-1"
                 type="text"
@@ -307,7 +336,9 @@ const NewQuestion = ({ Sid, templates, categories }) => {
             </div>
           </div>
         </div>
+        {/* Navigation Buttons */}
         <div className="flex flex-row justify-center">
+          {/* Back Button */}
           <button
             onClick={BackToTemplates}
             type="button"
@@ -315,6 +346,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
           >
             Back
           </button>
+          {/* Next Button */}
           <button
             onClick={NextToSelectCategorie}
             type="button"
@@ -330,12 +362,15 @@ const NewQuestion = ({ Sid, templates, categories }) => {
       <div
         className={"w-full " + (selectCategoryPage ? "inline-block" : "hidden")}
       >
+        {/* Page for Selecting Category */}
         <div className="flex flex-col p-3">
           <h1 className="p-2 text-center text-4xl">Select Category</h1>
           <div className="flex flex-col p-3 justify-center">
+            {/* Mapping through available categories */}
             {categories.map((categorie) => {
               return (
                 <div key={categorie.id} className="flex justify-center ">
+                  {/* Button for selecting a category */}
                   <button
                     onClick={() => {
                       setCategorieId(categorie.id);
@@ -344,10 +379,13 @@ const NewQuestion = ({ Sid, templates, categories }) => {
                       NextEditCategorie();
                     }}
                   >
+                    {/* Category Card */}
                     <div className="m-4 p-6 rounded-lg hover:text-MineralGreen border">
+                      {/* Category Name */}
                       <h5 className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900">
                         {categorie.categoryName}
                       </h5>
+                      {/* Impact Score */}
                       <p className="text-right text-sm">
                         Impact Score: {categorie.scoreImpact}
                       </p>
@@ -359,9 +397,11 @@ const NewQuestion = ({ Sid, templates, categories }) => {
           </div>
         </div>
 
+        {/* Buttons for Creating a New Category or Going Back */}
         <div className="flex flex-col">
           <div className="flex justify-center">
             <div className="flex justify-center w-full">
+              {/* Button for creating a new category */}
               <button
                 onClick={() => {
                   setCategorieId(-1);
@@ -372,11 +412,12 @@ const NewQuestion = ({ Sid, templates, categories }) => {
                 type="button"
                 className="py-3.5 mx-3 w-full max-w-screen-sm text-base font-medium border-[5px] border-MineralGreen text-AccentRed bg-MineralGreen hover:bg-MineralGreen01 rounded-lg text-center"
               >
-                Create Categorie
+                Create Category
               </button>
             </div>
           </div>
           <div className="flex justify-center w-full pt-5">
+            {/* Button to go back */}
             <button
               onClick={() => {
                 BackToQuestion();
@@ -392,7 +433,9 @@ const NewQuestion = ({ Sid, templates, categories }) => {
       <div
         className={"w-full " + (editCategoryPage ? "inline-block" : "hidden")}
       >
+        {/* Page for Editing Category */}
         <div className="text-StrongBlue">
+          {/* Displaying Category Name if not a new category */}
           <h1
             className={
               "p-2 text-center text-4xl " +
@@ -403,11 +446,13 @@ const NewQuestion = ({ Sid, templates, categories }) => {
           </h1>
           <div className="flex justify-center">
             <div className="flex flex-col justify-center">
+              {/* Display error message if any */}
               {errorMessage && (
                 <div className="text-danger-600 text-center text-lg font-bold mb-4">
                   Please fill in all forms
                 </div>
               )}
+              {/* Input field for category name */}
               <div className="flex flex-col m-3">
                 <input
                   className="border border-gray-900 rounded p-1 m-1"
@@ -416,8 +461,9 @@ const NewQuestion = ({ Sid, templates, categories }) => {
                   value={categorieName || ""}
                   onChange={(e) => setCategorieName(e.target.value)}
                 ></input>
-                <p className="text-right text-md">Categorie Name</p>
+                <p className="text-right text-md">Category Name</p>
               </div>
+              {/* Input field for category impact score */}
               <div className="flex flex-col m-3 pb-3">
                 <input
                   className="border border-gray-900 rounded p-1 m-1"
@@ -434,6 +480,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
             </div>
           </div>
 
+          {/* Buttons for creating or using category */}
           <div className="pt-5 flex justify-center">
             <div
               className={
@@ -441,6 +488,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
                 (categorieId === Number(-1) ? "block " : "hidden")
               }
             >
+              {/* Button for creating a new category */}
               <button
                 type="button"
                 onClick={() => {
@@ -460,6 +508,7 @@ const NewQuestion = ({ Sid, templates, categories }) => {
                 (categorieId !== Number(-1) ? "block " : "hidden")
               }
             >
+              {/* Button for using the existing category */}
               <button
                 type="button"
                 onClick={() => {
@@ -473,13 +522,13 @@ const NewQuestion = ({ Sid, templates, categories }) => {
               </button>
             </div>
           </div>
+          {/* Button to go back */}
           <div className="flex justify-center w-full pt-5">
             <button
               onClick={() => {
                 setCategorieId(-1);
                 setCategorieName("");
                 setCategorieImpact(100);
-
                 setSelectCategoryPage(true);
                 setEditCategoryPage(false);
               }}

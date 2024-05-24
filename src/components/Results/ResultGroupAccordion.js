@@ -1,9 +1,11 @@
+// Import necessary modules
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ResultUserAccordion from "./ResultUserAccordion";
 import ResultApi from "../../API/ResultApi";
 import ResultLoader from "./TotalResultGroup";
 
+// Define ResultGroupAccordion component
 const ResultGroupAccordion = ({
   survey,
   groupId,
@@ -17,6 +19,7 @@ const ResultGroupAccordion = ({
   );
   const [results, setResults] = useState([]);
 
+  // Fetch results based on survey ID and group ID
   const fetchResults = async () => {
     try {
       let response = await ResultApi.getResultBySurveyId(Sid);
@@ -30,77 +33,83 @@ const ResultGroupAccordion = ({
     }
   };
 
+  // Trigger fetchResults on component mount
   useEffect(() => {
     fetchResults();
   }, []);
 
+  // Handle case where no results are found
   if (results.length === 0) {
     return <div>No Results for this group: {title}, Come back when people have done the survey</div>;
   }
 
   return (
-        <div className="px-5 py-4">
-          <div className="rounded-none border border-l-0 border-r-0 border-t-0 border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
-            <h2 className="mb-0" id="total">
-              <button
-                className={`${
-                  activeUser === "Result" + groupId &&
-                  `text-MineralGreen [box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:!text-primary-400 dark:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]`
-                } group relative text-AccentRed flex w-full items-center rounded-none border-0 bg-white px-5 py-4 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white`}
-                type="button"
-                onClick={() => handleUserToggle("Result" + groupId)}
-                aria-expanded="true"
-                aria-controls="collapseOne"
+    <div className="px-5 py-4">
+      {/* Group Accordion Header */}
+      <div className="rounded-none border border-l-0 border-r-0 border-t-0 border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
+        <h2 className="mb-0" id="total">
+          <button
+            className={`${
+              activeUser === "Result" + groupId &&
+              `text-MineralGreen [box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:!text-primary-400 dark:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]`
+            } group relative text-AccentRed flex w-full items-center rounded-none border-0 bg-white px-5 py-4 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white`}
+            type="button"
+            onClick={() => handleUserToggle("Result" + groupId)}
+            aria-expanded="true"
+            aria-controls="collapseOne"
+          >
+            Total
+            <span
+              className={`${
+                activeUser === "Result" + groupId
+                  ? `rotate-[-180deg] -mr-1`
+                  : `rotate-0 fill-[#212529] dark:fill-white`
+              } ml-auto h-5 w-5 shrink-0 fill-[#336dec] transition-transform duration-200 ease-in-out motion-reduce:transition-none dark:fill-blue-300`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="h-6 w-6"
               >
-                Total
-                <span
-                  className={`${
-                    activeUser === "Result" + groupId
-                      ? `rotate-[-180deg] -mr-1`
-                      : `rotate-0 fill-[#212529] dark:fill-white`
-                  } ml-auto h-5 w-5 shrink-0 fill-[#336dec] transition-transform duration-200 ease-in-out motion-reduce:transition-none dark:fill-blue-300`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                    />
-                  </svg>
-                </span>
-              </button>
-            </h2>
-            <div
-              className={"!mt-0 !rounded-b-none !shadow-none " + (activeUser === "Result" + groupId ? "inline" : "hidden")}
-            >
-              <div className="px-5 py-4">
-                <ResultLoader result={results} />
-              </div>
-            </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </span>
+          </button>
+        </h2>
+        <div
+          className={"!mt-0 !rounded-b-none !shadow-none " + (activeUser === "Result" + groupId ? "inline" : "hidden")}
+        >
+          <div className="px-5 py-4">
+            <ResultLoader result={results} />
           </div>
-          {results.map((result, index) => (
-            <div
-              key={"ResultGroup:" + groupId + " ResultUser:" + result.userId}
-              className="flow-root"
-            >
-              <ResultUserAccordion
-                survey={survey}
-                result={result}
-                UserId={result.userId}
-                activeElement={activeUser}
-                handleUserToggle={handleUserToggle}
-              />
-            </div>
-          ))}
         </div>
+      </div>
+
+      {/* Render individual user results */}
+      {results.map((result, index) => (
+        <div
+          key={"ResultGroup:" + groupId + " ResultUser:" + result.userId}
+          className="flow-root"
+        >
+          <ResultUserAccordion
+            survey={survey}
+            result={result}
+            UserId={result.userId}
+            activeElement={activeUser}
+            handleUserToggle={handleUserToggle}
+          />
+        </div>
+      ))}
+    </div>
   );
 };
 
+// Export ResultGroupAccordion component
 export default ResultGroupAccordion;

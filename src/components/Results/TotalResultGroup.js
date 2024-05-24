@@ -1,3 +1,4 @@
+// Import necessary modules
 import { useEffect, useState } from "react";
 import CategoryApi from "../../API/CategoryApi";
 import SurveyQuestionApi from "../../API/SurveyQuestionApi";
@@ -5,6 +6,7 @@ import UserApi from "../../API/UserApi";
 import StackableBarChart from "./Graphs/StackableBarChart";
 import BoxPlot from "./Graphs/BoxPlot";
 
+// Define TotalResultGroup component
 const TotalResultGroup = ({ result }) => {
   const [TotalResults, setTotalResults] = useState(0);
   const [MaxTotalResults, setMaxTotalResults] = useState(0);
@@ -21,6 +23,7 @@ const TotalResultGroup = ({ result }) => {
 
   const [Loading, setLoading] = useState(false);
 
+  // Fetch category name by category ID
   const getCategory = async (CategorieId) => {
     try {
       const response = await CategoryApi.getCategoryById(CategorieId);
@@ -30,6 +33,7 @@ const TotalResultGroup = ({ result }) => {
     }
   };
 
+  // Fetch question details by question ID
   const getQuestion = async (questionId) => {
     try {
       const response = await SurveyQuestionApi.getSurveyQuestionById(
@@ -41,6 +45,7 @@ const TotalResultGroup = ({ result }) => {
     }
   };
 
+  // Fetch user details by user ID
   const getUser = async (userId) => {
     try {
       const response = await UserApi.getUserById(userId);
@@ -50,6 +55,7 @@ const TotalResultGroup = ({ result }) => {
     }
   };
 
+  // Effect hook to calculate various scores and results when 'result' changes
   useEffect(() => {
     CalculateTotalScoreList();
     CalculateMaxTotalScoreList();
@@ -58,6 +64,7 @@ const TotalResultGroup = ({ result }) => {
     CalculateTotalResult();
   }, [result]);
 
+  // Effect hook to set loading state when various score lists change
   useEffect(() => {
     if (
       Object.keys(UserScoreList).length > 0 &&
@@ -79,6 +86,7 @@ const TotalResultGroup = ({ result }) => {
     UserQuestionScoreList,
   ]);
 
+  // Function to calculate total results and user scores
   const CalculateTotalResult = async () => {
     let TR = 0;
     let TUserScores = {};
@@ -120,6 +128,7 @@ const TotalResultGroup = ({ result }) => {
     setUserQuestionScoreList(TUserQuestionLists);
   };
 
+  // Function to get user score list based on categories
   const getUserScoreList = async (scoreList, categoryScores) => {
     for (const item of scoreList) {
       const { categoryId, score } = item;
@@ -135,6 +144,7 @@ const TotalResultGroup = ({ result }) => {
     return categoryScores;
   };
 
+  // Function to get user question scores
   const getUserQuestionScore = async (scoreList, questionScores) => {
     for (const item of scoreList) {
       const { questionId, score } = item;
@@ -151,6 +161,7 @@ const TotalResultGroup = ({ result }) => {
     return questionScores;
   };
 
+  // Function to calculate total score list based on categories
   const CalculateTotalScoreList = async () => {
     let categoryScores = {};
 
@@ -167,6 +178,7 @@ const TotalResultGroup = ({ result }) => {
     setTotalScoreList(categoryScores);
   };
 
+  // Function to get category score
   const getCategoryScore = async (categoryId, score, categoryScores) => {
     const categoryName = await getCategory(categoryId);
     if (categoryName) {
@@ -178,23 +190,24 @@ const TotalResultGroup = ({ result }) => {
     }
   };
 
+  // Function to calculate maximum total score list
   const CalculateMaxTotalScoreList = async () => {
     let categoryScores = {};
 
     const promises = [];
 
-      for (const item of result[0].scoreList) {
-        const { questionId, categoryId } = item;
-        promises.push(
-          getMaxCategoryScore(categoryId, questionId, categoryScores)
-        );
-      }
-    
+    for (const item of result[0].scoreList) {
+      const { questionId, categoryId } = item;
+      promises.push(
+        getMaxCategoryScore(categoryId, questionId, categoryScores)
+      );
+    }
 
     await Promise.all(promises);
     setMaxTotalScoreList(categoryScores);
   };
 
+  // Function to get maximum category score
   const getMaxCategoryScore = async (
     categoryId,
     questionId,
@@ -215,6 +228,7 @@ const TotalResultGroup = ({ result }) => {
     }
   };
 
+  // Function to calculate question score list
   const CalculateQuestionScoreList = async () => {
     let questionScores = {};
 
@@ -230,6 +244,7 @@ const TotalResultGroup = ({ result }) => {
     setTotalQuestionScoreList(questionScores);
   };
 
+  // Function to get question score
   const getQuestionScore = async (questionId, score, questionScores) => {
     try {
       const questionData = await getQuestion(questionId);
@@ -248,55 +263,67 @@ const TotalResultGroup = ({ result }) => {
     }
   };
 
+  // Function to calculate maximum question score list and total maximum results
   const CalculateMaxQuestionScoreListAndResult = async () => {
     let questionScores = {};
     let MTR = 0;
     const promises = [];
 
-      for (const item of result[0].scoreList) {
-        const { questionId, score } = item;
-        promises.push(getMaxQuestionScore(questionId, questionScores, MTR));
-      }
-    
+    for (const item of result[0].scoreList) {
+      const { questionId, score } = item;
+      promises.push(getMaxQuestionScore(questionId, questionScores, MTR));
+    }
+
     await Promise.all(promises);
     setMaxQuestionScoreList(questionScores);
     setMaxTotalResults(MTR);
   };
 
+  // Function to get maximum question score
   const getMaxQuestionScore = async (questionId, questionScores, MTR) => {
-    const questionText = await getQuestion(questionId);
-    const question = questionText.question;
-    const BmaxObj = questionText.settings.find(
-      (item) => item.question === "Bmax"
-    );
-    const Bmax = BmaxObj ? BmaxObj.text : undefined;
-    if (questionText) {
-      if (!questionScores[question]) {
-        questionScores[question] = parseInt(Bmax);
-      } else {
-        questionScores[question] += parseInt(Bmax);
+    try {
+      const questionData = await getQuestion(questionId);
+      const BmaxObj = questionData.settings.find(
+        (item) => item.question === "Bmax"
+      );
+      const Bmax = BmaxObj ? BmaxObj.text : undefined;
+      if (questionData && questionData.question) {
+        const questionText = questionData.question;
+        if (!questionScores[questionText]) {
+          questionScores[questionText] = parseInt(Bmax);
+        } else {
+          questionScores[questionText] += parseInt(Bmax);
+        }
+        MTR += parseInt(Bmax);
       }
-      MTR += Bmax;
+    } catch (error) {
+      console.error("Error fetching question:", error);
     }
   };
 
+  // Function to calculate chart height based on window dimensions
   function getChartHeight() {
     const aspectRatio = window.innerWidth / window.innerHeight;
     const isLandscape = aspectRatio > 1.2; // Landscape if aspect ratio is greater than 1.2
-    const baseHeight = isLandscape ? window.innerWidth * 0.5 : window.innerHeight * 0.5;
-    return (baseHeight * 0.7);
+    const baseHeight = isLandscape
+      ? window.innerWidth * 0.5
+      : window.innerHeight * 0.5;
+    return baseHeight * 0.7;
   }
 
+  // Function to determine if the window is in landscape mode
   function Landscape() {
     const isLandscape = window.innerWidth > window.innerHeight;
     return isLandscape;
   }
 
+  // Function to get legend padding based on window orientation
   function getLegendPadding() {
     const isLandscape = window.innerWidth > window.innerHeight;
     return isLandscape ? 0 : 0;
   }
 
+  // Render the loading state or the chart components
   if (!Loading) {
     return <div>...Loading</div>;
   } else {
@@ -307,6 +334,7 @@ const TotalResultGroup = ({ result }) => {
         }
       >
         <div className="flex flex-col flex-wrap justify-center">
+          {/* Stackable Bar Chart for category scores */}
           <div className="flex overflow-auto justify-center">
             <StackableBarChart
               data={UserScoreList}
@@ -317,6 +345,8 @@ const TotalResultGroup = ({ result }) => {
               legendPadding={getLegendPadding()}
             />
           </div>
+
+          {/* Stackable Bar Chart for question scores */}
           <div className="flex overflow-auto justify-center">
             <StackableBarChart
               data={UserQuestionScoreList}
@@ -327,6 +357,8 @@ const TotalResultGroup = ({ result }) => {
               legendPadding={getLegendPadding()}
             />
           </div>
+
+          {/* Box Plot for user scores */}
           <div className="flex overflow-auto justify-center">
             <BoxPlot
               data={UserScoreList}
@@ -337,6 +369,8 @@ const TotalResultGroup = ({ result }) => {
               legendPadding={getLegendPadding()}
             />
           </div>
+
+          {/* Box Plot for question scores */}
           <div className="flex overflow-auto justify-center">
             <BoxPlot
               data={UserQuestionScoreList}
